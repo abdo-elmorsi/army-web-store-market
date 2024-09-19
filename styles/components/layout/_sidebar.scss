@@ -1,0 +1,15 @@
+.sidebar {
+  &:hover .arrow-icon {
+    opacity: 1 !important;
+    // display: flex !important;
+  }
+
+  .tab_link:hover .sub-menu-icon {
+    opacity: 0 !important;
+    transform: translateX(15px);
+    -webkit-transform: translateX(15px);
+    -moz-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    -o-transform: translateX(15px);
+}
+}
