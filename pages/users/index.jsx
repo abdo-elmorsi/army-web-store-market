@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { DeleteModal, Header } from "components/global";
 import { Actions, Button, MinimizedBox, Modal } from "components/UI";
-import { PrintView } from "components/pages/tenants";
+// import { PrintView } from "components/pages/tenants";
 import exportExcel from "utils/useExportExcel";
 import { useHandleMessage } from "hooks";
 import API from "helper/apis";
@@ -155,7 +155,7 @@ const Index = ({ session }) => {
                     }
                 />
             </div>
-            <PrintView ref={printViewRef} data={tableData} />
+            {/* <PrintView ref={printViewRef} data={tableData} /> */}
 
             {showDeleteModal?.isOpen && (
                 <Modal
