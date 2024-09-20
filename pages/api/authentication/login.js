@@ -4,11 +4,10 @@ import connectMongoDB from "back-end/server/mongodb";
 
 const handler = async (req, res) => {
 	const { method, body } = req;
-	const { username, password } = body;
 	try {
 		await connectMongoDB();
 		if (method === "POST") {
-			await handleLogin(username, password, res);
+			await handleLogin(body, res);
 		} else {
 			res.status(405).json({ message: "Method Not Allowed" });
 		}

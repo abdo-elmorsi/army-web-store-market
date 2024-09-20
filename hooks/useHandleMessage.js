@@ -23,15 +23,21 @@ const useErrorMessage = () => {
   }, [message, theme]);
 
   const handleMessage = async (
-    error,
+    errorOrMessage,
     type = "error",
     callback = null
   ) => {
-    const message = error?.message || "An error has occurred";
-    if (message == "CanceledError") {
+    const message =
+      typeof errorOrMessage === "string"
+        ? errorOrMessage
+        : errorOrMessage?.message || "An error has occurred";
+
+    if (message === "CanceledError") {
       return;
     }
+
     setMessage({ message, type });
+
     if (callback && typeof callback === "function") {
       callback();
     }

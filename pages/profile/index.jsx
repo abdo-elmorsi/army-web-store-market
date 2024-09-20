@@ -14,14 +14,14 @@ const Profile = ({ session }) => {
 
 	const tabsData = [
 		{
-			label: t("general"),
+			label: t("general_key"),
 			icon: <UserCircleIcon className="h-5 w-5" />,
 			content: <EditProfileForm session={session} />,
 		},
 		{
-			label: t("change password"),
+			label: t("change_password_key"),
 			icon: <KeyIcon className="h-5 w-5" />,
-			content: <ChangePassword />,
+			content: <ChangePassword username={session?.user?.username} />,
 		},
 	];
 

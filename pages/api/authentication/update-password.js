@@ -1,13 +1,14 @@
 import connectMongoDB from "back-end/server/mongodb";
-import { handleRegister } from "back-end/controllers/auth-controller";
+import { handleUpdatePassword } from "back-end/controllers/auth-controller";
 
 
 const handler = async (req, res) => {
 	const { method, body } = req;
+
 	try {
 		await connectMongoDB();
 		if (method === "POST") {
-			await handleRegister(body, res);
+			await handleUpdatePassword(body, res);
 		} else {
 			res.status(405).json({ message: "Method Not Allowed" });
 		}

@@ -5,13 +5,12 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 
 // Custom
-import { useHandleMessage, useInput } from "hooks";
+import { useHandleMessage, useInput, useSavedState } from "hooks";
 import { Spinner, Button, Input } from "components/UI";
 import { MainLogo } from "components/icons";
 import Link from "next/link";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import { useApiMutation } from "hooks/useApi";
 
 
@@ -21,6 +20,7 @@ const Login = () => {
   const router = useRouter();
   const handleMessage = useHandleMessage();
 
+  const [user_image, set_user_image] = useSavedState("", 'user-image');
   const username = useInput("", null);
   const password = useInput("", "password_optional", true);
 
@@ -39,13 +39,14 @@ const Login = () => {
     };
     try {
       const user = await executeMutation("POST", submitData);
-      toast.success(user.message);
+      handleMessage(user.message, "success");
 
       Cookies.set('user-token', user.token, { secure: true })
+      set_user_image(user.user?.img)
       await signIn("credentials", {
         redirect: false,
         callbackUrl: "/",
-        user: JSON.stringify({ ...user.user }),
+        user: JSON.stringify({ ...user.user, img: null }),
       });
       router.push(router.query.returnTo || '/');
     } catch (error) {

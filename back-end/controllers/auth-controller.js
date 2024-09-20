@@ -16,7 +16,9 @@ const validateUserInput = (username, password, res) => {
 };
 
 // Register handler
-export const handleRegister = async (username, password, role, res) => {
+export const handleRegister = async (data, res) => {
+	const { username, password, role } = data;
+
 	if (!validateUserInput(username, password, res)) return;
 
 	try {
@@ -53,7 +55,8 @@ export const handleRegister = async (username, password, role, res) => {
 };
 
 // Login handler
-export const handleLogin = async (username, password, res) => {
+export const handleLogin = async (data, res) => {
+	const { username, password } = data;
 	if (!validateUserInput(username, password, res)) return;
 
 	try {
@@ -87,6 +90,33 @@ export const handleLogin = async (username, password, res) => {
 				img: user.img,
 			},
 		});
+	} catch (error) {
+		return res.status(500).json({ message: "Internal server error" });
+	}
+};
+
+// Update password handler
+export const handleUpdatePassword = async (data, res) => {
+	const { username, oldPassword, newPassword } = data;
+	if (!validateUserInput(username, oldPassword, res) || !validateUserInput(username, newPassword, res)) return;
+
+	try {
+		const user = await Users.findOne({ username });
+
+		if (!user) {
+			return res.status(400).json({ message: "User not found" });
+		}
+
+		const isMatch = await bcrypt.compare(oldPassword, user.password); // Compare with hashed password
+
+		if (!isMatch) {
+			return res.status(400).json({ message: "Old password is incorrect" });
+		}
+
+		user.password = newPassword;
+		await user.save(); // Save updated user
+
+		return res.status(200).json({ message: "Password updated successfully" });
 	} catch (error) {
 		return res.status(500).json({ message: "Internal server error" });
 	}

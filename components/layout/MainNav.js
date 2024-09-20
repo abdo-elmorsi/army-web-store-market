@@ -3,11 +3,8 @@ import {
   SunIcon,
   MoonIcon,
   ArrowsUpDownIcon,
-  ArrowLeftOnRectangleIcon,
   LanguageIcon,
   BellIcon,
-  EyeIcon,
-  PresentationChartBarIcon,
   UserCircleIcon,
   ArrowRightEndOnRectangleIcon,
   ArrowLeftEndOnRectangleIcon,
@@ -22,6 +19,7 @@ import Link from "next/link";
 import { Badge, Button, List, ListItem, ListItemPrefix, Popover, PopoverContent, PopoverHandler } from "@material-tailwind/react";
 import Cookies from "js-cookie";
 import Image from "next/image";
+import { useSavedState } from "hooks";
 
 
 
@@ -29,6 +27,7 @@ export default function MainNav() {
   const router = useRouter();
   const { data } = useSession();
   const user = data?.user || {};
+  const [user_image, _] = useSavedState("", 'user-image');
   const firstLetter = user?.username?.slice(0, 1) || "U";
   const { theme } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
@@ -45,8 +44,6 @@ export default function MainNav() {
     Cookies.remove('user-token');
 
   };
-
-  console.log(user)
   return (
 
     <nav style={{ zIndex: 9999 }}
@@ -109,8 +106,8 @@ export default function MainNav() {
             <PopoverHandler>
               <Button className="flex items-center justify-between gap-4 px-2 text-black bg-transparent shadow-none dark:text-white hover:shadow-none">
 
-                {user.img ? <Image
-                  src={user.img}
+                {user_image ? <Image
+                  src={user_image}
                   width={40}
                   height={40}
                   className=" rounded-full"

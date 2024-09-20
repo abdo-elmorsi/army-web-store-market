@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Button from "components/UI/Button";
 import Spinner from "components/UI/Spinner";
-import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { FileInput, Input } from "components/UI";
 import PropTypes from "prop-types"
-import { useHandleMessage, useInput } from "hooks";
+import { useHandleMessage, useInput, useSavedState } from "hooks";
 import { convertImageToBase64 } from "utils/utils";
 import Image from "next/image";
 import { useApiMutation } from "hooks/useApi";
@@ -17,34 +16,30 @@ const EditProfileForm = () => {
   const handleMessage = useHandleMessage();
   const [image, setImage] = useState("");
 
-  const { username: user_username, phone: user_phone, img: user_img, _id } = session?.user || {};
+  const [user_image, set_user_image] = useSavedState("", 'user-image');
+  const { username: user_username, phone: user_phone, _id } = session?.user || {};
   const username = useInput(user_username, "");
   const phone = useInput(user_phone, "");
 
 
-
-
   const { executeMutation, isMutating } = useApiMutation(`/users`);
-
   const onSubmit = async (e) => {
     e.preventDefault();
     const user = {
-
       username: username.value,
       phone: phone.value,
-      ...(image ? { img: image } : {})
     }
 
     try {
-      await executeMutation('PUT', { id: _id, ...user });
+      await executeMutation('PUT', { id: _id, ...user, ...(image ? { img: image } : {}) });
+      image && set_user_image(image)
+      handleMessage("updated_successfully_key", "success");
 
-      toast.success("Updated Successfully");
       await update({ ...session, user: { ...session.user, ...user } })
     } catch (error) {
       handleMessage(error);
     }
   };
-
 
   const updateImage = async (file) => {
     if (file) {
@@ -52,12 +47,10 @@ const EditProfileForm = () => {
         const base64String = await convertImageToBase64(file);
         setImage(base64String)
       } catch (error) {
-        console.error("Error converting image to Base64:", error);
+        handleMessage(error);
       }
     }
-
   }
-
   return (
 
     <form onSubmit={onSubmit} className="flex flex-col items-center justify-around gap-8 sm:m-5 lg:flex-row">
@@ -67,7 +60,7 @@ const EditProfileForm = () => {
           label={<div className="user__image-box relative h-32 w-32 shrink-0 cursor-pointer overflow-hidden rounded-full shadow-lg outline outline-1 outline-offset-4 outline-gray-400 sm:h-48 sm:w-48">
             <Image
               alt={user_username}
-              src={image || user_img}
+              src={image || user_image}
               width={200}
               height={200}
               className="user__image block h-full w-full scale-105 object-cover object-center transition-all duration-500"
@@ -104,10 +97,10 @@ const EditProfileForm = () => {
           {isMutating ? (
             <>
               <Spinner className="mr-3 h-4 w-4 rtl:ml-3" />{" "}
-              {t("loading")}
+              {t("loading_key")}
             </>
           ) : (
-            t("update")
+            t("update_key")
           )}
         </Button>
       </div>
