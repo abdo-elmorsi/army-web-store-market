@@ -28,7 +28,7 @@ const mutationHandler = async (url, { arg }) => {
         response = await axiosInstance.put(url, data);
         break;
       case 'DELETE':
-        response = await axiosInstance.delete(url);
+        response = await axiosInstance.delete(url, { data }); // Pass data as the second argument
         break;
       default:
         throw new Error("Unsupported request method");
@@ -52,7 +52,7 @@ export const useApi = (endpoint, options = {}) => {
   return {
     data,
     error,
-    isLoading: !error && !data,
+    isLoading,
     mutate,
   };
 };

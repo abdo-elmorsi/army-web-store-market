@@ -166,3 +166,6 @@ export function convertImageToBase64(file) {
         reader.readAsDataURL(file);
     });
 }
+
+
+export const isValidString = (value) => typeof value === 'string' && value.trim() !== '';

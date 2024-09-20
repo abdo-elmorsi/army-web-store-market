@@ -1,15 +1,16 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import {
   SunIcon,
   MoonIcon,
   ArrowsUpDownIcon,
   ArrowLeftOnRectangleIcon,
   LanguageIcon,
-  ArrowRightOnRectangleIcon,
   BellIcon,
   EyeIcon,
   PresentationChartBarIcon,
   UserCircleIcon,
+  ArrowRightEndOnRectangleIcon,
+  ArrowLeftEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { toggleTheme } from "store/ThemeSlice";
@@ -18,11 +19,8 @@ import { useTranslation } from "next-i18next";
 import { signOut, useSession } from "next-auth/react";
 import { MainLogo } from "components/icons";
 import Link from "next/link";
-import { Badge, Button, List, ListItem, ListItemPrefix, Popover, PopoverContent, PopoverHandler, Typography } from "@material-tailwind/react";
+import { Badge, Button, List, ListItem, ListItemPrefix, Popover, PopoverContent, PopoverHandler } from "@material-tailwind/react";
 import Cookies from "js-cookie";
-import { useHandleMessage } from "hooks";
-import API from "helper/apis";
-import { isSuperAdmin } from "utils/utils";
 import Image from "next/image";
 
 
@@ -31,8 +29,6 @@ export default function MainNav() {
   const router = useRouter();
   const { data } = useSession();
   const user = data?.user || {};
-  const handleMessage = useHandleMessage();
-  const is_super_admin = isSuperAdmin({ user });
   const firstLetter = user?.username?.slice(0, 1) || "U";
   const { theme } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
@@ -50,8 +46,7 @@ export default function MainNav() {
 
   };
 
-
-
+  console.log(user)
   return (
 
     <nav style={{ zIndex: 9999 }}
@@ -105,29 +100,7 @@ export default function MainNav() {
               </button>
             </PopoverHandler>
             <PopoverContent className="absolute right-0 z-50 w-64 mt-2 bg-white rounded-lg shadow-lg rtl:right-auto rtl:left-0 dark:bg-gray-700 dark:border-gray-400 dark:text-white">
-              {is_super_admin && <>
-                <div className="p-2">
-                  <h2 className="mb-2 text-lg font-semibold">{t("join_request_key")}</h2>
-                  <ul className="divide-y divide-gray-200">
-                    {[]?.length ? [].map(notification => (
-                      <li key={notification._id} className="flex justify-between py-2">
-                        <div className="flex flex-col">
-                          <p className="text-sm">{t("name_key")}: {notification.user_name}</p>
-                          <p className="text-xs">{t("email_key")}: {notification.user_email}</p>
-                        </div>
-                        <button onClick={() => readNotification(notification._id)} className="flex items-center">
-                          <EyeIcon className="w-6 h-6 text-primary" />
-                        </button>
-                      </li>
-                    )) : <p className="mb-5 text-xs text-secondary">{t("table_no_data_message_key")}</p>}
-                  </ul>
-                  <Link href="/dashboard/request-join" className="text-sm font-light text-secondary">
-                    <a>{t("view_all_key")}</a>
-                  </Link>
-                </div>
-                <hr />
-              </>
-              }
+
             </PopoverContent>
           </Popover>
           <span className="my-2 ml-5 mr-2 text-transparent border-l-2 border-gray-400 rtl:ml-2 rtl:mr-5 h-3/4">.</span>
@@ -136,11 +109,12 @@ export default function MainNav() {
             <PopoverHandler>
               <Button className="flex items-center justify-between gap-4 px-2 text-black bg-transparent shadow-none dark:text-white hover:shadow-none">
 
-                {user.photo?.secure_url ? <Image
-                  src={user.photo?.secure_url}
+                {user.img ? <Image
+                  src={user.img}
                   width={40}
                   height={40}
                   className=" rounded-full"
+                  alt={user.username}
 
                 /> : <div className="flex items-center justify-center w-10 h-10 p-2 text-sm uppercase bg-gray-100 rounded-full dark:bg-gray-500">
                   {firstLetter}
@@ -149,7 +123,7 @@ export default function MainNav() {
 
                 <div className="flex flex-col items-center justify-between">
                   <span> {user?.username}</span>
-                  <span> {user?.email}</span>
+                  <span> {user?.role}</span>
                 </div>
 
                 <ArrowsUpDownIcon className="hidden w-5 md:flex" />
@@ -175,7 +149,6 @@ export default function MainNav() {
                   <ListItemPrefix>
                     <LanguageIcon className="w-8" />
                   </ListItemPrefix>
-                  {/* {t("dark_mode_key")} */}
                   {router.locale.includes("ar") ? "English" : "عربي"}
                 </ListItem>
 
@@ -187,13 +160,13 @@ export default function MainNav() {
                   <ListItem
                     className="gap-4 dark:text-gray-100 hover:text-black active:text-dark">
                     <ListItemPrefix>
-                      <ArrowRightOnRectangleIcon className="w-8" />
+                      <ArrowRightEndOnRectangleIcon className="w-8" />
                     </ListItemPrefix>
                     {t("sign_in_key")}
                   </ListItem>
                 </Link>) : (
                   <>
-                    <Link href="/dashboard/profile">
+                    <Link href="/profile">
                       <ListItem
                         as={"a"}
                         className="gap-4 dark:text-gray-100 hover:text-black active:text-dark">
@@ -203,21 +176,11 @@ export default function MainNav() {
                         {t("profile_key")}
                       </ListItem>
                     </Link>
-                    {!router.pathname.includes("dashboard") && <Link href="/dashboard">
-                      <ListItem
-                        as={"a"}
-                        className="gap-4 dark:text-gray-100 hover:text-black active:text-dark">
-                        <ListItemPrefix>
-                          <PresentationChartBarIcon className="w-8" />
-                        </ListItemPrefix>
-                        {t("dashboard_key")}
-                      </ListItem>
-                    </Link>}
                     <ListItem
                       onClick={logOut}
                       className="gap-4 dark:text-gray-100 hover:text-black active:text-dark">
                       <ListItemPrefix>
-                        <ArrowLeftOnRectangleIcon className="w-8" />
+                        <ArrowLeftEndOnRectangleIcon className="w-8" />
                       </ListItemPrefix>
                       {t("sign_out_key")}
                     </ListItem>

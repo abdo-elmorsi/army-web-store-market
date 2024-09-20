@@ -10,8 +10,8 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    // 'plugin:react-refresh/recommended', // Remove since react-refresh is not necessary for linting
-    'next', // Add Next.js ESLint configuration
+    'next/core-web-vitals', // Add Next.js with core web vitals checks
+    'prettier', // Add Prettier for code formatting
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: {
@@ -25,13 +25,15 @@ module.exports = {
   },
   plugins: ['react', 'jsx-a11y'],
   rules: {
-    'react/prop-types': 'off', // Turn off prop-types rule if you're using TypeScript or PropTypes are not being used
-    // 'react/react-in-jsx-scope': 'off', // Leave this enabled for Next.js
-    'react/jsx-uses-react': 'off', // This rule is deprecated, turn it off
-    'react/jsx-uses-vars': 'error', // Emit a warning if variables used in JSX are not properly imported
-    'react/display-name': 'off', // Turn off display-name rule, which can be noisy in certain cases
-    'react-hooks/exhaustive-deps': 'warn', // Emit a warning if dependencies are not listed in useEffect/useCallback
-    'jsx-a11y/anchor-is-valid': 'off', // Turn off anchor-is-valid rule if you're using libraries like Next.js or Gatsby
-    // Additional rules can be added here
+    'react/prop-types': 'off', // Turn off if using TypeScript or PropTypes are not used
+    'react/jsx-uses-react': 'off', // Disable as React 17+ and Next.js handle this automatically
+    'react/jsx-uses-vars': 'error', // Ensures variables used in JSX are defined
+    'react/display-name': 'off', // Avoid noisy display name warnings in certain cases
+    'react-hooks/exhaustive-deps': 'warn', // Warn if useEffect/useCallback dependencies are missing
+    'jsx-a11y/anchor-is-valid': 'off', // Disabled due to conflict with Next.js Link component
+    'no-console': 'warn', // Warn about console logs in production
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // Warn about unused variables, ignore underscore-prefixed ones
+    'no-undef': 'error', // Throw an error when using an undefined variable or function
+    'prettier/prettier': ['warn', { singleQuote: true, trailingComma: 'all' }], // Prettier rules for code style
   },
 };

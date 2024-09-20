@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession, signIn } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import useSWRMutation from "swr/mutation";
 
 // Custom
 import { useHandleMessage, useInput } from "hooks";
@@ -13,13 +12,9 @@ import Link from "next/link";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import axiosInstance from "helper/apis/axiosInstance";
+import { useApiMutation } from "hooks/useApi";
 
 
-const loginRequest = async (url, { arg }) => {
-  const res = await axiosInstance.post(url, arg);
-  return res.data;
-};
 
 const Login = () => {
   const { t } = useTranslation("common");
@@ -33,7 +28,7 @@ const Login = () => {
   const handleShowPass = () => setShowPass(!showPass);
 
 
-  const { trigger, isMutating } = useSWRMutation("/authentication/login", loginRequest);
+  const { executeMutation, isMutating } = useApiMutation("/authentication/login");
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +38,7 @@ const Login = () => {
       password: password.value,
     };
     try {
-      const user = await trigger(submitData);
+      const user = await executeMutation("POST", submitData);
       toast.success(user.message);
 
       Cookies.set('user-token', user.token, { secure: true })

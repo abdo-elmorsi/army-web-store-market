@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -6,7 +6,7 @@ import { Input } from "components/UI";
 import { useRouter } from "next/router";
 import debounce from "lodash.debounce";
 
-const SearchInput = ({
+const ServerSearchInput = ({
   searchQuery,
   setSearchQuery,
   fetchReport,
@@ -69,7 +69,7 @@ const SearchInput = ({
   );
 };
 
-SearchInput.propTypes = {
+ServerSearchInput.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   setSearchQuery: PropTypes.func.isRequired,
   fetchReport: PropTypes.func.isRequired,
@@ -78,4 +78,4 @@ SearchInput.propTypes = {
   disableSearch: PropTypes.bool,
 };
 
-export default SearchInput;
+export default ServerSearchInput;

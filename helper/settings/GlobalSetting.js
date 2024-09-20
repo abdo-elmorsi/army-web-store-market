@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleTheme } from "store/ThemeSlice";
 import PropTypes from "prop-types"

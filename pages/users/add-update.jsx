@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
@@ -11,26 +11,26 @@ import { Header } from "components/global";
 import { Button, Input, Select, Spinner } from "components/UI";
 import { useHandleMessage, useInput, useSelect } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
-import { EyeIcon, EyeSlashIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { convertImageToBase64 } from "utils/utils";
 
 
-const Index = ({ session }) => {
+const Index = () => {
 	const router = useRouter();
 	const userId = router.query.id;
-	const language = router.locale.toLowerCase();
 	const handleMessage = useHandleMessage();
 
 	const { t } = useTranslation("common");
 
 	const { data: user, isLoading } = useApi(userId ? `/users?id=${userId}` : null);
-	const { executeMutation, isMutating } = useApiMutation(`/users?id=${userId}`);
+	const { executeMutation, isMutating } = useApiMutation(`/users`);
 
 
 
 
 	const username = useInput("", null);
-	const password = useInput("", "password_optional", false);
+	const password = useInput("", "password_optional", true);
+	const phone = useInput("", null);
 	const role = useSelect("", "select");
 	const [image, setImage] = useState("");
 
@@ -64,8 +64,10 @@ const Index = ({ session }) => {
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		const newUser = {
+			...(userId ? { id: userId } : {}),
 			username: username.value || null,
 			password: password.value || null,
+			phone: phone.value || null,
 			role: role.value?.value || null,
 			img: image || null,
 		}
@@ -83,9 +85,9 @@ const Index = ({ session }) => {
 	useEffect(() => {
 		if (!isLoading && user) {
 			username.changeValue(user.username);
+			phone.changeValue(user.phone);
 			role.changeValue(roleOptions.find(role => role.value == user.role));
 		}
-
 	}, [isLoading])
 
 
@@ -99,49 +101,69 @@ const Index = ({ session }) => {
 					classes="bg-gray-100 dark:bg-gray-700 border-none"
 					links={[{ label: t("add_key") }]}
 				/>
-
-
-				<form onSubmit={onSubmit}>
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-						<Input
-							label={t("user_name_key")}
-
-							{...username.bind}
-						/>
-						<Select
-							label={t("role_key")}
-							options={roleOptions}
-							{...role.bind}
-						/>
-						<Input
-							label={t("password_key")}
-							type={showPass ? "text" : "password"}
-
-							{...password.bind}
-							append={showPass ? <EyeIcon onClick={handleShowPass} className="cursor-pointer text-primary" width={"25"} /> : <EyeSlashIcon onClick={handleShowPass} className="cursor-pointer text-primary" width={"25"} />}
-						/>
-
-						<Input
-							type="file"
-							label={t("image_key")}
-							onChange={updateImage}
-						/>
+				<div className="p-5 rounded-2xl bg-white dark:bg-gray-800">
+					{isLoading ? <div className="flex justify-center items-center my-28">
+						<Spinner className="h-10 w-10" />
 					</div>
-					<Button
-						disabled={isMutating}
-						className="btn--primary mx-auto mt-6 flex w-full items-center justify-center"
-						type="submit"
-					>
-						{isMutating ? (
-							<>
-								<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading")}
-							</>
-						) : (
-							t("save_key")
-						)}
-					</Button>
-				</form>
+						: <form onSubmit={onSubmit}>
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+								<Input
+									mandatory
+									label={t("name_key")}
+									{...username.bind}
+								/>
+								<Input
+									label={t("phone_key")}
+									{...phone.bind}
+								/>
+								<Select
+									mandatory
+									label={t("role_key")}
+									options={roleOptions}
+									{...role.bind}
+								/>
+								<Input
+									mandatory={!userId}
+									label={t("password_key")}
+									type={showPass ? "text" : "password"}
 
+									{...password.bind}
+									append={showPass ? <EyeIcon onClick={handleShowPass} className="cursor-pointer text-primary" width={"25"} /> : <EyeSlashIcon onClick={handleShowPass} className="cursor-pointer text-primary" width={"25"} />}
+								/>
+
+								<Input
+									type="file"
+									label={t("image_key")}
+									onChange={updateImage}
+								/>
+							</div>
+							<div className="flex justify-start gap-8 items-center">
+								<Button
+									disabled={isMutating || !username.value || !role.value?.value || (!userId && password.value?.length < 6)}
+									className="btn--primary w-32 flex items-center justify-center"
+									type="submit"
+								>
+									{isMutating ? (
+										<>
+											<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading")}
+										</>
+									) : (
+										t("save_key")
+									)}
+								</Button>
+								<Button
+									disabled={isMutating}
+									className="btn--secondary w-32"
+									onClick={() => router.push("/users")}
+								>
+
+									{t("cancel_key")}
+
+								</Button>
+							</div>
+						</form>}
+
+				</div>
 			</div>
 		</>
 	);

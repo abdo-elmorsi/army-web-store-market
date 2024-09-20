@@ -50,24 +50,4 @@
   .btn--secondary {
     @apply border border-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900  text-primary dark:text-white;
   }
-  .btn--accept {
-    @apply text-white flex gap-1 text-xs p-2;
-  }
-  .btn-reject {
-    @apply flex gap-1 rounded-lg bg-red-600 py-2 px-4 text-white;
-  }
-
-
-  .settlement {
-    @apply rounded-full  p-2 text-[12px] font-bold;
-  }
-  .settlement-settled {
-    @apply bg-[#E6F6EC] text-[#05944F];
-  }
-  .settlement-not-settled {
-    @apply bg-[#FDE7E6] text-[#E11900];
-  }
-  .settlement-partially-settled {
-    @apply bg-[#E1F4FC] text-[#1E85A5];
-  }
 }

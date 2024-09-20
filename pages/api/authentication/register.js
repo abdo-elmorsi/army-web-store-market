@@ -2,11 +2,9 @@ import connectMongoDB from "back-end/server/mongodb";
 import { handleRegister } from "back-end/controllers/auth-controller";
 
 
-export default async (req, res) => {
-
+const handler = async (req, res) => {
 	const { method, body } = req;
 	const { username, password, role } = body;
-
 	try {
 		await connectMongoDB();
 		if (method === "POST") {
@@ -15,7 +13,7 @@ export default async (req, res) => {
 			res.status(405).json({ message: "Method Not Allowed" });
 		}
 	} catch (error) {
-		console.error("Error processing request:", error);
 		res.status(500).json({ message: error.message || "An internal server error occurred." });
 	}
 };
+export default handler;

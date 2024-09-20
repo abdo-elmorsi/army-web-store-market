@@ -42,13 +42,12 @@ export const handleRegister = async (username, password, role, res) => {
 			message: "User registered successfully",
 			token,
 			user: {
-				id: newUser._id,
+				_id: newUser._id,
 				username: newUser.username,
 				role: newUser.role,
 			},
 		});
 	} catch (error) {
-		console.error("Error in registration:", error.message); // Log the error
 		return res.status(500).json({ message: "Internal server error" });
 	}
 };
@@ -82,13 +81,13 @@ export const handleLogin = async (username, password, res) => {
 			message: "Login successful",
 			token,
 			user: {
-				id: user._id,
+				_id: user._id,
 				username: user.username,
 				role: user.role,
+				img: user.img,
 			},
 		});
 	} catch (error) {
-		console.error("Error in login:", error.message); // Log the error
 		return res.status(500).json({ message: "Internal server error" });
 	}
 };

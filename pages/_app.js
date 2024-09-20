@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import PropTypes from "prop-types"
 import { appWithTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -23,22 +23,25 @@ import debounce from 'utils/debounce';
 import GlobalSetting from "helper/settings/GlobalSetting";
 import { CopyRights, ScrollToTopButton } from 'components/UI';
 import Head from 'next/head';
-import { NextScript } from 'next/document';
 import { useRouter } from 'next/router';
 
 const FONT_SIZE_BASE = 16;
-const FONT_SIZE_RATIO = 0.1122 / 3;
+const FONT_SIZE_RATIO = 0.04; // Define your ratio
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
-  const handleResize = useCallback(debounce(() => {
-    const fontSize =
-      window.innerWidth < 425
-        ? `${(window.innerWidth * FONT_SIZE_RATIO).toFixed(1)}px`
-        : `${FONT_SIZE_BASE}px`;
-    document.documentElement.style.fontSize = fontSize;
-  }, 100), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleResize = useCallback(
+    debounce(() => {
+      const fontSize =
+        window.innerWidth < 425
+          ? `${(window.innerWidth * FONT_SIZE_RATIO).toFixed(1)}px`
+          : `${FONT_SIZE_BASE}px`;
+      document.documentElement.style.fontSize = fontSize;
+    }, 100),
+    [] // Dependency array, empty if you don't need to recalculate
+  );
 
   useEffect(() => {
     handleResize();
@@ -68,10 +71,10 @@ function MyApp({ Component, pageProps }) {
       session={pageProps.session} >
       <Provider store={store}>
         <Head>
-          <title>Easier</title>
+          <title>Store-Market m System</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#336a86" />
-         
+
 
         </Head>
         <NextNprogress

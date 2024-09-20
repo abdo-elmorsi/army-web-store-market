@@ -5,7 +5,12 @@ import {
   ArrowRightCircleIcon,
   BookOpenIcon,
   BuildingStorefrontIcon,
+  ChartBarIcon,
   ChevronRightIcon,
+  CircleStackIcon,
+  ClipboardDocumentListIcon,
+  CogIcon,
+  ShoppingCartIcon,
   TruckIcon,
   UsersIcon,
 
@@ -24,12 +29,11 @@ const Sidebar = React.memo(() => {
 
 
   const Links = useMemo(() => [
-
     {
       nameAR: "ملخص",
-      nameEN: "overView",
+      nameEN: "Overview",
       href: "/",
-      current: router.pathname == "/",
+      current: router.pathname === "/",
       icon: <Overview className="w-5 h-5" />,
       submenuOpen: false,
     },
@@ -37,15 +41,44 @@ const Sidebar = React.memo(() => {
       nameAR: "المستخدمين",
       nameEN: "Users",
       href: "/users",
-      current: router.pathname == "/users",
+      current: router.pathname === "/users",
       icon: <UsersIcon className="w-5 h-5" />,
       submenuOpen: false,
+    },
+    {
+      nameAR: "المنتجات",
+      nameEN: "Products",
+      icon: <CircleStackIcon className="w-5 h-5" />,
+      submenuOpen: activeAdminSubMenu === 2,
+      submenu: [
+        {
+          nameAR: "المنتجات",
+          nameEN: "Products",
+          href: "/products/products",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/products/products",
+        },
+        {
+          nameAR: "الاصناف",
+          nameEN: "Categories",
+          href: "/products/categories",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/products/categories",
+        },
+        {
+          nameAR: "وحدات القياس",
+          nameEN: "Units of Measurement",
+          href: "/products/units",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/products/units",
+        },
+      ],
     },
     {
       nameAR: "المخزن",
       nameEN: "Store",
       icon: <BuildingStorefrontIcon className="w-5 h-5" />,
-      submenuOpen: activeAdminSubMenu ==2,
+      submenuOpen: activeAdminSubMenu === 3,
       submenu: [
         {
           nameAR: "الحركات",
@@ -54,27 +87,55 @@ const Sidebar = React.memo(() => {
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/store/transactions",
         },
-      ]
+        {
+          nameAR: "المخزون",
+          nameEN: "Inventory",
+          href: "/store/inventory",
+          icon: <ClipboardDocumentListIcon className="w-5 h-5" />,
+          current: router.pathname === "/store/inventory",
+        },
+      ],
     },
     {
       nameAR: "الكانتين",
       nameEN: "Market",
       icon: <BookOpenIcon className="w-5 h-5" />,
-      submenuOpen: activeAdminSubMenu == 3,
+      submenuOpen: activeAdminSubMenu === 4,
       submenu: [
         {
-          nameAR: "الحرمات",
+          nameAR: "الحركات",
           nameEN: "Transactions",
           href: "/market/transactions",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/market/transactions",
         },
-      ]
+        {
+          nameAR: "المبيعات",
+          nameEN: "Sales",
+          href: "/market/sales",
+          icon: <ShoppingCartIcon className="w-5 h-5" />,
+          current: router.pathname === "/market/sales",
+        },
+      ],
     },
-
-
-
+    {
+      nameAR: "التقارير",
+      nameEN: "Reports",
+      icon: <ChartBarIcon className="w-5 h-5" />,
+      href: "/reports",
+      current: router.pathname === "/reports",
+      submenuOpen: false,
+    },
+    {
+      nameAR: "الإعدادات",
+      nameEN: "Settings",
+      icon: <CogIcon className="w-5 h-5" />,
+      href: "/settings",
+      current: router.pathname === "/settings",
+      submenuOpen: false,
+    },
   ], [router.pathname, activeAdminSubMenu]);
+
 
 
   return (

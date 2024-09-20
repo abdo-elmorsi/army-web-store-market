@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useMemo } from "react";
+import { Fragment, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { PaperClipIcon } from "@heroicons/react/24/outline";
 import { TextError } from "components/UI";
@@ -51,7 +51,6 @@ function FileInput({ value, label, name, className, errorMsg, onChange, placehol
 }
 
 export default FileInput;
-
 FileInput.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.shape({
@@ -69,7 +68,10 @@ FileInput.propTypes = {
       })
     ),
   ]),
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([ // Corrected this line
+    PropTypes.string,
+    PropTypes.node, // Allow for React nodes as well
+  ]).isRequired,
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
   errorMsg: PropTypes.string,
