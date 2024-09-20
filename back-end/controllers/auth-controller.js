@@ -87,6 +87,7 @@ export const handleLogin = async (data, res) => {
 				_id: user._id,
 				username: user.username,
 				role: user.role,
+				phone: user.phone,
 				img: user.img,
 			},
 		});
