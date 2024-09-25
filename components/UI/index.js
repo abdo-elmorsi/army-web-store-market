@@ -8,7 +8,6 @@ export { default as Checkbox } from './Checkbox';
 export { default as Actions } from './Actions';
 export { default as FileInput } from './FileInput';
 export { default as CustomRadio } from './CustomRadio';
-export { default as ViewLicense } from './ViewLicense';
 export { default as LocationSearch } from './locationSearch';
 export { default as DateInput } from './dateInput';
 export { default as MinimizedBox } from './MinimizedBox';

@@ -45,7 +45,7 @@ Profile.getLayout = function PageLayout(page) {
 };
 
 export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
-	const session = await getSession({ req: req });
+	const session = await getSession({ req });
 
 	if (!session) {
 		const loginUrl = locale === "en" ? `/${locale}/login` : "/login";

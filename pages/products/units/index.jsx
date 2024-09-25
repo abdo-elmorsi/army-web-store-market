@@ -27,10 +27,7 @@ const Index = () => {
     const printViewRef = useRef(null);
 
 
-    const { data: tableData, isLoading, mutate } = useApi(`/units`, {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false,
-    });
+    const { data: tableData, isLoading, mutate } = useApi(`/units`);
 
     // ================== Delete Logic ==================
 

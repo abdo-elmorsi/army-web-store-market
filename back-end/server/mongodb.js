@@ -12,6 +12,7 @@ const connectMongoDB = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
 
     isConnected = true;
+    // mongoose.set('strictPopulate', false);
     console.log("Connected to MongoDB.");
   } catch (error) {
     console.error("MongoDB connection error:", error);

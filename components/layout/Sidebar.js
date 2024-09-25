@@ -54,9 +54,9 @@ const Sidebar = React.memo(() => {
         {
           nameAR: "المنتجات",
           nameEN: "Products",
-          href: "/products/products",
+          href: "/products",
           icon: <TruckIcon className="w-5 h-5" />,
-          current: router.pathname === "/products/products",
+          current: router.pathname === "/products",
         },
         {
           nameAR: "الاصناف",
@@ -175,7 +175,7 @@ const Sidebar = React.memo(() => {
                   {tab.submenuOpen && (
                     <ul className="flex flex-col px-2 py-4 space-y-1">
                       {tab.submenu.map((subTab) => (
-                        <li key={subTab.href} className="tab_link">
+                        <li key={subTab.href} className="tab_link cursor-pointer">
                           <Link href={subTab.href}>
                             <div
                               className={`${subTab.current
@@ -197,7 +197,7 @@ const Sidebar = React.memo(() => {
                   )}
                 </React.Fragment>
               ) : (
-                <li key={tab.href} onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
+                <li key={tab.href} className="cursor-pointer" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
                   <Link href={tab.href}>
                     <div
                       className={`${tab.current

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DataTable from "react-data-table-component";
 import PropTypes from "prop-types";
 import SearchInput from "../global/SearchInput";
@@ -48,7 +48,6 @@ const Table = ({
         {actions}
       </div>
       <DataTable
-        filter={!searchAble}
         data={filteredData}
         // theme={theme}
         columns={columns}

@@ -25,10 +25,6 @@ const nextConfig = {
       "res.cloudinary.com"
     ],
   },
-  env: {
-    NEXTAUTH_SECRET: '2gyZ3GDw3LHZQKDhPmPDL3sjREVRXPr8',
-    NEXTAUTH_URL: 'http://localhost:3000/'
-  },
 };
 
 module.exports = nextConfig;

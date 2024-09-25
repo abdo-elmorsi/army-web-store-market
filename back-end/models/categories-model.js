@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 // Define categories schema
 const categoriesSchema = new Schema(
   {
+
     name: {
       type: String,
       required: [true, "Name is required"],
@@ -18,5 +19,4 @@ const categoriesSchema = new Schema(
 
 // Export the categories model
 const Categories = mongoose.models.Categories || mongoose.model("Categories", categoriesSchema);
-
 export default Categories;

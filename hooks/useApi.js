@@ -42,7 +42,11 @@ const mutationHandler = async (url, { arg }) => {
 // Custom hook for GET requests
 export const useApi = (endpoint, options = {}) => {
   const { data, error, isLoading, mutate } = useSWR(endpoint, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
     ...options,
+    focusThrottleInterval: 0, // Prevents refetching on window focus
+    refreshInterval: 0, // Prevents automatic refetching
     onErrorRetry: (error, key, config, revalidate) => {
       if (error.response?.status === 404) return;
       setTimeout(() => revalidate({ retryCount: config?.retryCount || 0 }), 5000);

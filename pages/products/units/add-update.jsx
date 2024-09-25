@@ -60,7 +60,7 @@ const Index = () => {
 					title={t("units_key")}
 					path="/products/units"
 					classes="bg-gray-100 dark:bg-gray-700 border-none"
-					links={[{ label: t("add_key") }]}
+					links={[{ label: unitId ? t("edit_key") : t("add_key") }]}
 				/>
 				<div className="p-5 rounded-2xl bg-white dark:bg-gray-800">
 					{isLoading ? <div className="flex justify-center items-center my-28">

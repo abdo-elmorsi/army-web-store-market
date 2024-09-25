@@ -27,10 +27,7 @@ const Index = () => {
     const printViewRef = useRef(null);
 
 
-    const { data: tableData, isLoading, mutate } = useApi(`/categories`, {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
-    });
+    const { data: tableData, isLoading, mutate } = useApi(`/categories`);
 
     // ================== Delete Logic ==================
 
