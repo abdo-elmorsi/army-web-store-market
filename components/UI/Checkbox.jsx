@@ -1,38 +1,34 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
 import TextError from './TextError';
-import { Switch, Typography } from '@material-tailwind/react';
 
 const Checkbox = ({ label, description, validator, submitted, formGroup, className, disabled, ...props }) => {
     const hasWarning = useMemo(() => submitted && validator && !validator.valid, [submitted, validator]);
 
-    const boxClasses = classNames(`${description ? "-mt-4" : ""}`, {
-        [className]: className,
-    });
-    return (
-        <Switch
-            id={label}
-            disabled={disabled}
-            aria-label={label}
-            aria-invalid={hasWarning}
-            label={
-                <div>
-                    <Typography color="blue-gray" className="text-sm font-medium text-gray-800 dark:text-gray-300 rtl:pr-2">
-                        {label}
-                    </Typography>
-                    {hasWarning && <TextError>{validator.message}</TextError>}
-                    {description && <Typography variant="small" color="gray" className="font-normal text-gray-700 dark:text-gray-200">
-                        {description}
-                    </Typography>}
+    const boxClasses = `${description ? "-mt-4" : ""} ${className ? className : ""}`;
 
-                </div>
-            }
-            containerProps={{
-                className: boxClasses,
-            }}
-            {...props}
-        />
+    return (
+        <div className={`flex items-center ${boxClasses}`}>
+            <input
+                id={label}
+                type="checkbox"
+                disabled={disabled}
+                aria-label={label}
+                aria-invalid={hasWarning}
+                className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
+                {...props}
+            />
+            <label htmlFor={label} className="ml-2 block text-sm font-medium text-gray-800 dark:text-gray-300 rtl:pr-2">
+                {label}
+            </label>
+
+            <div className="ml-2">
+                {hasWarning && <TextError>{validator.message}</TextError>}
+                {description && (
+                    <span className="block text-sm text-gray-700 dark:text-gray-200 mt-1">{description}</span>
+                )}
+            </div>
+        </div>
     );
 };
 

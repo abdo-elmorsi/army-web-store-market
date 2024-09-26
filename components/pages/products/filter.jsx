@@ -32,7 +32,7 @@ const Filter = () => {
 	const selectedCategoryOption = findSelectedOption(categoryOptions, currentCategory);
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+		<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
 			<Select
 				label={t("user_key")}
 				options={userOptions}

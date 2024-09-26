@@ -6,14 +6,14 @@ export default function Tabs({ tabsData }) {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
-      <div className="flex gap-3 border-b dark:border-gray-500">
+      <div className="flex flex-wrap gap-3 border-b dark:border-gray-500">
         {tabsData.map((tab, idx) => {
           return (
             <button
               key={idx}
-              className={`default-desktop-nav flex items-center gap-1 capitalize ${idx === activeTabIndex
-                ? "active-desktop-nav"
-                : "hover-desktop-nav"
+              className={`flex flex-1 md:flex-initial items-center gap-1 capitalize p-2 rounded-t-md ${idx === activeTabIndex
+                ? "bg-gray-600 text-white  dark:bg-gray-900"
+                : "bg-gray-100 dark:bg-gray-800"
                 }`}
               onClick={() => setActiveTabIndex(idx)}
             >
@@ -22,7 +22,7 @@ export default function Tabs({ tabsData }) {
           );
         })}
       </div>
-      <div className="py-4">{tabsData[activeTabIndex].content}</div>
+      <div className="py-4 border-t-2">{tabsData[activeTabIndex].content}</div>
     </div>
   );
 }

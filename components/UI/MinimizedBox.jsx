@@ -48,7 +48,7 @@ const MinimizedBox = ({ children, className, title = "filters_key", actionText, 
 
   return (
     <div className={boxClasses}>
-      <header className="flex items-center justify-between p-5 rounded-t-xl">
+      <header className="flex items-center justify-between p-4 rounded-t-xl">
         <h3 className="text-lg font-medium">{t(title)}</h3>
         <button
           disabled={loading}

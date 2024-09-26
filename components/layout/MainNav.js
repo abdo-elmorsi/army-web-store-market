@@ -97,7 +97,7 @@ export default function MainNav() {
               </button>
             </PopoverHandler>
             <PopoverContent className="absolute right-0 z-50 w-64 mt-2 bg-white rounded-lg shadow-lg rtl:right-auto rtl:left-0 dark:bg-gray-700 dark:border-gray-400 dark:text-white">
-
+              <p className="text-xs text-secondary">{t("no_notifications_key")}</p>
             </PopoverContent>
           </Popover>
           <span className="my-2 ml-5 mr-2 text-transparent border-l-2 border-gray-400 rtl:ml-2 rtl:mr-5 h-3/4">.</span>

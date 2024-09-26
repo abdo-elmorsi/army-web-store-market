@@ -24,7 +24,7 @@ const Filter = ({ roleOptions }) => {
 	const selectedOption = roleOptions.find(option => option.value === currentRole) || null;
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+		<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
 			<Select
 				label={t("role_key")}
 				options={roleOptions}

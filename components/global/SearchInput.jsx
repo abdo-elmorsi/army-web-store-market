@@ -18,9 +18,10 @@ const SearchInput = ({ searchText, handleSearch, ...rest }) => {
     language == "en" ? <MagnifyingGlassIcon width={20} /> : ""
   ), [language]);
   return (
-    <div className="relative">
+    <div className="flex-1 lg:flex-initial">
       <Input
         type="text"
+        formGroup={false}
         placeholder={t("search_key")}
         value={searchText}
         onChange={handleSearch}
