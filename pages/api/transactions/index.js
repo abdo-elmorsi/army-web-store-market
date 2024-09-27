@@ -1,10 +1,8 @@
-import connectMongoDB from "back-end/server/mongodb";
-import { getTransactions, handleStockMovement } from "back-end/controllers/transactions-controller";
+import { getTransactions, handleStockMovement } from "lib/controllers/transactions-controller";
 
 const handler = async (req, res) => {
   const { method, body } = req;
   try {
-    await connectMongoDB();
     switch (method) {
       case "GET":
         await getTransactions(body, res);

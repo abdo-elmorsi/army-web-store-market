@@ -1,11 +1,9 @@
-import connectMongoDB from "back-end/server/mongodb";
-import { handleRegister } from "back-end/controllers/auth-controller";
+import { handleRegister } from "lib/controllers/auth-controller";
 
 
 const handler = async (req, res) => {
 	const { method, body } = req;
 	try {
-		await connectMongoDB();
 		if (method === "POST") {
 			await handleRegister(body, res);
 		} else {

@@ -17,7 +17,7 @@ const EditProfileForm = () => {
   const [image, setImage] = useState("");
 
   const [user_image, set_user_image] = useSavedState("", 'user-image');
-  const { username: user_username, phone: user_phone, _id } = session?.user || {};
+  const { username: user_username, phone: user_phone, id } = session?.user || {};
   const username = useInput(user_username, "");
   const phone = useInput(user_phone, "");
 
@@ -31,7 +31,7 @@ const EditProfileForm = () => {
     }
 
     try {
-      await executeMutation('PUT', { id: _id, ...user, ...(image ? { img: image } : {}) });
+      await executeMutation('PUT', { id, ...user, ...(image ? { img: image } : {}) });
       image && set_user_image(image)
       handleMessage("updated_successfully_key", "success");
 
@@ -90,7 +90,7 @@ const EditProfileForm = () => {
           className={"w-full"}
         />
         <Button
-          disabled={isMutating || !username.value || !phone.value}
+          disabled={isMutating || !username.value}
           className="btn--primary mx-auto mt-6 flex w-full items-center justify-center"
           type="submit"
         >

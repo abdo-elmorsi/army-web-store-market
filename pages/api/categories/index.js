@@ -1,10 +1,8 @@
-import connectMongoDB from "back-end/server/mongodb";
-import { handleDeleteRequest, handleGetRequest, handlePostRequest, handlePutRequest } from "back-end/controllers/categories-controller";
+import { handleDeleteRequest, handleGetRequest, handlePostRequest, handlePutRequest } from "lib/controllers/categories-controller";
 
 const handler = async (req, res) => {
   const { method, query, body } = req;
   try {
-    await connectMongoDB();
     switch (method) {
       case "GET":
         await handleGetRequest(query, res);

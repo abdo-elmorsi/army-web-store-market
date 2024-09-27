@@ -29,17 +29,18 @@ const Index = () => {
 
 
     // ================== Filter Logic ==================
-    const { user: userQuery, category: categoryQuery } = router.query;
+    const { user: userQuery, unit: unitQuery, category: categoryQuery } = router.query;
     const queryString = useMemo(() => {
         const queryParams = {
             user: userQuery,
             category: categoryQuery,
+            unit: unitQuery,
         };
         const filteredQueryParams = Object.entries(queryParams)
             .filter(([_, value]) => value)
             .map(([key, value]) => `${key}=${encodeURIComponent(value)}`);
         return filteredQueryParams.length > 0 ? filteredQueryParams.join("&") : "";
-    }, [userQuery, categoryQuery]);
+    }, [userQuery, categoryQuery, unitQuery]);
 
     const { data: tableData, isLoading, mutate } = useApi(`/products?${queryString}`);
 
@@ -102,7 +103,7 @@ const Index = () => {
                 sortable: true
             },
             {
-                name: t("created_key"),
+                name: t("created_by_key"),
                 selector: (row) => row?.createdBy?.username,
                 sortable: true
             },
@@ -114,18 +115,18 @@ const Index = () => {
             },
             {
                 name: t("actions_key"),
-                selector: (row) => row?._id,
+                selector: (row) => row?.id,
                 noExport: true,
                 cell: (row) => (
                     <div className="flex gap-2">
                         <Button
-                            onClick={() => router.push(`/products/add-update?id=${row?._id}`)}
+                            onClick={() => router.push(`/products/add-update?id=${row?.id}`)}
                             className="px-3 py-2 cursor-pointer btn--primary"
                         >
                             <PencilSquareIcon width={22} />
                         </Button>
                         <Button
-                            onClick={() => setShowDeleteModal({ isOpen: true, id: row?._id })}
+                            onClick={() => setShowDeleteModal({ isOpen: true, id: row?.id })}
                             className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
                         >
                             <TrashIcon width={22} />
@@ -168,7 +169,6 @@ const Index = () => {
                 <Table
                     columns={columns}
                     data={tableData || []}
-                    searchAble={true}
                     loading={isLoading}
                     actions={
                         <Actions

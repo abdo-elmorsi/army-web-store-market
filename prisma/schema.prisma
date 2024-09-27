@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  password  String
+  role      String   @default("store")
+  img       String?
+  phone     String?
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt @db.Date
+
+  // Relations
+  createdProducts Product[]     @relation("CreatedProducts")
+  updatedProducts Product[]     @relation("UpdatedProducts")
+  transactions    Transaction[]
+}
+
+model Product {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  name             String   @unique
+  description      String?
+  category         Category @relation(fields: [categoryId], references: [id])
+  categoryId       String   @db.ObjectId
+  unit             Unit     @relation(fields: [unitId], references: [id])
+  unitId           String   @db.ObjectId
+  quantityInMarket Int
+  quantityInStock  Int
+  quantityInStore  Int
+  createdBy        User     @relation("CreatedProducts", fields: [createdById], references: [id])
+  createdById      String   @db.ObjectId
+  lastUpdatedBy    User     @relation("UpdatedProducts", fields: [lastUpdatedById], references: [id])
+  lastUpdatedById  String   @db.ObjectId
+  createdAt        DateTime @default(now()) @db.Date
+  updatedAt        DateTime @updatedAt @db.Date
+
+  // Relations
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity    Int
+  type        String // Consider using an enum for type if it has a limited set of values
+  description String?
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @db.ObjectId
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   String   @db.ObjectId
+  createdAt   DateTime @default(now()) @db.Date
+  updatedAt   DateTime @updatedAt @db.Date
+}
+
+model Unit {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt @db.Date
+
+  // Relations
+  products Product[]
+}
+
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt @db.Date
+
+  // Relations
+  products Product[]
+}

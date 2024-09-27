@@ -153,7 +153,7 @@ export default function MainNav() {
 
 
 
-                {!user?._id ? (<Link href="/login">
+                {!user?.id ? (<Link href="/login">
                   <ListItem
                     className="gap-4 dark:text-gray-100 hover:text-black active:text-dark">
                     <ListItemPrefix>

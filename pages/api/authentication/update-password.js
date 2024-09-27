@@ -1,12 +1,10 @@
-import connectMongoDB from "back-end/server/mongodb";
-import { handleUpdatePassword } from "back-end/controllers/auth-controller";
+import { handleUpdatePassword } from "lib/controllers/auth-controller";
 
 
 const handler = async (req, res) => {
 	const { method, body } = req;
 
 	try {
-		await connectMongoDB();
 		if (method === "POST") {
 			await handleUpdatePassword(body, res);
 		} else {

@@ -32,11 +32,9 @@ const Index = ({ session }) => {
 	const category = useSelect("", 'select', null);
 	const unit = useSelect("", 'select', null);
 
-	const quantityInStock = useInput("", 'number', true);
-	const storeIn = useInput("", 'number', true);
-	const storeOut = useInput("", 'number', true);
-	const marketIn = useInput("", 'number', true);
-	const marketOut = useInput("", 'number', true);
+	const quantityInStore = useInput(0, 'number', true);
+	const quantityInMarket = useInput(0, 'number', true);
+
 
 
 	const onSubmit = async (e) => {
@@ -44,20 +42,18 @@ const Index = ({ session }) => {
 		const newProduct = {
 			...(productId ? {
 				id: productId,
-				lastUpdatedBy: session.user?._id
+				lastUpdatedBy: session.user?.id
 			} : {
-				createdBy: session.user?._id, // Assuming you have user ID in session
+				createdBy: session.user?.id, // Assuming you have user ID in session
 			}),
 			name: name.value || null,
 			description: description.value || null,
-			category: category.value?._id || null,
-			unit: unit.value?._id || null,
+			category: category.value?.id || null,
+			unit: unit.value?.id || null,
 
-			quantityInStock: quantityInStock.value || null,
-			storeIn: storeIn.value || null,
-			storeOut: storeOut.value || null,
-			marketIn: marketIn.value || null,
-			marketOut: marketOut.value || null,
+			quantityInStock: (+quantityInStore.value + +quantityInMarket.value) || 0,
+			quantityInStore: +quantityInStore.value || 0,
+			quantityInMarket: +quantityInMarket.value || 0,
 		};
 
 		try {
@@ -72,14 +68,11 @@ const Index = ({ session }) => {
 		if (!isLoading && product) {
 			name.changeValue(product.name);
 			description.changeValue(product.description);
-			category.changeValue({ _id: product.category?._id, name: product.category?.name });
-			unit.changeValue({ _id: product.unit?._id, name: product.unit?.name });
+			category.changeValue({ id: product.category?.id, name: product.category?.name });
+			unit.changeValue({ id: product.unit?.id, name: product.unit?.name });
 
-			quantityInStock.changeValue(product.quantityInStock);
-			storeIn.changeValue(product.storeIn);
-			storeOut.changeValue(product.storeOut);
-			marketIn.changeValue(product.marketIn);
-			marketOut.changeValue(product.marketOut);
+			quantityInStore.changeValue(product.quantityInStore);
+			quantityInMarket.changeValue(product.quantityInMarket);
 
 		}
 	}, [isLoading]);
@@ -105,30 +98,29 @@ const Index = ({ session }) => {
 								<Input label={t("description_key")} {...description.bind} />
 
 								<Select
+									mandatory
 									label={t("category_key")}
 									{...category.bind}
 									options={categories}
 									getOptionLabel={(option) => option.name}
-									getOptionValue={(option) => option._id}
+									getOptionValue={(option) => option.id}
 								/>
 								<Select
+									mandatory
 									label={t("unit_key")}
 									{...unit.bind}
 									options={units}
 									getOptionLabel={(option) => option.name}
-									getOptionValue={(option) => option._id}
+									getOptionValue={(option) => option.id}
 								/>
 
-								<Input label={t("quantityInStock_key")} {...quantityInStock.bind} />
-								<Input label={t("storeIn_key")} {...storeIn.bind} />
-								<Input label={t("storeOut_key")} {...storeOut.bind} />
-								<Input label={t("marketIn_key")} {...marketIn.bind} />
-								<Input label={t("marketOut_key")} {...marketOut.bind} />
+								<Input label={t("quantityInStore")} {...quantityInStore.bind} />
+								<Input label={t("quantityInMarket")} {...quantityInMarket.bind} />
 							</div>
 
 							<div className="flex justify-start gap-8 items-center mt-4">
 								<Button
-									disabled={isMutating || !name.value}
+									disabled={isMutating || !name.value || !category.value?.id || !unit.value?.id}
 									className="btn--primary w-32 flex items-center justify-center"
 									type="submit"
 								>

@@ -71,19 +71,19 @@ const Index = () => {
             },
             {
                 name: t("actions_key"),
-                selector: (row) => row?._id,
+                selector: (row) => row?.id,
                 noExport: true,
                 cell: (row) => (
                     <div className="flex gap-2">
                         <Button
-                            onClick={() => router.push(`/products/units/add-update?id=${row?._id}`)}
+                            onClick={() => router.push(`/products/units/add-update?id=${row?.id}`)}
                             className="px-3 py-2 cursor-pointer btn--primary"
                         >
                             <PencilSquareIcon width={22} />
                         </Button>
                         <Button
                             onClick={() =>
-                                setShowDeleteModal({ isOpen: true, id: row?._id })
+                                setShowDeleteModal({ isOpen: true, id: row?.id })
                             }
                             className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
                         >
@@ -123,7 +123,6 @@ const Index = () => {
                 <Table
                     columns={columns}
                     data={tableData || []}
-                    searchAble={true}
                     loading={isLoading}
                     actions={
                         <Actions
