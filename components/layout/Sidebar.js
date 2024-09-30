@@ -20,12 +20,18 @@ import { useMemo } from "react";
 import { Overview } from "components/icons";
 import { useSavedState } from "hooks";
 import { Button } from "components/UI";
+import { useSession } from "next-auth/react";
+import { getRole } from "utils/utils";
 
 
 const Sidebar = React.memo(() => {
+  const { data: session } = useSession();
+  const admin = getRole(session, "admin")
+  const store = getRole(session, "store")
+  const market = getRole(session, "market")
   const router = useRouter();
   const [activeAdminSubMenu, setActiveAdminSubMenu] = useState(null);
-  const [fixedSideBar, setFixedSideBar] = useSavedState(true, "easier-fixed-side-barr-cache")
+  const [fixedSideBar, setFixedSideBar] = useSavedState(true, "store-market-fixed-side-barr-cache")
 
 
   const Links = useMemo(() => [
@@ -44,6 +50,7 @@ const Sidebar = React.memo(() => {
       current: router.pathname === "/users",
       icon: <UsersIcon className="w-5 h-5" />,
       submenuOpen: false,
+      omit: !admin
     },
     {
       nameAR: "المنتجات",
@@ -79,6 +86,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Store",
       icon: <BuildingStorefrontIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 3,
+      omit: market,
       submenu: [
         {
           nameAR: "الحركات",
@@ -101,6 +109,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Market",
       icon: <BookOpenIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 4,
+      omit: store,
       submenu: [
         {
           nameAR: "الحركات",
@@ -125,6 +134,7 @@ const Sidebar = React.memo(() => {
       href: "/reports",
       current: router.pathname === "/reports",
       submenuOpen: false,
+      omit: !admin
     },
     {
       nameAR: "الإعدادات",
@@ -133,8 +143,9 @@ const Sidebar = React.memo(() => {
       href: "/settings",
       current: router.pathname === "/settings",
       submenuOpen: false,
+      omit: !admin
     },
-  ], [router.pathname, activeAdminSubMenu]);
+  ], [admin, store, market, router.pathname, activeAdminSubMenu]);
 
 
 
@@ -145,10 +156,10 @@ const Sidebar = React.memo(() => {
         <ul className="flex flex-col py-4 space-y-1">
 
 
-          {Links.map((tab, index) => (
-            <React.Fragment key={tab.href}>
+          {Links?.map((tab, index) => {
+            return !tab.omit ? <div key={tab.nameEN}>
               {tab.submenu ? (
-                <React.Fragment key={tab.href}>
+                <>
                   <div className="relative flex flex-row items-center h-11">
                     <button
                       onClick={() =>
@@ -195,9 +206,9 @@ const Sidebar = React.memo(() => {
                       ))}
                     </ul>
                   )}
-                </React.Fragment>
+                </>
               ) : (
-                <li key={tab.href} className="cursor-pointer" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
+                <li className="cursor-pointer" aria-hidden="true" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
                   <Link href={tab.href}>
                     <div
                       className={`${tab.current
@@ -215,8 +226,8 @@ const Sidebar = React.memo(() => {
                   </Link>
                 </li>
               )}
-            </React.Fragment>
-          ))}
+            </div> : null
+          })}
 
 
         </ul>

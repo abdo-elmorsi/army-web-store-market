@@ -1,8 +1,9 @@
-import React from 'react'
 import PropTypes from 'prop-types';
-export default function MainLogo(props) {
+import { forwardRef } from 'react';
+const MainLogo = forwardRef((props, ref) => {
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       // xmlns:svgjs="http://svgjs.dev/svgjs"
@@ -151,7 +152,9 @@ export default function MainLogo(props) {
       </g>
     </svg>
   )
-}
+});
+
+export default MainLogo
 MainLogo.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,

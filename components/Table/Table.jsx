@@ -9,12 +9,12 @@ import { useTranslation } from "react-i18next";
 const Table = ({
   data,
   columns,
-  noHeader,
-  pagination,
-  paginationPerPage,
+  noHeader = false,
+  pagination = true,
+  paginationPerPage = 10,
   paginationRowsPerPageOptions,
   actions,
-  searchAble,
+  searchAble = true,
   selectableRowSelected,
   ...rest
 }) => {
@@ -81,13 +81,6 @@ Table.propTypes = {
   actions: PropTypes.element,
   searchAble: PropTypes.bool,
   selectableRowSelected: PropTypes.func,
-};
-
-Table.defaultProps = {
-  noHeader: false,
-  pagination: true,
-  searchAble: true,
-  paginationPerPage: 10,
 };
 
 export default Table;

@@ -143,13 +143,8 @@ export const percentageChange = (start, end) => {
 
 
 // utils.js
-export const isSuperAdmin = (session) => {
-    if (session && session.user.role == "superAdmin") {
-        return true
-    } else {
-        return false
-    }
-};
+export const getRole = (session, role) => session && session.user?.role == role
+
 
 
 

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
-export default function Header({ title, path, links = [], classes }) {
+export default function Header({ title = '', path = '', links = [], classes = '' }) {
   const { t } = useTranslation("common");
 
   return (
     <div className={clsx("border-b", classes)}>
       <nav className="bg-transparent">
-        <ol className="flex space-x-2 items-center">
+        <ol className="flex gap-1 items-center">
           <li>
             <Link href={path}>
               <span className="text-black dark:text-white opacity-60 hover:text-primary dark:hover:text-primary">
@@ -58,14 +58,9 @@ Header.propTypes = {
   path: PropTypes.string.isRequired,
   links: PropTypes.arrayOf(
     PropTypes.shape({
-      path: PropTypes.string.isRequired,
+      path: PropTypes.string,
       label: PropTypes.string.isRequired,
     })
   ),
   classes: PropTypes.string,
-};
-
-Header.defaultProps = {
-  links: [],
-  classes: '',
 };

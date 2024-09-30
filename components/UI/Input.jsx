@@ -39,7 +39,7 @@ const Input = ({
       >
         {prepend && (
           <div className="absolute left-0 z-50 flex items-center pl-3 -translate-y-1/2 rtl:pl-0 rtl:pr-3 rtl:right-0 rtl:left-auto top-5">
-          <span className="text-gray-400 sm:text-sm">{prepend}</span>
+            <span className="text-gray-400 sm:text-sm">{prepend}</span>
           </div>
         )}
         <input
@@ -92,7 +92,7 @@ Input.propTypes = {
   formGroup: PropTypes.bool,
   type: PropTypes.string,
   append: PropTypes.object,
-  prepend: PropTypes.object,
+  prepend: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   "data-testid": PropTypes.string,
 };
 

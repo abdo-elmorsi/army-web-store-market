@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ReactSelect from "react-select";
 import AsyncSelect from "react-select/async";
 import TextError from "./TextError";
+import { useTranslation } from "react-i18next";
 
 const Select = React.forwardRef((props, ref) => {
   const { theme } = useSelector((state) => state.theme);
@@ -23,7 +24,10 @@ const Select = React.forwardRef((props, ref) => {
     autoHeight = false,
     className = "",
     cacheOptions = true,
+    placeholder = "select_key",
   } = props;
+
+  const { t } = useTranslation("common");
 
   let hasWarning = submitted && validator && !validator.valid;
 
@@ -101,6 +105,7 @@ const Select = React.forwardRef((props, ref) => {
           styles={selectStyles}
           isMulti={isMulti}
           isClearable={isClearable}
+          placeholder={t(placeholder)}
           {...props}
         />
       ) : (
@@ -114,6 +119,7 @@ const Select = React.forwardRef((props, ref) => {
           isMulti={isMulti}
           isClearable={isClearable}
           cacheOptions={cacheOptions}
+          placeholder={t(placeholder)}
           {...props}
         />
       )}

@@ -15,10 +15,11 @@ import exportExcel from "utils/useExportExcel";
 import { useHandleMessage } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { formatComma } from "utils/utils";
+import { formatComma, getRole } from "utils/utils";
 import Table from "components/Table/Table";
 
-const Index = () => {
+const Index = ({ session }) => {
+    const admin = getRole(session, "admin")
     const router = useRouter();
     const language = router.locale.toLowerCase();
     const date_format = language === "en" ? "DD/MM/YYYY" : "YYYY/MM/DD";
@@ -108,6 +109,11 @@ const Index = () => {
                 sortable: true
             },
             {
+                name: t("updated_by_key"),
+                selector: (row) => row?.lastUpdatedBy?.username,
+                sortable: true
+            },
+            {
                 name: t("created_at_key"),
                 selector: (row) => row?.createdAt,
                 cell: (row) => moment(row?.createdAt).format(date_format),
@@ -126,6 +132,7 @@ const Index = () => {
                             <PencilSquareIcon width={22} />
                         </Button>
                         <Button
+                            disabled={!admin}
                             onClick={() => setShowDeleteModal({ isOpen: true, id: row?.id })}
                             className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
                         >
@@ -136,7 +143,7 @@ const Index = () => {
                 sortable: false
             }
         ],
-        [date_format, router, t]
+        [admin, date_format, router, t]
     );
 
     // ================== Export Functions ==================

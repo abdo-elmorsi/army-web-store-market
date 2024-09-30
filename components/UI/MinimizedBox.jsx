@@ -6,10 +6,16 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { useSavedState } from "hooks";
 
-const MinimizedBox = ({ children, className, title = "filters_key", actionText, bordered }) => {
+const MinimizedBox = ({
+  children,
+  className = "",
+  title = "filters_key",
+  actionText,
+  bordered = false
+}) => {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const [isMinimized, setIsMinimized] = useSavedState(false, `easier-b2b-box-${router.pathname}-cache`); // Default to false for better UX
+  const [isMinimized, setIsMinimized] = useSavedState(false, `store-market-box-${router.pathname}-cache`); // Default to false for better UX
   const [prevHeight, setPrevHeight] = useState("");
   const comRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -82,7 +88,7 @@ const MinimizedBox = ({ children, className, title = "filters_key", actionText, 
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
@@ -93,11 +99,6 @@ MinimizedBox.propTypes = {
   actionText: PropTypes.string,
   bordered: PropTypes.bool,
   filters: PropTypes.arrayOf(PropTypes.func), // Specify expected type for filters
-};
-
-MinimizedBox.defaultProps = {
-  className: "",
-  bordered: false,
 };
 
 export default MinimizedBox;

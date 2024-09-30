@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { useHandleMessage, useInput, useSavedState } from "hooks";
 import { Spinner, Button, Input } from "components/UI";
 import { MainLogo } from "components/icons";
-import Link from "next/link";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import Cookies from "js-cookie";
 import { useApiMutation } from "hooks/useApi";
@@ -20,7 +19,7 @@ const Login = () => {
   const router = useRouter();
   const handleMessage = useHandleMessage();
 
-  const [user_image, set_user_image] = useSavedState("", 'user-image');
+  const [_, set_user_image] = useSavedState("", 'user-image');
   const username = useInput("", null);
   const password = useInput("", "password_optional", true);
 
@@ -103,12 +102,6 @@ const Login = () => {
               t("sign_in_now_key")
             )}
           </Button>
-          <Link href="/forget-password">
-            <span className="mt-4 cursor-pointer text-primary">
-
-              {t("forgot_password_key")}
-            </span>
-          </Link>
         </form>
 
       </div>
