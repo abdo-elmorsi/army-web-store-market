@@ -50,7 +50,7 @@ const ServerTable = ({
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handlePerRowsChange}
         progressPending={rest.loading}
-        progressComponent={<Spinner className="w-10 my-44" />}
+        progressComponent={<Spinner className="w-10 my-32" />}
         noDataComponent={<h3 className="my-16">{t("table_no_data_message_key")}</h3>}
         {...rest}
       />

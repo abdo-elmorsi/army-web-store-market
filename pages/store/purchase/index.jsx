@@ -9,12 +9,13 @@ import moment from "moment";
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { DeleteModal, Header, ServerTable } from "components/global";
-import { Actions, MinimizedBox, Modal } from "components/UI";
+import { Actions, Button, MinimizedBox, Modal } from "components/UI";
 import { Filter } from "components/pages/store/purchase";
 import exportExcel from "utils/useExportExcel";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import PrintView from "components/global/printView";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 const Index = () => {
     const router = useRouter();
@@ -105,30 +106,31 @@ const Index = () => {
                 selector: (row) => row?.description, // Access description
                 sortable: true
             },
-            // {
-            //     name: t("actions_key"), // Translate key for actions
-            //     selector: (row) => row?.id,
-            //     noExport: true,
-            //     cell: (row) => (
-            //         <div className="flex gap-2">
-            //             <Button
-            //                 onClick={() => router.push(`/store/purchase/add-update?id=${row?.id}`)}
-            //                 className="px-3 py-2 cursor-pointer btn--primary"
-            //             >
-            //                 <PencilSquareIcon width={22} />
-            //             </Button>
-            //             <Button
-            //                 onClick={() =>
-            //                     setShowDeleteModal({ isOpen: true, id: row?.id })
-            //                 }
-            //                 className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
-            //             >
-            //                 <TrashIcon width={22} />
-            //             </Button>
-            //         </div>
-            //     ),
-            //     sortable: false
-            // }
+            {
+                name: t("actions_key"), // Translate key for actions
+                selector: (row) => row?.id,
+                noExport: true,
+                noPrint: true,
+                cell: (row) => (
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={() => router.push(`/store/purchase/add-update?id=${row?.id}`)}
+                            className="px-3 py-2 cursor-pointer btn--primary"
+                        >
+                            <PencilSquareIcon width={22} />
+                        </Button>
+                        {/* <Button
+                            onClick={() =>
+                                setShowDeleteModal({ isOpen: true, id: row?.id })
+                            }
+                            className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
+                        >
+                            <TrashIcon width={22} />
+                        </Button> */}
+                    </div>
+                ),
+                sortable: false
+            }
         ],
         [date_format, router, t]
     );
