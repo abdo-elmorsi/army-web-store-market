@@ -2,9 +2,9 @@ import { useState } from "react";
 import DataTable from "react-data-table-component";
 import PropTypes from "prop-types";
 import SearchInput from "../global/SearchInput";
-import { useSelector } from "react-redux";
 import { Spinner } from "components/UI";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "context/ThemeContext";
 
 const Table = ({
   data,
@@ -19,7 +19,7 @@ const Table = ({
   ...rest
 }) => {
   const [searchText, setSearchText] = useState("");
-  const { theme } = useSelector((state) => state.theme);
+  const { theme } = useTheme();
   const { t } = useTranslation("common");
 
   const handleSearch = (e) => {

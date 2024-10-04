@@ -1,9 +1,8 @@
-import React from "react";
 import DataTable from "react-data-table-component";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Spinner } from "components/UI";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "context/ThemeContext";
 
 const ServerTable = ({
   data,
@@ -19,7 +18,7 @@ const ServerTable = ({
   paginationTotalRows = 0, // Default total rows
   ...rest
 }) => {
-  const { theme } = useSelector((state) => state.theme);
+  const { theme } = useTheme();
   const { t } = useTranslation("common");
 
   return (

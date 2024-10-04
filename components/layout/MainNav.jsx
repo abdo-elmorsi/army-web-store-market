@@ -10,8 +10,6 @@ import {
   ArrowLeftEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
-import { toggleTheme } from "store/ThemeSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "next-i18next";
 import { signOut, useSession } from "next-auth/react";
 import { MainLogo } from "components/icons";
@@ -20,6 +18,7 @@ import { Badge, Button, List, ListItem, ListItemPrefix, Popover, PopoverContent,
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { useSavedState } from "hooks";
+import { useTheme } from "context/ThemeContext";
 
 
 
@@ -29,8 +28,7 @@ export default function MainNav() {
   const user = data?.user || {};
   const [user_image, _] = useSavedState("", 'user-image');
   const firstLetter = user?.username?.slice(0, 1) || "U";
-  const { theme } = useSelector((state) => state.theme);
-  const dispatch = useDispatch();
+  const { theme, toggleTheme } = useTheme();
   const { t } = useTranslation("common");
 
   // Memoized language selection handler
@@ -72,17 +70,13 @@ export default function MainNav() {
 
             {theme === "light" && (
               <SunIcon
-                onClick={() => {
-                  dispatch(toggleTheme("dark"));
-                }}
+                onClick={() => toggleTheme("dark")}
                 className="w-8 h-8 px-2 py-2 mx-2 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200 dark:bg-gray-500 dark:hover:bg-gray-400"
               />
             )}
             {theme === "dark" && (
               <MoonIcon
-                onClick={() => {
-                  dispatch(toggleTheme("light"));
-                }}
+                onClick={() => toggleTheme("light")}
                 className="w-8 h-8 px-2 py-2 mx-2 text-white bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200 dark:bg-gray-500 dark:hover:bg-gray-400"
               />
             )}
@@ -131,7 +125,7 @@ export default function MainNav() {
                 {/* balance in small device */}
                 {/* btn dark in small device */}
                 <ListItem
-                  onClick={() => { dispatch(toggleTheme(`${theme === "light" ? "dark" : "light"}`)) }}
+                  onClick={() => toggleTheme(`${theme === "light" ? "dark" : "light"}`)}
                   className="gap-4 dark:text-gray-100 hover:text-black active:text-dark md:hidden">
                   <ListItemPrefix>
                     {theme === "light" ? (<SunIcon className="w-8" />) : (<MoonIcon className="w-8" />)}

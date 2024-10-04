@@ -1,13 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import ReactSelect from "react-select";
 import AsyncSelect from "react-select/async";
 import TextError from "./TextError";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "context/ThemeContext";
 
 const Select = React.forwardRef((props, ref) => {
-  const { theme } = useSelector((state) => state.theme);
+  const { theme } = useTheme();
   const darkMode = theme === "dark";
   const mainColor = "#336a86";
 

@@ -1,9 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useTheme } from 'context/ThemeContext';
 
 export default function OverView(props) {
-  const { theme } = useSelector((state) => state.theme);
+  const { theme } = useTheme();
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

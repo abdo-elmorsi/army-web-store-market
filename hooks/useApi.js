@@ -1,5 +1,3 @@
-// src/hooks/useApi.js
-
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import axiosInstance from "helper/apis/axiosInstance";
@@ -7,8 +5,8 @@ import axiosInstance from "helper/apis/axiosInstance";
 // Generic fetcher for GET requests
 const fetcher = async (url) => {
   try {
-    const response = await axiosInstance.get(url);
-    return response.data;
+    const { data } = await axiosInstance.get(url);
+    return data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Error fetching data");
   }
@@ -28,7 +26,7 @@ const mutationHandler = async (url, { arg }) => {
         response = await axiosInstance.put(url, data);
         break;
       case 'DELETE':
-        response = await axiosInstance.delete(url, { data }); // Pass data as the second argument
+        response = await axiosInstance.delete(url, { data });
         break;
       default:
         throw new Error("Unsupported request method");
@@ -41,22 +39,34 @@ const mutationHandler = async (url, { arg }) => {
 
 // Custom hook for GET requests
 export const useApi = (endpoint, options = {}) => {
+  const {
+    revalidateOnFocus = false,
+    revalidateOnReconnect = false,
+    focusThrottleInterval = 0,
+    refreshInterval = 0,
+    onErrorRetry,
+    ...restOptions
+  } = options;
+
   const { data, error, isLoading, mutate } = useSWR(endpoint, fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    ...options,
-    focusThrottleInterval: 0, // Prevents refetching on window focus
-    refreshInterval: 0, // Prevents automatic refetching
+    revalidateOnFocus,
+    revalidateOnReconnect,
+    focusThrottleInterval,
+    refreshInterval,
     onErrorRetry: (error, key, config, revalidate) => {
-      if (error.response?.status === 404) return;
-      setTimeout(() => revalidate({ retryCount: config?.retryCount || 0 }), 5000);
+      if (error.response?.status === 404) return; // Skip retry on 404
+      const retryCount = config?.retryCount || 0;
+      if (retryCount < 3) {
+        setTimeout(() => revalidate({ retryCount: retryCount + 1 }), 5000);
+      }
     },
+    ...restOptions,
   });
 
   return {
     data,
     error,
-    isLoading,
+    isLoading, // True if loading
     mutate,
   };
 };

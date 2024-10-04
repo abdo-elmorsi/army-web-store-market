@@ -91,7 +91,7 @@ Input.propTypes = {
   classNameWrap: PropTypes.string,
   formGroup: PropTypes.bool,
   type: PropTypes.string,
-  append: PropTypes.object,
+  append: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   prepend: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   "data-testid": PropTypes.string,
 };

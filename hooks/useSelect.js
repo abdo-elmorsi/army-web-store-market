@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
-import validate, { isString } from 'utils/validation-rules.js';
+import { validationRules } from "utils";
+import { isString } from "utils/validation-rules";
 
 const useSelect = (initialValue = '', validateRule = 'textInput', submitted) => {
   const [value, setValue] = useState(initialValue);
-  const [validator, setValidator] = useState(() => validate(validateRule, initialValue));
+  const [validator, setValidator] = useState(() => validationRules(validateRule, initialValue));
   const [options, setOptions] = useState();
 
   const handleOnChange = useCallback(selected => {
@@ -16,18 +17,18 @@ const useSelect = (initialValue = '', validateRule = 'textInput', submitted) => 
       }
     }
 
-    setValidator(validate(validateRule, Array.isArray(value) ? true : (value?.value || value?.id)));
+    setValidator(validationRules(validateRule, Array.isArray(value) ? true : (value?.value || value?.id)));
     setValue(value);
   }, [setValue, setValidator, validateRule, options]);
 
   const reset = useCallback(() => {
     let value = isString(initialValue) ? initialValue.trim() : initialValue;
-    setValidator(validate(validateRule, value));
+    setValidator(validationRules(validateRule, value));
     setValue(value);
   }, [setValue, setValidator, validateRule, initialValue]);
 
   const changeValue = useCallback(inputValue => {
-    setValidator(validate(validateRule, Array.isArray(inputValue) ? true : (inputValue?.value || inputValue?.id)));
+    setValidator(validationRules(validateRule, Array.isArray(inputValue) ? true : (inputValue?.value || inputValue?.id)));
     setValue(inputValue);
   }, [setValue, setValidator, validateRule]);
 

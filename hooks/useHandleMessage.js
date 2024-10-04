@@ -1,10 +1,10 @@
+import { useTheme } from "context/ThemeContext";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const useErrorMessage = () => {
   const [message, setMessage] = useState(null);
-  const { theme } = useSelector((state) => state.theme);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (message?.message) {

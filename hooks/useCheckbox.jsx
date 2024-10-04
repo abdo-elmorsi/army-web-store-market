@@ -1,23 +1,23 @@
 import { useState, useCallback } from "react";
-import validate from '../utils/validation-rules.js';
+import { validationRules } from "utils";
 
 const useCheckbox = (initialValue, checkboxValue, validateRule, submitted = false) => {
     const [value, setValue] = useState(checkboxValue);
     const [checked, toggleCheckbox] = useState(initialValue);
-    const [validator, setValidator] = useState(() => validate(validateRule, initialValue));
+    const [validator, setValidator] = useState(() => validationRules(validateRule, initialValue));
 
     const handleOnChange = useCallback(event => {
-        setValidator(validate(validateRule, event.target.checked));
+        setValidator(validationRules(validateRule, event.target.checked));
         toggleCheckbox(event.target.checked);
     }, [toggleCheckbox, setValidator, validateRule]);
 
     const reset = useCallback(() => {
-        setValidator(validate(validateRule, initialValue));
+        setValidator(validationRules(validateRule, initialValue));
         toggleCheckbox(initialValue);
     }, [toggleCheckbox, setValidator, validateRule, initialValue]);
 
     const changeValue = useCallback(checked => {
-        setValidator(validate(validateRule, checked));
+        setValidator(validationRules(validateRule, checked));
         toggleCheckbox(checked);
     }, [toggleCheckbox, setValidator, validateRule]);
 
