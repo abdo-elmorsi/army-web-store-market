@@ -12,8 +12,6 @@ import { SessionProvider } from 'next-auth/react';
 
 import Layout from "components/layout/Layout";
 
-import "react-datepicker/dist/react-datepicker.css";
-
 import "styles/globals.scss";
 
 import { ToastContainer } from "react-toastify";

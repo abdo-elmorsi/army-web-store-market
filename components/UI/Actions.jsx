@@ -1,9 +1,8 @@
 import { Excel, PrintPdf } from 'components/icons';
-import React from 'react'
 import Button from './Button';
-import { PlusSmallIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
-import SearchInput from 'components/global/ServerSearchInput';
+import ServerSearchInput from 'components/global/ServerSearchInput';
 import { useTranslation } from 'react-i18next';
 
 export default function Actions({
@@ -14,22 +13,14 @@ export default function Actions({
   onClickExport,
   isDisabledExport = false,
   addMsg,
-  searchQuery,
-  setSearchQuery,
-  gridFilter = {},
+
   disableSearch,
-  fetchReport,
   ...props
 }) {
   const { t } = useTranslation("common");
   return (
     <>
-      {fetchReport && <SearchInput
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        fetchReport={fetchReport}
-        gridFilter={gridFilter}
-        disableSearch={disableSearch}
+      {!disableSearch && <ServerSearchInput
         id="search-bar"
         name="search-bar"
         maxLength={50}
@@ -57,7 +48,7 @@ export default function Actions({
           className={`btn--primary flex flex-row items-center justify-center`}
           type="button"
         >
-          <PlusSmallIcon width={25} />
+          <PlusIcon width={25} />
           <span>{addMsg}</span>
         </Button>}
 
@@ -77,7 +68,6 @@ Actions.propTypes = {
   disableSearch: PropTypes.bool,
   addMsg: PropTypes.string,
   searchQuery: PropTypes.string,
-  gridFilter: PropTypes.object,
   setSearchQuery: PropTypes.func,
   fetchReport: PropTypes.func,
   Children: PropTypes.node,

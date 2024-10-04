@@ -3,3 +3,4 @@ export { default as useSelect } from "./useSelect";
 export { default as useInput } from "./useInput";
 export { default as useCheckbox } from "./useCheckbox";
 export { default as useSavedState } from "./useSavedState";
+export { default as useQueryString } from "./useQueryString";

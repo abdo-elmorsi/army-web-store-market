@@ -1,78 +1,59 @@
-import React, { forwardRef, useState, useCallback, useImperativeHandle, useRef, useEffect, useMemo } from "react";
+import { forwardRef, useState, useCallback, useImperativeHandle, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useReactToPrint } from "react-to-print";
-
 
 export const getPageStyle = (size = 'A4 landscape', additionsCss = '') => {
     return `
     @page {
-        /* dimensions for the whole page */
         size: ${size};
         margin: 5mm;
     }
     
-    html {
-    /* off-white, so body edge is visible in browser */
-    // background: #eee;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    }
-    
-    body {
-    /* this affects the margin on the content before sending to printer */
-    margin: 0px;
-    width: 100%;
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
     }
     
     .page-table {
-    width: 100%;
-    border-spacing: 2px;
+        width: 100%;
+        border-spacing: 2px;
     }
     
     .table {
-    width: 100%
+        width: 100%;
     }
     
-    .table>tbody {
-    border: black solid 1px;
+    .table > tbody {
+        border: 1px solid black;
     }
     
-    .table>tbody>tr>td,
-    .table>tfoot>tr>td {
-    padding: 0 5px !important;
-    border: black solid 1px;
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 0 5px !important;
+        border: 1px solid black;
     }
     
     .print-none {
-    display: none;
+        display: none;
     }
     
-    .table>thead>tr>th {
-    // padding: 5px !important;
-    font-weight: bold;
-    border: black solid 1px;
+    .table > thead > tr > th {
+        font-weight: bold;
+        border: 1px solid black;
     }
     
-    .print-only {
-    display: initial;
-    !important;
-    }
-    
-    .table,
-    .table-responsive {
-    max-height: auto !important;
-    height: auto !important;
-    
+    .table, .table-responsive {
+        height: auto !important;
     }
     
     .print-preview {
-    padding: 5px;
-    display: block;
+        padding: 5px;
+        display: block;
     }
     
     .avoid-break-inside {
-    page-break-inside: avoid;
+        page-break-inside: avoid;
     }
     
     @media print {
@@ -82,7 +63,6 @@ export const getPageStyle = (size = 'A4 landscape', additionsCss = '') => {
         .print-hidden {
             display: none !important;
         }
-
         * {
             color-adjust: exact;
             -webkit-print-color-adjust: exact;
@@ -94,83 +74,78 @@ export const getPageStyle = (size = 'A4 landscape', additionsCss = '') => {
         }
     }
     ${additionsCss}
-    `
-}
+    `;
+};
 
-const PrintPageTableWrapper = forwardRef(({  filename, additionsCss = '', size = 'A4 landscape', ...props }, ref) => {
+const PrintPageTableWrapper = forwardRef(({ filename, additionsCss = '', size = 'A4 landscape', children }, ref) => {
     const componentRef = useRef(null);
     const onBeforeGetContentResolve = useRef(null);
     const [isPrinting, setIsPrinting] = useState(false);
     const pageStyle = getPageStyle(size, additionsCss);
-
 
     const handleOnBeforeGetContent = useCallback(() => {
         return new Promise((resolve) => {
             onBeforeGetContentResolve.current = resolve;
             setIsPrinting(true);
         });
-    }, [setIsPrinting]);
-    const handleBeforePrint = () => { }
+    }, []);
+
     const handleAfterPrint = () => {
         setIsPrinting(false);
         onBeforeGetContentResolve.current = null;
-    }
-    const reactToPrintContent = useCallback(() => {
-        return componentRef.current;
-    }, [componentRef.current]);
+    };
+
+    const reactToPrintContent = useCallback(() => componentRef.current, [componentRef]);
 
     const handlePrint = useReactToPrint({
         content: reactToPrintContent,
-        documentTitle: `${filename}`,
+        documentTitle: filename,
         onBeforeGetContent: handleOnBeforeGetContent,
-        onBeforePrint: handleBeforePrint,
         onAfterPrint: handleAfterPrint,
         pageStyle: pageStyle,
-        copyStyles: true
-        // removeAfterPrint: true
+        copyStyles: true,
     });
 
     useImperativeHandle(ref, () => ({
-        print: () => {
-            handlePrint();
-        }
+        print: handlePrint,
     }));
 
     useEffect(() => {
         if (isPrinting && onBeforeGetContentResolve.current) {
             onBeforeGetContentResolve.current();
         }
-    }, [isPrinting, onBeforeGetContentResolve.current]);
+    }, [isPrinting]);
 
-
-
-
-    return <>
-        <div className="print-view w-100" ref={componentRef}>
-            {isPrinting && <div className="mt-2 w-100">
-                <table className="page-table">
-                    <thead className="mb-2">
-                        <tr>
-                            <th>
-                                <div className="justify-center pt-3 text-start">
-                                    {filename}
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {props.children}
-                    </tbody>
-                </table>
-            </div>}
+    return (
+        <div className="print-view w-full" ref={componentRef}>
+            {isPrinting && (
+                <div className="mt-2 w-full">
+                    <table className="page-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div className="text-center pt-3">
+                                        {filename}
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {children}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
-    </>
-})
+    );
+});
+
 PrintPageTableWrapper.propTypes = {
-    filename: PropTypes.string,
+    filename: PropTypes.string.isRequired,
     additionsCss: PropTypes.string,
     size: PropTypes.string,
     children: PropTypes.node.isRequired,
 };
-PrintPageTableWrapper.displayName = "PrintPageTableWrapper"
+
+PrintPageTableWrapper.displayName = "PrintPageTableWrapper";
 export default PrintPageTableWrapper;

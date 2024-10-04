@@ -9,14 +9,15 @@ import { useRouter } from "next/router";
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { DeleteModal, Header } from "components/global";
 import { Actions, Button, MinimizedBox, Modal } from "components/UI";
-import { Filter, PrintView } from "components/pages/users";
+import { Filter } from "components/pages/users";
 import exportExcel from "utils/useExportExcel";
-import { useHandleMessage } from "hooks";
+import { useHandleMessage, useQueryString } from "hooks";
 import Table from "components/Table/Table";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import moment from "moment";
+import PrintView from "components/global/printView";
 
 const Index = () => {
     const router = useRouter();
@@ -30,23 +31,14 @@ const Index = () => {
     // ================== Filter Logic ==================
     const roleOptions = useMemo(
         () => [
-            { label: t("store_key"), value: "store" },
-            { label: t("market_key"), value: "market" }
+            { label: t("store_key"), value: "store", id: "store" },
+            { label: t("market_key"), value: "market", id: "market" }
         ],
         [t]
     );
 
 
-    const { role: roleQuery } = router.query;
-    const queryString = useMemo(() => {
-        const queryParams = {
-            role: roleQuery,
-        };
-        const filteredQueryParams = Object.entries(queryParams)
-            .filter(([_, value]) => value)
-            .map(([key, value]) => `${key}=${encodeURIComponent(value)}`);
-        return filteredQueryParams.length > 0 ? filteredQueryParams.join("&") : "";
-    }, [roleQuery]);
+    const { queryString } = useQueryString();
 
     // Fetch data using the API
     const { data: tableData, isLoading, mutate } = useApi(`/users?${queryString}`);
@@ -123,6 +115,7 @@ const Index = () => {
                 name: t("actions_key"),
                 selector: (row) => row?.id,
                 noExport: true,
+                noPrint: true,
                 cell: (row) => (
                     <div className="flex gap-2">
                         <Button
@@ -177,8 +170,10 @@ const Index = () => {
                     columns={columns}
                     data={tableData || []}
                     loading={isLoading}
+                    searchAble={false}
                     actions={
                         <Actions
+                            disableSearch={false}
                             addMsg={t("add_key")}
                             onClickAdd={() => router.push("/users/add-update")}
                             onClickPrint={exportPDF}
@@ -188,7 +183,12 @@ const Index = () => {
                     }
                 />
             </div>
-            <PrintView ref={printViewRef} data={tableData} />
+            {tableData?.length && <PrintView
+                title={t("users_key")}
+                ref={printViewRef}
+                data={tableData}
+                columns={columns}
+            />}
 
             {showDeleteModal?.isOpen && (
                 <Modal

@@ -42,7 +42,6 @@ const Table = ({
             id="search-bar"
             name="search-bar"
             maxLength={50}
-            autoFocus={true}
           />
         )}
         {actions}

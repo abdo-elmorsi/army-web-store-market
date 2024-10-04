@@ -1,4 +1,4 @@
-export { default as Layout } from './Layout';
-export { default as LayoutWithSidebar } from './LayoutWithSidebar';
-export { default as MainNav } from './MainNav';
-export { default as Sidebar } from './Sidebar';
+export { default as Layout } from './Layout.jsx';
+export { default as LayoutWithSidebar } from './LayoutWithSidebar.jsx';
+export { default as MainNav } from './MainNav.jsx';
+export { default as Sidebar } from './Sidebar.jsx';

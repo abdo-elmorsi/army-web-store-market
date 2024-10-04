@@ -4,17 +4,16 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
+import moment from "moment";
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
-import { DeleteModal, Header } from "components/global";
-import { Actions, Button, Modal } from "components/UI";
+import { DeleteModal, Header, ServerTable } from "components/global";
+import { Actions, MinimizedBox, Modal } from "components/UI";
+import { Filter } from "components/pages/store/purchase";
 import exportExcel from "utils/useExportExcel";
-import { useHandleMessage } from "hooks";
-import Table from "components/Table/Table";
+import { useHandleMessage, useQueryString } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import moment from "moment";
 import PrintView from "components/global/printView";
 
 const Index = () => {
@@ -27,16 +26,33 @@ const Index = () => {
     const printViewRef = useRef(null);
 
 
-    const { data: tableData, isLoading, mutate } = useApi(`/categories`);
+    // ================== Query String ==================
+    const currentPage = Number(router.query.page) || 1; // Default to page 1
+    const limit = Number(router.query.limit) || 10; // Default limit
+    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit, type: "storeIn" });
 
+
+    // ================== Handlers for Pagination ==================
+    const handlePageChange = (newPage) => {
+        updateQuery("page", newPage);
+    };
+
+    const handlePerRowsChange = (rowsPerPage) => {
+        updateQuery({ page: 1, limit: rowsPerPage });
+    };
+
+    // ================== Fetch Data ==================
+    const { data = {}, isLoading, mutate } = useApi(`/transactions?${queryString}`);
+    const { transactions: tableData = [], totalTransactions } = data;
     // ================== Delete Logic ==================
-
     const [showDeleteModal, setShowDeleteModal] = useState({
         loading: false,
         isOpen: false,
         id: null
     });
-    const { executeMutation } = useApiMutation(`/categories`);
+
+
+    const { executeMutation } = useApiMutation(`/transactions`);
 
     const closeDeleteModal = () => {
         setShowDeleteModal({});
@@ -59,49 +75,69 @@ const Index = () => {
     const columns = useMemo(
         () => [
             {
-                name: t("name_key"),
-                selector: (row) => row?.name,
+                name: t("product_name_key"), // Translate key for product name
+                selector: (row) => row?.product?.name, // Access product name
                 sortable: true
             },
             {
-                name: t("created_at_key"),
-                selector: (row) => row?.createdAt,
-                cell: (row) => moment(row?.createdAt).format(date_format),
+                name: t("quantity_key"), // Translate key for quantity
+                selector: (row) => row?.quantity, // Access quantity
                 sortable: true
             },
             {
-                name: t("actions_key"),
-                selector: (row) => row?.id,
-                noExport: true,
-                noPrint: true,
-                cell: (row) => (
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={() => router.push(`/products/categories/add-update?id=${row?.id}`)}
-                            className="px-3 py-2 cursor-pointer btn--primary"
-                        >
-                            <PencilSquareIcon width={22} />
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                setShowDeleteModal({ isOpen: true, id: row?.id })
-                            }
-                            className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
-                        >
-                            <TrashIcon width={22} />
-                        </Button>
-                    </div>
-                ),
-                sortable: false
-            }
+                name: t("created_by_key"),
+                selector: (row) => row?.createdBy?.username,
+                sortable: true
+            },
+            {
+                name: t("updated_by_key"),
+                selector: (row) => row?.lastUpdatedBy?.username,
+                sortable: true
+            },
+            {
+                name: t("created_at_key"), // Translate key for createdAt
+                selector: (row) => row?.createdAt, // Access createdAt field
+                cell: (row) => moment(row?.createdAt).format(date_format), // Format the date
+                sortable: true
+            },
+            {
+                name: t("description_key"), // Translate key for description
+                selector: (row) => row?.description, // Access description
+                sortable: true
+            },
+            // {
+            //     name: t("actions_key"), // Translate key for actions
+            //     selector: (row) => row?.id,
+            //     noExport: true,
+            //     cell: (row) => (
+            //         <div className="flex gap-2">
+            //             <Button
+            //                 onClick={() => router.push(`/store/purchase/add-update?id=${row?.id}`)}
+            //                 className="px-3 py-2 cursor-pointer btn--primary"
+            //             >
+            //                 <PencilSquareIcon width={22} />
+            //             </Button>
+            //             <Button
+            //                 onClick={() =>
+            //                     setShowDeleteModal({ isOpen: true, id: row?.id })
+            //                 }
+            //                 className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
+            //             >
+            //                 <TrashIcon width={22} />
+            //             </Button>
+            //         </div>
+            //     ),
+            //     sortable: false
+            // }
         ],
         [date_format, router, t]
     );
 
+
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("categories_key"), handleMessage);
+        await exportExcel(tableData, columns, t("purchase_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -117,19 +153,26 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("categories_key")}
-                    path="/products/categories"
+                    title={t("purchase_key")}
+                    path="/store/purchase"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
-                <Table
+                <MinimizedBox>
+                    <Filter />
+                </MinimizedBox>
+                <ServerTable
                     columns={columns}
                     data={tableData || []}
-                    loading={isLoading}
+                    handlePageChange={handlePageChange}
+                    handlePerRowsChange={handlePerRowsChange}
+                    progressPending={isLoading}
+                    paginationTotalRows={totalTransactions}
+                    paginationPerPage={limit} // Use limit from router query
+                    paginationDefaultPage={currentPage} // Use currentPage from router query
                     actions={
                         <Actions
-                            disableSearch
                             addMsg={t("add_key")}
-                            onClickAdd={() => router.push("/products/categories/add-update")}
+                            onClickAdd={() => router.push("/store/purchase/add-update")}
                             onClickPrint={exportPDF}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
@@ -139,11 +182,12 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("categories_key")}
+                title={t("purchase_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}
             />}
+
             {showDeleteModal?.isOpen && (
                 <Modal
                     title={t("delete_key")}

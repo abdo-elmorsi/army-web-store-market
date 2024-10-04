@@ -2,33 +2,24 @@ import { Select } from 'components/UI';
 import { useApi } from 'hooks/useApi';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { findSelectedOption } from 'utils/utils';
+import { useQueryString } from 'hooks';
 
 const Filter = () => {
 	const { t } = useTranslation("common");
 	const router = useRouter();
+	const { updateQuery } = useQueryString();
 
-	const { data: userOptions = [] } = useApi(`/users`);
+	const { data: userOptions = [] } = useApi(`/users?forSelect=true`);
 	const { data: categoryOptions = [] } = useApi(`/categories`);
 	const { data: unitOptions = [] } = useApi(`/units`);
 
-	const updateQuery = (key, value) => {
-		const { query } = router;
-		const newQuery = { ...query };
 
-		if (value) {
-			newQuery[key] = value;
-		} else {
-			delete newQuery[key];
-		}
-
-		router.push({ pathname: router.pathname, query: newQuery }, undefined, { shallow: true });
-	};
 
 	const currentUser = router.query.user || null;
 	const currentCategory = router.query.category || null;
 	const currentUnit = router.query.unit || null;
 
-	const findSelectedOption = (options, id) => options.find(option => option.id === id) || null;
 
 	const selectedUserOption = findSelectedOption(userOptions, currentUser);
 	const selectedCategoryOption = findSelectedOption(categoryOptions, currentCategory);

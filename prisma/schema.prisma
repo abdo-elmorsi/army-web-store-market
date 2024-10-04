@@ -18,9 +18,10 @@ model User {
   updatedAt DateTime @updatedAt @db.Date
 
   // Relations
-  createdProducts Product[]     @relation("CreatedProducts")
-  updatedProducts Product[]     @relation("UpdatedProducts")
-  transactions    Transaction[]
+  createdProducts     Product[]     @relation("CreatedProducts")
+  updatedProducts     Product[]     @relation("UpdatedProducts")
+  createdTransactions Transaction[] @relation("CreatedTransactions") // Clarified relation name
+  updatedTransactions Transaction[] @relation("UpdatedTransactions") // Updated relation for lastUpdatedBy
 }
 
 model Product {
@@ -46,16 +47,18 @@ model Product {
 }
 
 model Transaction {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  quantity    Int
-  type        String // Consider using an enum for type if it has a limited set of values
-  description String?
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String   @db.ObjectId
-  product     Product  @relation(fields: [productId], references: [id])
-  productId   String   @db.ObjectId
-  createdAt   DateTime @default(now()) @db.Date
-  updatedAt   DateTime @updatedAt @db.Date
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity        Int
+  type            String
+  description     String?
+  createdBy       User     @relation("CreatedTransactions", fields: [createdById], references: [id]) // Updated relation name
+  createdById     String   @db.ObjectId
+  product         Product  @relation(fields: [productId], references: [id])
+  productId       String   @db.ObjectId
+  lastUpdatedBy   User     @relation("UpdatedTransactions", fields: [lastUpdatedById], references: [id]) // Updated relation name
+  lastUpdatedById String   @db.ObjectId // Keep the field name
+  createdAt       DateTime @default(now()) @db.Date
+  updatedAt       DateTime @updatedAt @db.Date
 }
 
 model Unit {

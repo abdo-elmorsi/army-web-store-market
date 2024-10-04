@@ -8,14 +8,15 @@ import { useTranslation } from "react-i18next";
 const ServerTable = ({
   data,
   columns,
-  noHeader,
-  paginationPerPage,
-  paginationRowsPerPageOptions,
-  actions,
-  selectableRowSelected,
-  handlePageChange,
-  handlePerRowsChange,
-  paginationTotalRows,
+  noHeader = false, // Set default value here
+  paginationDefaultPage = 1, // Default page
+  paginationPerPage = 10, // Default rows per page
+  paginationRowsPerPageOptions = [10, 25, 50, 100], // Default pagination options
+  actions = null, // Default to null if no actions
+  selectableRowSelected = () => { }, // Default to empty function
+  handlePageChange = () => { }, // Default to empty function
+  handlePerRowsChange = () => { }, // Default to empty function
+  paginationTotalRows = 0, // Default total rows
   ...rest
 }) => {
   const { theme } = useSelector((state) => state.theme);
@@ -30,33 +31,25 @@ const ServerTable = ({
         fixedHeader
         noHeader={noHeader}
         fixedHeaderScrollHeight="550px"
-
         data={data}
         columns={columns}
-
         theme={theme}
         selectableRowSelected={selectableRowSelected}
         highlightOnHover
         defaultSortField="id"
         defaultSortAsc={false}
-
-
-        // pagination
         pagination
         paginationServer
         paginationPerPage={paginationPerPage}
         paginationTotalRows={paginationTotalRows}
+        paginationDefaultPage={paginationDefaultPage}
         paginationRowsPerPageOptions={paginationRowsPerPageOptions}
         paginationComponentOptions={{
           rowsPerPageText: t("rows_per_page_key"),
           rangeSeparatorText: t("of_key"),
         }}
-
-
-        // actions
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handlePerRowsChange}
-
         progressPending={rest.loading}
         progressComponent={<Spinner className="w-10 my-44" />}
         noDataComponent={<h3 className="my-16">{t("table_no_data_message_key")}</h3>}
@@ -80,22 +73,13 @@ ServerTable.propTypes = {
     })
   ).isRequired,
   noHeader: PropTypes.bool,
-  fixedHeader: PropTypes.bool,
-  pagination: PropTypes.bool,
   paginationPerPage: PropTypes.number,
   paginationRowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
   actions: PropTypes.element,
   selectableRowSelected: PropTypes.func,
   handlePageChange: PropTypes.func,
   handlePerRowsChange: PropTypes.func,
-  paginationTotalRows: PropTypes.number
+  paginationTotalRows: PropTypes.number,
 };
 
-ServerTable.defaultProps = {
-  noHeader: false,
-  fixedHeader: true,
-  pagination: true,
-  paginationPerPage: 10,
-  paginationRowsPerPageOptions: [10, 25, 50, 100]
-};
 export default ServerTable;

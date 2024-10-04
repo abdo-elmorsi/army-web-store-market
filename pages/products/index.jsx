@@ -10,13 +10,14 @@ import moment from "moment";
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { DeleteModal, Header } from "components/global";
 import { Actions, Button, MinimizedBox, Modal } from "components/UI";
-import { PrintView, Filter } from "components/pages/products";
+import { Filter } from "components/pages/products";
 import exportExcel from "utils/useExportExcel";
-import { useHandleMessage } from "hooks";
+import { useHandleMessage, useQueryString } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { formatComma, getRole } from "utils/utils";
 import Table from "components/Table/Table";
+import PrintView from "components/global/printView";
 
 const Index = ({ session }) => {
     const admin = getRole(session, "admin")
@@ -30,19 +31,7 @@ const Index = ({ session }) => {
 
 
     // ================== Filter Logic ==================
-    const { user: userQuery, unit: unitQuery, category: categoryQuery } = router.query;
-    const queryString = useMemo(() => {
-        const queryParams = {
-            user: userQuery,
-            category: categoryQuery,
-            unit: unitQuery,
-        };
-        const filteredQueryParams = Object.entries(queryParams)
-            .filter(([_, value]) => value)
-            .map(([key, value]) => `${key}=${encodeURIComponent(value)}`);
-        return filteredQueryParams.length > 0 ? filteredQueryParams.join("&") : "";
-    }, [userQuery, categoryQuery, unitQuery]);
-
+    const { queryString } = useQueryString();
     const { data: tableData, isLoading, mutate } = useApi(`/products?${queryString}`);
 
     // ================== Delete Logic ==================
@@ -123,6 +112,7 @@ const Index = ({ session }) => {
                 name: t("actions_key"),
                 selector: (row) => row?.id,
                 noExport: true,
+                noPrint: true,
                 cell: (row) => (
                     <div className="flex gap-2">
                         <Button
@@ -177,8 +167,10 @@ const Index = ({ session }) => {
                     columns={columns}
                     data={tableData || []}
                     loading={isLoading}
+                    searchAble={false}
                     actions={
                         <Actions
+                            disableSearch={false}
                             addMsg={t("add_key")}
                             onClickAdd={() => router.push("/products/add-update")}
                             onClickPrint={exportPDF}
@@ -189,8 +181,12 @@ const Index = ({ session }) => {
                     }
                 />
             </div>
-            <PrintView ref={printViewRef} data={tableData} />
-
+            {tableData?.length && <PrintView
+                title={t("products_key")}
+                ref={printViewRef}
+                data={tableData}
+                columns={columns}
+            />}
             {showDeleteModal?.isOpen && (
                 <Modal
                     title={t("delete_key")}

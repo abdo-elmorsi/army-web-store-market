@@ -89,14 +89,28 @@ const Sidebar = React.memo(() => {
       omit: market,
       submenu: [
         {
-          nameAR: "الحركات",
-          nameEN: "Transactions",
-          href: "/store/transactions",
+          nameAR: "شراء",
+          nameEN: "Purchase",
+          href: "/store/purchase",
           icon: <TruckIcon className="w-5 h-5" />,
-          current: router.pathname === "/store/transactions",
+          current: router.pathname === "/store/purchase",
         },
         {
-          nameAR: "المخزون",
+          nameAR: "استرجاع",
+          nameEN: "Purchase return",
+          href: "/store/purchase-return",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/store/purchase-return",
+        },
+        {
+          nameAR: "تحويل الي الكانتين",
+          nameEN: "Move to market",
+          href: "/store/move-to-market",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/store/move-to-market",
+        },
+        {
+          nameAR: "جرد",
           nameEN: "Inventory",
           href: "/store/inventory",
           icon: <ClipboardDocumentListIcon className="w-5 h-5" />,

@@ -147,6 +147,7 @@ export const getRole = (session, role) => session && session.user?.role == role
 
 
 
+export const findSelectedOption = (options, id) => options.find(option => option.id === id) || null;
 
 
 export function convertImageToBase64(file) {

@@ -8,7 +8,7 @@ import PrintPageTableWrapper from "components/printPageTableWrapper";
 import { useTranslation } from "react-i18next";
 
 
-const PrintView = forwardRef(({ data }, ref) => {
+const PrintView = forwardRef(({ title = 'title', columns = [], data = [] }, ref) => {
     const router = useRouter();
     const { t } = useTranslation("common");
     const componentRef = useRef(null);
@@ -28,7 +28,7 @@ const PrintView = forwardRef(({ data }, ref) => {
     return <>
         <PrintPageTableWrapper
             ref={componentRef}
-            filename={t("products_key")}
+            filename={title}
         >
             <tr>
                 <td>
@@ -39,17 +39,27 @@ const PrintView = forwardRef(({ data }, ref) => {
                     >
                         <thead className="h-10 font-bold text-white bg-primary">
                             <tr>
-                                <th>{t('name_key')}</th>
-                                <th>{t('created_at_key')}</th>
+                                {columns?.filter(c => !c.omit && !c.noPrint).map(c => <th key={c.name}>{c.name}</th>)}
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.map((row, i) => (
-                                <tr key={`row-${i}`} className="break-inside-avoid">
-                                    <td className="px-2">{row.name}</td>
-                                    <td className="px-2">{moment(row?.createdAt).format(date_format)}</td>
-                                </tr>
-                            ))}
+                            {data?.map((row, i) => {
+                                return (
+                                    <tr
+                                        key={`row-${i}`}
+                                        className={`break-inside-avoid ${row?.subtotal ? 'bg-secondary' : ''}`}
+                                    >
+                                        {columns?.filter(c => !c.omit && !c.noPrint)
+                                            .map(c =>
+                                            (
+                                                <td className="px-2" key={c.name}>
+                                                    {c.cell ? c.cell(row) : c.selector(row)}
+                                                </td>
+                                            )
+                                            )}
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </td>
@@ -59,6 +69,8 @@ const PrintView = forwardRef(({ data }, ref) => {
 });
 PrintView.propTypes = {
     data: PropTypes.array,
+    title: PropTypes.string,
+    columns: PropTypes.array,
 };
 
 PrintView.displayName == "PrintView";

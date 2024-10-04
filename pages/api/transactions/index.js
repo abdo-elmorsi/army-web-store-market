@@ -1,14 +1,17 @@
-import { getTransactions, handleStockMovement } from "lib/controllers/transactions-controller";
+import { getTransactions, handleStockMovement, updateStockMovement } from "lib/controllers/transactions-controller";
 
 const handler = async (req, res) => {
-  const { method, body } = req;
+  const { method, body, query } = req;
   try {
     switch (method) {
       case "GET":
-        await getTransactions(body, res);
+        await getTransactions(query, res);
         break;
       case "POST":
         await handleStockMovement(body, res);
+        break;;
+      case "PUT":
+        await updateStockMovement(body, res);
         break;;
       default:
         res.status(405).json({ message: "Method Not Allowed" });
