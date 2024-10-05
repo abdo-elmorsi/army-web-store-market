@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   SunIcon,
   MoonIcon,
@@ -40,8 +40,17 @@ export default function MainNav() {
   const logOut = () => {
     signOut();
     Cookies.remove('user-token');
-
   };
+
+  const roleOptions = useMemo(
+    () => [
+      { label: t("admin_key"), value: "admin", },
+      { label: t("store_key"), value: "store", },
+      { label: t("market_key"), value: "market", }
+    ],
+    [t]
+  );
+
   return (
 
     <nav style={{ zIndex: 9999 }}
@@ -114,7 +123,7 @@ export default function MainNav() {
 
                 <div className="flex flex-col items-center justify-between">
                   <span> {user?.username}</span>
-                  <span> {user?.role}</span>
+                  <span> {roleOptions.find(role => role.value == user?.role)?.label}</span>
                 </div>
 
                 <ArrowsUpDownIcon className="hidden w-5 md:flex" />

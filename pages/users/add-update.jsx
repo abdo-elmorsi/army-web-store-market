@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
@@ -35,14 +35,14 @@ const Index = () => {
 	const [image, setImage] = useState("");
 
 
-	const roleOptions = [
-		{
-			label: t("store_key"), value: "store",
-		},
-		{
-			label: t("market_key"), value: "market",
-		}
-	];
+	const roleOptions = useMemo(
+		() => [
+			{ label: t("store_key"), value: "store", id: "store" },
+			{ label: t("market_key"), value: "market", id: "market" }
+		],
+		[t]
+	);
+
 	const [showPass, setShowPass] = useState(false);
 	const handleShowPass = () => setShowPass(!showPass);
 
@@ -145,7 +145,7 @@ const Index = () => {
 								>
 									{isMutating ? (
 										<>
-											<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading")}
+											<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading_key")}
 										</>
 									) : (
 										t("save_key")

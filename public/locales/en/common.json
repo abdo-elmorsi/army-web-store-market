@@ -43,12 +43,12 @@
     "username_key": "Username",
     "password_key": "Password",
     "sign_in_now_key": "Sign In Now",
-    "store_in_key": "Store in",
-    "store_out_key": "Store out",
+    "store_in_key": "Purchase",
+    "store_out_key": "Purchase Return",
     "store_to_market_key": "Store to market",
     "market_to_store_key": "Market to store",
-    "market_out_key": "Market out",
-    "market_return_key": "Market return",
+    "market_out_key": "Sales",
+    "market_return_key": "Sales return",
     "transaction_type_key": "Transaction type",
     "from_date_key": "From Date",
     "to_date_key": "To Date",
@@ -63,5 +63,8 @@
     "purchase_key": "Purchase",
     "purchase_return_key": "Purchase return",
     "move_to_market_key": "Move to market",
-    "return_from_market_key": "Return from market"
+    "return_from_market_key": "Return from market",
+    "sales_key": "Sales",
+    "sales_return_key": "Sales return",
+    "admin_key": "Admin"
 }

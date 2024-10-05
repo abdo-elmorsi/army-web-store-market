@@ -8,19 +8,16 @@ import moment from "moment";
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
-import { DeleteModal, Header } from "components/global";
-import { Actions, Button, MinimizedBox, Modal } from "components/UI";
-import { Filter } from "components/pages/products";
+import { Header, ServerTable } from "components/global";
+import { Actions, Button, MinimizedBox } from "components/UI";
+import { Filter } from "components/pages/store/purchase";
 import exportExcel from "utils/useExportExcel";
 import { useHandleMessage, useQueryString } from "hooks";
-import { useApi, useApiMutation } from "hooks/useApi";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { formatComma, getRole } from "utils/utils";
-import Table from "components/Table/Table";
+import { useApi } from "hooks/useApi";
 import PrintView from "components/global/printView";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
-const Index = ({ session }) => {
-    const admin = getRole(session, "admin")
+const Index = () => {
     const router = useRouter();
     const language = router.locale.toLowerCase();
     const date_format = language === "en" ? "DD/MM/YYYY" : "YYYY/MM/DD";
@@ -30,66 +27,37 @@ const Index = ({ session }) => {
     const printViewRef = useRef(null);
 
 
-    // ================== Filter Logic ==================
-    const { queryString } = useQueryString();
-    const { data: tableData, isLoading, mutate } = useApi(`/products?${queryString}`);
+    // ================== Query String ==================
+    const currentPage = Number(router.query.page) || 1; // Default to page 1
+    const limit = Number(router.query.limit) || 10; // Default limit
+    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit, type: "marketReturn" });
 
-    // ================== Delete Logic ==================
-    const [showDeleteModal, setShowDeleteModal] = useState({
-        loading: false,
-        isOpen: false,
-        id: null,
-    });
-    const { executeMutation } = useApiMutation(`/products`);
 
-    const closeDeleteModal = () => {
-        setShowDeleteModal({ isOpen: false, loading: false, id: null });
+    // ================== Handlers for Pagination ==================
+    const handlePageChange = (newPage) => {
+        updateQuery("page", newPage);
     };
 
-    const handleDelete = async () => {
-        setShowDeleteModal((prev) => ({ ...prev, loading: true }));
-        try {
-            await executeMutation("DELETE", { id: showDeleteModal.id });
-            mutate();
-            closeDeleteModal();
-        } catch (error) {
-            handleMessage(error);
-        } finally {
-            setShowDeleteModal((prev) => ({ ...prev, loading: false }));
-        }
+    const handlePerRowsChange = (rowsPerPage) => {
+        updateQuery({ page: 1, limit: rowsPerPage });
     };
+
+    // ================== Fetch Data ==================
+    const { data = {}, isLoading } = useApi(`/transactions?${queryString}`);
+    const { transactions: tableData = [], totalTransactions } = data;
+
 
     // ================== Table Columns ==================
     const columns = useMemo(
         () => [
             {
-                name: t("name_key"),
-                selector: (row) => row?.name,
+                name: t("product_name_key"), // Translate key for product name
+                selector: (row) => row?.product?.name, // Access product name
                 sortable: true
             },
             {
-                name: t("category_key"),
-                selector: (row) => row?.category?.name,
-                sortable: true
-            },
-            {
-                name: t("quantity_in_store_key"),
-                selector: (row) => row?.quantityInStore,
-                cell: (row) => formatComma(row?.quantityInStore),
-                sortable: true
-            },
-            {
-                name: t("quantity_in_market_key"),
-                selector: (row) => row?.quantityInMarket,
-                cell: (row) => formatComma(row?.quantityInMarket),
-                sortable: true
-            },
-            {
-                name: t("balance_key"),
-                selector: (row) => formatComma(row?.quantityInStock),
-                cell: (row) => <p className={`${row?.quantityInStock > 0 ? "text-green-500" : "text-red-500"} text-green-500`}>
-                    {formatComma(row?.quantityInStock)} ({row?.unit?.name})
-                </p>,
+                name: t("quantity_key"), // Translate key for quantity
+                selector: (row) => row?.quantity, // Access quantity
                 sortable: true
             },
             {
@@ -103,43 +71,50 @@ const Index = ({ session }) => {
                 sortable: true
             },
             {
-                name: t("created_at_key"),
-                selector: (row) => row?.createdAt,
-                cell: (row) => moment(row?.createdAt).format(date_format),
+                name: t("created_at_key"), // Translate key for createdAt
+                selector: (row) => row?.createdAt, // Access createdAt field
+                cell: (row) => moment(row?.createdAt).format(date_format), // Format the date
                 sortable: true
             },
             {
-                name: t("actions_key"),
+                name: t("description_key"), // Translate key for description
+                selector: (row) => row?.description, // Access description
+                sortable: true
+            },
+            {
+                name: t("actions_key"), // Translate key for actions
                 selector: (row) => row?.id,
                 noExport: true,
                 noPrint: true,
                 cell: (row) => (
                     <div className="flex gap-2">
                         <Button
-                            onClick={() => router.push(`/products/add-update?id=${row?.id}`)}
+                            onClick={() => router.push(`/market/sales-return/add-update?id=${row?.id}`)}
                             className="px-3 py-2 cursor-pointer btn--primary"
                         >
                             <PencilSquareIcon width={22} />
                         </Button>
-                        <Button
-                            disabled={!admin}
-                            onClick={() => setShowDeleteModal({ isOpen: true, id: row?.id })}
+                        {/* <Button
+                            onClick={() =>
+                                setShowDeleteModal({ isOpen: true, id: row?.id })
+                            }
                             className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
                         >
                             <TrashIcon width={22} />
-                        </Button>
+                        </Button> */}
                     </div>
                 ),
                 sortable: false
             }
         ],
-        [admin, date_format, router, t]
+        [date_format, router, t]
     );
+
 
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("products_key"), handleMessage);
+        await exportExcel(tableData, columns, t("sales_return_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -151,28 +126,30 @@ const Index = ({ session }) => {
         }
     }, [printViewRef.current]);
 
-
     return (
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("products_key")}
-                    path="/products"
+                    title={t("sales_return_key")}
+                    path="/market/sales-return"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
                     <Filter />
                 </MinimizedBox>
-                <Table
+                <ServerTable
                     columns={columns}
                     data={tableData || []}
-                    loading={isLoading}
-                    searchAble={false}
+                    handlePageChange={handlePageChange}
+                    handlePerRowsChange={handlePerRowsChange}
+                    progressPending={isLoading}
+                    paginationTotalRows={totalTransactions}
+                    paginationPerPage={limit} // Use limit from router query
+                    paginationDefaultPage={currentPage} // Use currentPage from router query
                     actions={
                         <Actions
-                            disableSearch={false}
                             addMsg={t("add_key")}
-                            onClickAdd={() => router.push("/products/add-update")}
+                            onClickAdd={() => router.push("/market/sales-return/add-update")}
                             onClickPrint={exportPDF}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
@@ -182,25 +159,11 @@ const Index = ({ session }) => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("products_key")}
+                title={t("sales_return_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}
             />}
-            {showDeleteModal?.isOpen && (
-                <Modal
-                    title={t("delete_key")}
-                    show={showDeleteModal?.isOpen}
-                    footer={false}
-                    onClose={closeDeleteModal}
-                >
-                    <DeleteModal
-                        showDeleteModal={showDeleteModal}
-                        handleClose={closeDeleteModal}
-                        handleDelete={handleDelete}
-                    />
-                </Modal>
-            )}
         </>
     );
 };
@@ -216,7 +179,7 @@ Index.getLayout = function PageLayout(page) {
 export default Index;
 
 Index.propTypes = {
-    session: PropTypes.object.isRequired,
+    session: PropTypes.object.isRequired
 };
 
 export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
@@ -227,15 +190,15 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
         return {
             redirect: {
                 destination: `${loginUrl}?returnTo=${encodeURIComponent(resolvedUrl || "/")}`,
-                permanent: false,
-            },
+                permanent: false
+            }
         };
     } else {
         return {
             props: {
                 session,
-                ...(await serverSideTranslations(locale, ["common"])),
-            },
+                ...(await serverSideTranslations(locale, ["common"]))
+            }
         };
     }
 };

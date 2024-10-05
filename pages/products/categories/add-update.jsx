@@ -82,7 +82,7 @@ const Index = () => {
 								>
 									{isMutating ? (
 										<>
-											<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading")}
+											<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading_key")}
 										</>
 									) : (
 										t("save_key")

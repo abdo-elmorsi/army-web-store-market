@@ -1,6 +1,6 @@
 {
     "sign_in_key": "تسجيل الدخول",
-    "loading_key": "جارٍ التحميل",
+    "loading_key": "...تحميل",
     "store_key": "المخزن",
     "market_key": "الكانتين",
     "image_key": "الصورة",
@@ -43,12 +43,12 @@
     "username_key": "أسم المستخدم",
     "password_key": "الباسورد",
     "sign_in_now_key": "سجل دخول الان",
-    "store_in_key": "ادخال الي المخزن",
-    "store_out_key": "اخراج من المخزن",
+    "store_in_key": "مشتريات",
+    "store_out_key": "مردودات مشتريات",
     "store_to_market_key": "تحويل اللي الكانتين",
     "market_to_store_key": "تحويل الي المخزن",
-    "market_out_key": "بيع",
-    "market_return_key": "شراء",
+    "market_out_key": "مبيعات",
+    "market_return_key": "مردودات مبيعات",
     "transaction_type_key": "نوع الحركه",
     "from_date_key": "من تاريخ",
     "to_date_key": "الي تاريخ",
@@ -63,5 +63,8 @@
     "purchase_key": "المشتريات",
     "purchase_return_key": "مردودات المشتريات",
     "move_to_market_key": "تحويل الي الكانتين",
-    "return_from_market_key": "استرجاع من الكانتين"
+    "return_from_market_key": "استرجاع من الكانتين",
+    "sales_key": "المبيعات",
+    "sales_return_key": "مردودات المبيعات",
+    "admin_key": "ادمين"
 }

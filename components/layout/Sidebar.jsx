@@ -126,7 +126,7 @@ const Sidebar = React.memo(() => {
       omit: store,
       submenu: [
         {
-          nameAR: "مبيعات",
+          nameAR: "المبيعات",
           nameEN: "Sales",
           href: "/market/sales",
           icon: <TruckIcon className="w-5 h-5" />,
