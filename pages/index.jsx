@@ -19,27 +19,27 @@ const Index = () => {
 
     const [tableData, setTableData] = useSavedState([
         {
-            title: 'total_tenants_key',
+            title: 'users_key',
             count: 0,
-            desc: 'tenant_key',
+            desc: 'users_key',
             percentage: 0,
             duration: moment().startOf("month").fromNow(),
         },
         {
-            title: 'total_towers_key',
+            title: 'users_key',
             count: 0,
-            desc: 'tower_key',
+            desc: 'users_key',
             percentage: 0,
             duration: moment().startOf("month").fromNow(),
         },
         {
-            title: 'total_apartments_key',
+            title: 'users_key',
             count: 0,
-            desc: 'apartment_key',
+            desc: 'users_key',
             percentage: 0,
             duration: moment().startOf("month").fromNow(),
         },
-    ], "easier-dashboard-count-cache");
+    ], "store-market-dashboard-count-cache");
 
 
     return (

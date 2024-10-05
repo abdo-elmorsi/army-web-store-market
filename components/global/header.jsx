@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
 export default function Header({ title = '', path = '', links = [], classes = '' }) {
-  const { t } = useTranslation("common");
 
   return (
     <div className={clsx("border-b", classes)}>
@@ -13,7 +11,7 @@ export default function Header({ title = '', path = '', links = [], classes = ''
           <li>
             <Link href={path}>
               <span className="text-black dark:text-white opacity-60 hover:text-primary dark:hover:text-primary">
-                {t(title)}
+                {title}
               </span>
             </Link>
           </li>
