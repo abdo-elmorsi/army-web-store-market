@@ -1,20 +1,21 @@
 html[lang="ar"] {
+    font-family: "Cairo", Cambria, Cochin, Georgia, Times, "Times New Roman",
+        serif;
+
     body {
-        font-family: "Noto Sans Arabic", sans-serif !important;
-    }
+        .date_picker_icon::after {
+            right: auto;
+            left: 2%;
+        }
 
-    .date_picker_icon::after {
-        right: auto;
-        left: 2%;
-    }
-
-    .sidebar {
-        &:hover .sub-menu-icon {
-            transform: translateX(-15px) !important;
-            -webkit-transform: translateX(-15px) !important;
-            -moz-transform: translateX(-15px) !important;
-            -ms-transform: translateX(-15px) !important;
-            -o-transform: translateX(-15px) !important;
+        .sidebar {
+            &:hover .sub-menu-icon {
+                transform: translateX(-15px) !important;
+                -webkit-transform: translateX(-15px) !important;
+                -moz-transform: translateX(-15px) !important;
+                -ms-transform: translateX(-15px) !important;
+                -o-transform: translateX(-15px) !important;
+            }
         }
     }
 }

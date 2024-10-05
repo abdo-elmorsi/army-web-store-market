@@ -1,89 +1,91 @@
-body {
-    font-family: "Cairo", sans-serif;
+html {
+    font-family: "Inter", sans-serif, Cambria, Cochin, Georgia, Times,
+        "Times New Roman", serif;
+    body {
+        .print-view {
+            display: none;
+        }
 
-    .print-view {
-        display: none;
-    }
+        /* date picker */
+        .react-date-picker__wrapper {
+            width: 100%;
+            padding-top: 0.3rem;
+            padding-bottom: 0.3rem;
+            padding-left: 0.7rem;
+            padding-right: 0.7rem;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+        }
 
-    /* date picker */
-    .react-date-picker__wrapper {
-        width: 100%;
-        padding-top: 0.3rem;
-        padding-bottom: 0.3rem;
-        padding-left: 0.7rem;
-        padding-right: 0.7rem;
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        -ms-border-radius: 3px;
-        -o-border-radius: 3px;
-    }
+        .react-date-picker__calendar {
+            z-index: 150 !important;
+        }
 
-    .react-date-picker__calendar {
-        z-index: 150 !important;
-    }
+        // for text in table
+        .hgByPU div:first-child,
+        .brFloq {
+            white-space: pre-wrap !important;
+        }
 
-    // for text in table
-    .hgByPU div:first-child,
-    .brFloq {
-        white-space: pre-wrap !important;
-    }
+        .rdt_TableHeadRow {
+            background-color: #f3f4f6 !important;
+            box-shadow: 0px -1px 0px 0px #edf2f7 inset;
+        }
 
-    .rdt_TableHeadRow {
-        background-color: #f3f4f6 !important;
-        box-shadow: 0px -1px 0px 0px #edf2f7 inset;
-    }
+        // main scrollbar
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-    // main scrollbar
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
 
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #888;
-    }
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #777;
-    }
+        .hide-scroll-bar {
+            scrollbar-width: none;
+            /* Firefox */
+        }
 
-    .hide-scroll-bar {
-        scrollbar-width: none;
-        /* Firefox */
-    }
+        /* Hide scrollbar for Webkit (Safari/Chrome) */
+        .hide-scroll-bar::-webkit-scrollbar {
+            display: none;
+        }
 
-    /* Hide scrollbar for Webkit (Safari/Chrome) */
-    .hide-scroll-bar::-webkit-scrollbar {
-        display: none;
-    }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        /* IE and Edge */
-        scrollbar-width: none;
-        /* Firefox */
-    }
+        // for input popup
+        div[tabindex="0"] {
+            z-index: 9999;
+        }
 
-    // for input popup
-    div[tabindex="0"] {
-        z-index: 9999;
-    }
-
-    .h-92 {
-        height: 92px;
+        .h-92 {
+            height: 92px;
+        }
     }
 }

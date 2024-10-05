@@ -9,13 +9,12 @@ import moment from "moment";
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { Header, ServerTable } from "components/global";
-import { Actions, Button, MinimizedBox } from "components/UI";
-import { Filter } from "components/pages/store/purchase";
+import { Actions, MinimizedBox } from "components/UI";
+import { Filter } from "components/pages/reports";
 import exportExcel from "utils/useExportExcel";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
 import PrintView from "components/global/printView";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 const Index = () => {
     const router = useRouter();
@@ -30,7 +29,7 @@ const Index = () => {
     // ================== Query String ==================
     const currentPage = Number(router.query.page) || 1; // Default to page 1
     const limit = Number(router.query.limit) || 10; // Default limit
-    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit, type: "storeIn" });
+    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit });
 
 
     // ================== Handlers for Pagination ==================
@@ -47,12 +46,25 @@ const Index = () => {
     const { transactions: tableData = [], totalTransactions } = data;
 
 
+    const typeOptions = useMemo(() => [
+        { name: t("store_in_key"), id: "storeIn" },
+        { name: t("store_out_key"), id: "storeOut" },
+        { name: t("store_to_market_key"), id: "storeToMarket" },
+        { name: t("market_to_store_key"), id: "marketToStore" },
+        { name: t("market_out_key"), id: "marketOut" },
+        { name: t("market_return_key"), id: "marketReturn" },
+    ], [t])
     // ================== Table Columns ==================
     const columns = useMemo(
         () => [
             {
                 name: t("product_name_key"), // Translate key for product name
                 selector: (row) => row?.product?.name, // Access product name
+                sortable: true
+            },
+            {
+                name: t("transaction_type_key"), // Translate key for product name
+                selector: (row) => typeOptions.find(type => type.id == row?.type)?.name || "", // Access product name
                 sortable: true
             },
             {
@@ -80,41 +92,16 @@ const Index = () => {
                 name: t("description_key"), // Translate key for description
                 selector: (row) => row?.description, // Access description
                 sortable: true
-            },
-            {
-                name: t("actions_key"), // Translate key for actions
-                selector: (row) => row?.id,
-                noExport: true,
-                noPrint: true,
-                cell: (row) => (
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={() => router.push(`/store/purchase/add-update?id=${row?.id}`)}
-                            className="px-3 py-2 cursor-pointer btn--primary"
-                        >
-                            <PencilSquareIcon width={22} />
-                        </Button>
-                        {/* <Button
-                            onClick={() =>
-                                setShowDeleteModal({ isOpen: true, id: row?.id })
-                            }
-                            className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
-                        >
-                            <TrashIcon width={22} />
-                        </Button> */}
-                    </div>
-                ),
-                sortable: false
             }
         ],
-        [date_format, router, t]
+        [date_format, typeOptions, t]
     );
 
 
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("purchase_key"), handleMessage);
+        await exportExcel(tableData, columns, t("reports_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -130,12 +117,12 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("purchase_key")}
-                    path="/store/purchase"
+                    title={t("reports_key")}
+                    path="/reports"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
-                    <Filter />
+                    <Filter typeOptions={typeOptions} />
                 </MinimizedBox>
                 <ServerTable
                     columns={columns}
@@ -148,8 +135,6 @@ const Index = () => {
                     paginationDefaultPage={currentPage} // Use currentPage from router query
                     actions={
                         <Actions
-                            addMsg={t("add_key")}
-                            onClickAdd={() => router.push("/store/purchase/add-update")}
                             onClickPrint={exportPDF}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
@@ -159,7 +144,7 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("purchase_key")}
+                title={t("reports_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}

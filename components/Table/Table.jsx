@@ -59,6 +59,10 @@ const Table = ({
         noDataComponent={
           <h3 className="my-16">{t("table_no_data_message_key")}</h3>
         }
+        paginationComponentOptions={{
+          rowsPerPageText: t("rows_per_page_key"),
+          rangeSeparatorText: t("of_key"),
+        }}
         selectableRowSelected={selectableRowSelected}
         theme={theme}
         fixedHeader

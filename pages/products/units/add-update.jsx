@@ -37,7 +37,7 @@ const Index = () => {
 
 		try {
 			await executeMutation(unitId ? 'PUT' : "POST", newUnit);
-			router.push("/products/units")
+			router.back()
 		} catch (error) {
 			handleMessage(error);
 		}
@@ -91,7 +91,7 @@ const Index = () => {
 								<Button
 									disabled={isMutating}
 									className="btn--secondary w-32"
-									onClick={() => router.push("/products/units")}
+									onClick={() => router.back()}
 								>
 									{t("cancel_key")}
 								</Button>

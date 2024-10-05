@@ -74,7 +74,7 @@ const Index = () => {
 
 		try {
 			await executeMutation(userId ? 'PUT' : "POST", newUser);
-			router.push("/users")
+			router.back()
 		} catch (error) {
 			handleMessage(error);
 		}
@@ -154,7 +154,7 @@ const Index = () => {
 								<Button
 									disabled={isMutating}
 									className="btn--secondary w-32"
-									onClick={() => router.push("/users")}
+									onClick={() => router.back()}
 								>
 
 									{t("cancel_key")}

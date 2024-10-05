@@ -21,7 +21,7 @@ export const Error404 = () => {
                 "donst_found_page_error_key"
               )}
             </p>
-            <Button onClick={() => router.push("/")}>{t("home")}</Button>
+            <Button onClick={() => router.push("/")}>{t("home_key")}</Button>
           </div>
         </div>
 

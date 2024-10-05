@@ -7,7 +7,7 @@ import { findSelectedOption } from 'utils/utils';
 import { useMemo } from 'react';
 import { useQueryString } from 'hooks';
 
-const Filter = () => {
+const Filter = ({ typeOptions }) => {
 	const { t } = useTranslation("common");
 	const router = useRouter();
 	const { updateQuery } = useQueryString();
@@ -15,10 +15,13 @@ const Filter = () => {
 	const { data: userOptions = [] } = useApi(`/users?forSelect=true`);
 	const { data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
+
+	const type = router.query?.type || null;
 	const createdById = router.query?.createdById || null;
 	const lastUpdatedById = router.query?.lastUpdatedById || null;
 	const currentProduct = router.query?.productId || null;
 
+	const selectedTypeOption = useMemo(() => findSelectedOption(typeOptions, type), [typeOptions, type]);
 	const selectedCreatedByOption = useMemo(() => findSelectedOption(userOptions, createdById), [userOptions, createdById]);
 	const selectedLastUpdatedByOption = useMemo(() => findSelectedOption(userOptions, lastUpdatedById), [userOptions, lastUpdatedById]);
 	const selectedProductOption = useMemo(() => findSelectedOption(productOptions, currentProduct), [productOptions, currentProduct]);
@@ -43,7 +46,15 @@ const Filter = () => {
 	};
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
+		<div className="grid grid-cols-1 md:grid-cols-4 gap-5 md:gap-10">
+			<Select
+				label={t("transaction_type_key")}
+				options={typeOptions}
+				value={selectedTypeOption}
+				getOptionValue={(option) => option?.id}
+				getOptionLabel={(option) => option?.name}
+				onChange={(selected) => updateQuery("type", selected?.id)}
+			/>
 			<Select
 				label={t("product_key")}
 				options={productOptions}

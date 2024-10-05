@@ -10,7 +10,7 @@ const ServerTable = ({
   noHeader = false, // Set default value here
   paginationDefaultPage = 1, // Default page
   paginationPerPage = 10, // Default rows per page
-  paginationRowsPerPageOptions = [10, 25, 50, 100], // Default pagination options
+  paginationRowsPerPageOptions = [10, 25, 50, 100, 1000], // Default pagination options
   actions = null, // Default to null if no actions
   selectableRowSelected = () => { }, // Default to empty function
   handlePageChange = () => { }, // Default to empty function

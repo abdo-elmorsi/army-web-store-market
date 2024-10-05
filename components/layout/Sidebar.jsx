@@ -89,14 +89,14 @@ const Sidebar = React.memo(() => {
       omit: market,
       submenu: [
         {
-          nameAR: "شراء",
+          nameAR: "المشتريات",
           nameEN: "Purchase",
           href: "/store/purchase",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/store/purchase",
         },
         {
-          nameAR: "استرجاع",
+          nameAR: "مردودات المشتريات",
           nameEN: "Purchase return",
           href: "/store/purchase-return",
           icon: <TruckIcon className="w-5 h-5" />,
@@ -110,12 +110,12 @@ const Sidebar = React.memo(() => {
           current: router.pathname === "/store/move-to-market",
         },
         {
-          nameAR: "جرد",
-          nameEN: "Inventory",
-          href: "/store/inventory",
-          icon: <ClipboardDocumentListIcon className="w-5 h-5" />,
-          current: router.pathname === "/store/inventory",
-        },
+          nameAR: "استرجاع من الكانتين",
+          nameEN: "Return from market",
+          href: "/store/return-from-market",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/store/return-from-market",
+        }
       ],
     },
     {
@@ -126,18 +126,18 @@ const Sidebar = React.memo(() => {
       omit: store,
       submenu: [
         {
-          nameAR: "الحركات",
-          nameEN: "Transactions",
-          href: "/market/transactions",
-          icon: <TruckIcon className="w-5 h-5" />,
-          current: router.pathname === "/market/transactions",
-        },
-        {
-          nameAR: "المبيعات",
+          nameAR: "مبيعات",
           nameEN: "Sales",
           href: "/market/sales",
-          icon: <ShoppingCartIcon className="w-5 h-5" />,
+          icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/market/sales",
+        },
+        {
+          nameAR: "مردودات المبيعات",
+          nameEN: "Sales return",
+          href: "/market/sales-return",
+          icon: <ShoppingCartIcon className="w-5 h-5" />,
+          current: router.pathname === "/market/sales-return",
         },
       ],
     },

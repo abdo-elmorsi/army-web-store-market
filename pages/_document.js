@@ -2,45 +2,36 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
+    // Save the original renderPage method
     const originalRenderPage = ctx.renderPage;
 
     // Run the React rendering logic synchronously
     ctx.renderPage = () =>
       originalRenderPage({
-        // Useful for wrapping the whole react tree
+        // Useful for wrapping the whole React tree
         enhanceApp: (App) => App,
-        // Useful for wrapping in a per-page basis
+        // Useful for wrapping on a per-page basis
         enhanceComponent: (Component) => Component,
       });
 
-    // Run the parent `getInitialProps`, it now includes the custom `renderPage`
+    // Get initial props from the parent Document
     const initialProps = await Document.getInitialProps(ctx);
-
     return initialProps;
   }
 
   render() {
     return (
-      <Html className='light' lang="en">
+      <Html lang="ar" className="light">
         <Head>
-          <link rel="icon" href="/favicon.ico" />
-          <meta
-            name="description"
-            content="Easier Desc"
-          ></meta>
+          {/* Favicon for the site */}
+          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+          {/* Link to Google Fonts */}
           <link
-            rel="preconnect"
-            href="https://fonts.googleapis.com"
-          />
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin="true"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
+
         </Head>
         <body>
           <Main />

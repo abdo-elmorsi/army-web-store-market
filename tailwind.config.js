@@ -11,8 +11,8 @@ module.exports = withMT({
   theme: {
     extend: {
       fontFamily: {
-        english: ["Cairo", "sans-serif"],
-        arabic: ["Noto Sans Arabic", "sans-serif"],
+        arabic: ['Cairo', 'sans-serif'],   // Arabic font
+        english: ['Inter', 'sans-serif'],  // English font
       },
       colors: {
         primary: '#336a86',

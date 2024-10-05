@@ -30,7 +30,7 @@ const Index = () => {
     // ================== Query String ==================
     const currentPage = Number(router.query.page) || 1; // Default to page 1
     const limit = Number(router.query.limit) || 10; // Default limit
-    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit, type: "storeIn" });
+    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit, type: "storeToMarket" });
 
 
     // ================== Handlers for Pagination ==================
@@ -89,7 +89,7 @@ const Index = () => {
                 cell: (row) => (
                     <div className="flex gap-2">
                         <Button
-                            onClick={() => router.push(`/store/purchase/add-update?id=${row?.id}`)}
+                            onClick={() => router.push(`/store/move-to-market/add-update?id=${row?.id}`)}
                             className="px-3 py-2 cursor-pointer btn--primary"
                         >
                             <PencilSquareIcon width={22} />
@@ -114,7 +114,7 @@ const Index = () => {
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("purchase_key"), handleMessage);
+        await exportExcel(tableData, columns, t("move_to_market_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -130,8 +130,8 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("purchase_key")}
-                    path="/store/purchase"
+                    title={t("move_to_market_key")}
+                    path="/store/move-to-market"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
@@ -149,7 +149,7 @@ const Index = () => {
                     actions={
                         <Actions
                             addMsg={t("add_key")}
-                            onClickAdd={() => router.push("/store/purchase/add-update")}
+                            onClickAdd={() => router.push("/store/move-to-market/add-update")}
                             onClickPrint={exportPDF}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
@@ -159,7 +159,7 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("purchase_key")}
+                title={t("move_to_market_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}

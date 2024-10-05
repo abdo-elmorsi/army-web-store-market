@@ -26,6 +26,7 @@ const FONT_SIZE_RATIO = 0.04; // Ratio for responsive font size
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
+
   // Handle dynamic font resizing based on window width
   const handleResize = useCallback(
     debounce(() => {
@@ -67,6 +68,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Store-Market System</title>
+        <meta name="description" content="Store-Market System"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#336a86" />
       </Head>

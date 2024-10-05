@@ -18,7 +18,7 @@ export default function Error500() {
                 "err_500p_key"
               )}
             </p>
-            <Button onClick={() => router.push("/")}>{t("try")} </Button>
+            <Button onClick={() => router.reload()}>{t("retry_key")}</Button>
           </div>
         </div>
         <div className="flex items-center self-center justify-center w-3/4  h-3/4">

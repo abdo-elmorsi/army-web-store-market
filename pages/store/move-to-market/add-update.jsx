@@ -39,7 +39,7 @@ const Index = ({ session }) => {
 				lastUpdatedById: session.user?.id
 			} : {
 				productId: productId.value?.id || null,
-				type: "storeIn",
+				type: "storeToMarket",
 				createdById: session.user?.id,
 			}),
 			quantity: +quantity.value || 0,
@@ -48,7 +48,7 @@ const Index = ({ session }) => {
 
 		try {
 			await executeMutation(transactionId ? 'PUT' : "POST", newTransaction);
-			router.back()
+			router.back();
 		} catch (error) {
 			handleMessage(error);
 		}
@@ -70,8 +70,8 @@ const Index = ({ session }) => {
 		<>
 			<div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
 				<Header
-					title={t("purchase_key")}
-					path="/store/purchase"
+					title={t("move_to_market_key")}
+					path="/store/move-to-market"
 					classes="bg-gray-100 dark:bg-gray-700 border-none"
 					links={[{ label: transactionId ? t("edit_key") : t("add_key") }]}
 				/>
@@ -126,7 +126,7 @@ const Index = ({ session }) => {
 							</div>
 						</form>}
 				</div>
-			</div>
+			</div >
 		</>
 	);
 };

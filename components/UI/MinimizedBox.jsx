@@ -84,7 +84,7 @@ const MinimizedBox = ({
         <div className="p-4">
           <div>{children}</div>
           <div className="flex justify-start items-center">
-            <button onClick={resetFilters} className="text-primary underline cursor-pointer">reset</button>
+            <button onClick={resetFilters} className="text-primary underline cursor-pointer">{t("reset_key")}</button>
           </div>
         </div>
       </div>
