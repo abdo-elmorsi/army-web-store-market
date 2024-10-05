@@ -91,7 +91,7 @@ const Index = () => {
             {
                 name: t("created_at_key"), // Translate key for createdAt
                 selector: (row) => row?.createdAt, // Access createdAt field
-                cell: (row) => moment(row?.createdAt).format(date_format), // Format the date
+                cell: (row) => moment(row?.createdAt).format(date_format + " hh a"), // Format the date
                 sortable: true
             },
             {
