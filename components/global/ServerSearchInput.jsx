@@ -52,7 +52,7 @@ const ServerSearchInput = ({ placeholder, className, ...props }) => {
   );
 
   return (
-    <div className="w-80">
+    <div className="w-full md:w-80">
       <Input
         type="text"
         placeholder={placeholder || t("search_key")}

@@ -18,7 +18,7 @@ const SearchInput = ({ searchText, handleSearch, ...rest }) => {
     language == "en" ? <MagnifyingGlassIcon width={20} /> : ""
   ), [language]);
   return (
-    <div className="flex-1 lg:flex-initial">
+    <div className="w-full md:w-80">
       <Input
         type="text"
         formGroup={false}
