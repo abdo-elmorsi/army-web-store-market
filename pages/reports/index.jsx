@@ -29,7 +29,7 @@ const Index = () => {
     // ================== Query String ==================
     const page = Number(router.query.page) || 1; // Default to page 1
     const limit = Number(router.query.limit) || 10; // Default limit
-    const startDate = router.query.startDate || moment().subtract(0, 'days').format(date_format); // Default start date
+    const startDate = router.query.startDate || moment().subtract(0, 'days').format("YYYY-MM-DD"); // Default start date
 
     const { queryString, updateQuery } = useQueryString({
         page,

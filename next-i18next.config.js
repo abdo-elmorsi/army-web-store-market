@@ -9,7 +9,7 @@ module.exports = {
     // Disable automatic locale detection
     localeDetection: false,
     // Path to the translation files
-    localePath: path.resolve('./public/locales'),
+    // localePath: path.resolve('./public/locales'),
   },
 
   // Optional: Add a fallback to default locale in case a translation is missing
