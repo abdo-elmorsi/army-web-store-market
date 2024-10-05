@@ -27,7 +27,7 @@ const Filter = ({ typeOptions }) => {
 	const selectedProductOption = useMemo(() => findSelectedOption(productOptions, currentProduct), [productOptions, currentProduct]);
 
 	// Set default dates
-	const defaultStartDate = moment().subtract(7, 'days'); // Default start date: one week ago
+	const defaultStartDate = moment().subtract(0, 'days'); // Default start date: one week ago
 	const defaultEndDate = moment(); // Default end date: today
 
 	const selectedStartDate = useMemo(() => {

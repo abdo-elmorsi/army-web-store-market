@@ -15,20 +15,18 @@ module.exports = withMT({
         english: ['Inter', 'sans-serif'],  // English font
       },
       colors: {
-        primary: '#336a86',
-        hoverPrimary: '#28556c',
-        secondary: '#e8fffe',
-        text: '#2f353b',
-        textLight: '#777e90',
-        inputBorder: '#DCDFE3',
+        primary: '#336a86',          // Primary brand color
+        hoverPrimary: '#28556c',     // Hover color for primary
+        secondary: '#e8fffe',        // Secondary color
+        // Tailwind default color palette extensions
         slate: colors.slate,
         sky: colors.sky,
         stone: colors.stone,
         neutral: colors.neutral,
-        gray: colors.gray
-
+        gray: colors.gray,
       }
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 });

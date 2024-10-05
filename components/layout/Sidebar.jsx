@@ -8,7 +8,6 @@ import {
   ChartBarIcon,
   ChevronRightIcon,
   CircleStackIcon,
-  ClipboardDocumentListIcon,
   CogIcon,
   ShoppingCartIcon,
   TruckIcon,
@@ -165,7 +164,7 @@ const Sidebar = React.memo(() => {
 
   return (
     // w-14 hover:w-64
-    <div className={`flex flex-col flex-shrink-0  transition-all duration-300 bg-white border-none hover:w-64 w-14 ${fixedSideBar ? "md:w-64" : ""} sidebar text-text dark:bg-gray-900 `}>
+    <div className={`group flex flex-col flex-shrink-0  transition-all duration-300 bg-white border-none w-14 hover:w-64 ${fixedSideBar ? "md:w-64 opened" : ""} sidebar dark:bg-gray-900 `}>
       <div className="flex flex-col flex-grow overflow-x-hidden overflow-y-auto">
         <ul className="flex flex-col py-4 space-y-1">
 
@@ -190,7 +189,7 @@ const Sidebar = React.memo(() => {
                       <span className="ml-2 text-sm tracking-wide truncate">
                         {router.locale === 'en' ? tab.nameEN : tab.nameAR}
                       </span>
-                      <span className="absolute inset-y-0 flex items-center pl-2 duration-300 opacity-0 arrow-icon right-2 rtl:pr-2 rtl:right-auto rtl:left-2">
+                      <span className="absolute inset-y-0 flex items-center pl-2 duration-300 opacity-0 group-hover:opacity-100 md:group-[.opened]:opacity-100 transition-all md:hover::opacity-100 arrow-icon right-2 rtl:pr-2 rtl:right-auto rtl:left-2">
                         <ChevronRightIcon
                           className={`duration-200 w-5 h-5 ${tab.submenuOpen ? 'rtl:rotate-90' : 'rotate-90 rtl:-rotate-180'}`}
                         />

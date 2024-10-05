@@ -28,9 +28,16 @@ const Index = () => {
 
 
     // ================== Query String ==================
-    const currentPage = Number(router.query.page) || 1; // Default to page 1
+    const page = Number(router.query.page) || 1; // Default to page 1
     const limit = Number(router.query.limit) || 10; // Default limit
-    const { queryString, updateQuery } = useQueryString({ page: currentPage, limit, type: "marketOut" });
+    const startDate = router.query.startDate || moment().subtract(0, 'days').format(date_format); // Default start date
+
+    const { queryString, updateQuery } = useQueryString({
+        page,
+        limit,
+        startDate,
+        type: "marketOut"
+    });
 
 
     // ================== Handlers for Pagination ==================
@@ -145,7 +152,7 @@ const Index = () => {
                     progressPending={isLoading}
                     paginationTotalRows={totalTransactions}
                     paginationPerPage={limit} // Use limit from router query
-                    paginationDefaultPage={currentPage} // Use currentPage from router query
+                    paginationDefaultPage={page} // Use page from router query
                     actions={
                         <Actions
                             addMsg={t("add_key")}

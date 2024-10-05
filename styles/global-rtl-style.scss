@@ -9,12 +9,12 @@ html[lang="ar"] {
         }
 
         .sidebar {
-            &:hover .sub-menu-icon {
-                transform: translateX(-15px) !important;
-                -webkit-transform: translateX(-15px) !important;
-                -moz-transform: translateX(-15px) !important;
-                -ms-transform: translateX(-15px) !important;
-                -o-transform: translateX(-15px) !important;
+            .tab_link:hover .sub-menu-icon {
+                transform: translateX(-15px);
+                -webkit-transform: translateX(-15px);
+                -moz-transform: translateX(-15px);
+                -ms-transform: translateX(-15px);
+                -o-transform: translateX(-15px);
             }
         }
     }
