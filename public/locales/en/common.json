@@ -8,6 +8,7 @@
     "role_key": "Role",
     "phone_key": "Phone",
     "created_at_key": "Created At",
+    "updated_at_key": "Updated At",
     "actions_key": "Actions",
     "users_key": "Users",
     "add_key": "Add",

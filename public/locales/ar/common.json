@@ -8,6 +8,7 @@
     "role_key": "الصلاحيه",
     "phone_key": "الهاتف",
     "created_at_key": "تاريخ الإنشاء",
+    "updated_at_key": "تاريخ التحديث",
     "actions_key": "الإجراءات",
     "users_key": "المستخدمين",
     "add_key": "إضافة",

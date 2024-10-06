@@ -18,7 +18,7 @@ import moment from "moment";
 const Index = () => {
     const router = useRouter();
     const language = router.locale.toLowerCase();
-    const date_format = language === "en" ? "DD/MM/YYYY" : "YYYY/MM/DD";
+    const date_format = language === "en" ? "DD-MM-YYYY (hh:mm-A)" : "DD-MM-YYYY (hh:mm-A)";
     const handleMessage = useHandleMessage();
     const { t } = useTranslation("common");
     const [exportingExcel, setExportingExcel] = useState(false);
@@ -65,7 +65,15 @@ const Index = () => {
                 name: t("created_at_key"),
                 selector: (row) => row?.createdAt,
                 cell: (row) => moment(row?.createdAt).format(date_format),
-                sortable: true
+                sortable: true,
+                width: "130px"
+            },
+            {
+                name: t("updated_at_key"),
+                selector: (row) => row?.updatedAt,
+                cell: (row) => moment(row?.updatedAt).format(date_format),
+                sortable: true,
+                width: "130px"
             },
             {
                 name: t("actions_key"),
