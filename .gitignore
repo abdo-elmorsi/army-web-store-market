@@ -11,6 +11,8 @@
 /coverage
 
 
+.eslintignore
+
 # misc
 .DS_Store
 /.env
