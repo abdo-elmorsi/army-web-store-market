@@ -2,7 +2,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { LayoutWithSidebar, Layout } from "components/layout";
 import { getSession } from "next-auth/react";
-import Tabs from "components/UI/Tabs";
+import { Tabs } from "components/UI";
 import { UserCircleIcon, KeyIcon } from "@heroicons/react/24/outline";
 import PropTypes from "prop-types"
 import EditProfileForm from "components/pages/profile-page/EditProfileForm";

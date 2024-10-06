@@ -1,5 +1,3 @@
-// src/components/CopyRight.js
-import React from 'react';
 import moment from 'moment';
 
 const CopyRight = () => {

@@ -2,7 +2,7 @@ import { Excel, PrintPdf } from 'components/icons';
 import Button from './Button';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
-import ServerSearchInput from 'components/global/ServerSearchInput';
+import { ServerSearchInput } from 'components/global';
 import { useTranslation } from 'react-i18next';
 
 export default function Actions({

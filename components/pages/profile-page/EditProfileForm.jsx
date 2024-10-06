@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
-import Button from "components/UI/Button";
-import Spinner from "components/UI/Spinner";
 import { useSession } from "next-auth/react";
-import { FileInput, Input } from "components/UI";
+import { FileInput, Input, Button, Spinner } from "components/UI";
 import PropTypes from "prop-types"
 import { useHandleMessage, useInput, useSavedState } from "hooks";
 import { convertImageToBase64 } from "utils/utils";
