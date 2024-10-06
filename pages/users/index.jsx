@@ -7,17 +7,15 @@ import { useRouter } from "next/router";
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
-import { DeleteModal, Header } from "components/global";
+import { DeleteModal, Header, Table, PrintView } from "components/global";
 import { Actions, Button, MinimizedBox, Modal } from "components/UI";
 import { Filter } from "components/pages/users";
-import exportExcel from "utils/useExportExcel";
+import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
-import Table from "components/Table/Table";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import moment from "moment";
-import PrintView from "components/global/printView";
 
 const Index = () => {
     const router = useRouter();

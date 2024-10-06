@@ -1,4 +1,4 @@
-import { utils,writeFile } from "xlsx";
+import { utils, writeFile } from "xlsx";
 
 const exportExcel = async (data = [], columns = [], name = "report", errorCallback) => {
 

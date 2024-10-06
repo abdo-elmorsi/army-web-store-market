@@ -8,13 +8,12 @@ import moment from "moment";
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
-import { Header, ServerTable } from "components/global";
+import { Header, ServerTable, PrintView } from "components/global";
 import { Actions, MinimizedBox } from "components/UI";
 import { Filter } from "components/pages/reports";
-import exportExcel from "utils/useExportExcel";
+import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
-import PrintView from "components/global/printView";
 
 const Index = () => {
     const router = useRouter();
