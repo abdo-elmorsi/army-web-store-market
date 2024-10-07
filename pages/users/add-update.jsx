@@ -22,7 +22,7 @@ const Index = () => {
 
 	const { t } = useTranslation("common");
 
-	const { data: user, isLoading, isValidating, mutate } = useApi(userId ? `/users?id=7${userId}` : null);
+	const { data: user, isLoading, isValidating, mutate } = useApi(userId ? `/users?id=${userId}` : null);
 	const { executeMutation, isMutating } = useApiMutation(`/users`);
 
 
