@@ -19,6 +19,7 @@
         "jsonwebtoken": "^9.0.2",
         "lodash.debounce": "^4.0.8",
         "moment": "^2.29.4",
+        "moment-timezone": "^0.5.46",
         "next": "^12.3.4",
         "next-auth": "^4.22.0",
         "next-i18next": "^13.2.2",
