@@ -67,5 +67,6 @@
     "return_from_market_key": "استرجاع من الكانتين",
     "sales_key": "المبيعات",
     "sales_return_key": "مردودات المبيعات",
-    "admin_key": "ادمين"
+    "admin_key": "ادمين",
+    "inventory_key": "جرد"
 }

@@ -6,6 +6,8 @@ import { useApi } from 'hooks/useApi';
 import { findSelectedOption } from 'utils/utils';
 import { useMemo } from 'react';
 import { useQueryString } from 'hooks';
+import makeAnimated from 'react-select/animated';
+const animatedComponents = makeAnimated();
 
 const Filter = ({ typeOptions }) => {
 	const { t } = useTranslation("common");
@@ -15,19 +17,22 @@ const Filter = ({ typeOptions }) => {
 	const { data: userOptions = [] } = useApi(`/users?forSelect=true`);
 	const { data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
+	const type = useMemo(() => router.query?.type ? router.query.type.split(",") : [], [router.query?.type]);
 
-	const type = router.query?.type || null;
 	const createdById = router.query?.createdById || null;
 	const lastUpdatedById = router.query?.lastUpdatedById || null;
 	const currentProduct = router.query?.productId || null;
 
-	const selectedTypeOption = useMemo(() => findSelectedOption(typeOptions, type), [typeOptions, type]);
+	const selectedTypeOptions = useMemo(() => {
+		return typeOptions.filter(option => type.includes(option.id.toString()));
+	}, [typeOptions, type]);
+
 	const selectedCreatedByOption = useMemo(() => findSelectedOption(userOptions, createdById), [userOptions, createdById]);
 	const selectedLastUpdatedByOption = useMemo(() => findSelectedOption(userOptions, lastUpdatedById), [userOptions, lastUpdatedById]);
 	const selectedProductOption = useMemo(() => findSelectedOption(productOptions, currentProduct), [productOptions, currentProduct]);
 
 	// Set default dates
-	const defaultStartDate = moment().subtract(0, 'days'); // Default start date: one week ago
+	const defaultStartDate = moment().subtract(7, 'days'); // Default start date: one week ago
 	const defaultEndDate = moment(); // Default end date: today
 
 	const selectedStartDate = useMemo(() => {
@@ -41,7 +46,11 @@ const Filter = ({ typeOptions }) => {
 	}, [router.query?.endDate, defaultEndDate]);
 
 	const handleDateChange = (key, date) => {
-		const formattedDate = moment(date).isValid() ? moment(date).format("YYYY-MM-DD") : key == "startDate" ? defaultStartDate.format("YYYY-MM-DD") : defaultEndDate.format("YYYY-MM-DD");
+		const formattedDate = moment(date).isValid()
+			? moment(date).format("YYYY-MM-DD")
+			: key === "startDate"
+				? defaultStartDate.format("YYYY-MM-DD")
+				: defaultEndDate.format("YYYY-MM-DD");
 		updateQuery(key, formattedDate);
 	};
 
@@ -50,10 +59,19 @@ const Filter = ({ typeOptions }) => {
 			<Select
 				label={t("transaction_type_key")}
 				options={typeOptions}
-				value={selectedTypeOption}
+				value={selectedTypeOptions}
 				getOptionValue={(option) => option?.id}
 				getOptionLabel={(option) => option?.name}
-				onChange={(selected) => updateQuery("type", selected?.id)}
+				isOptionDisabled={() => selectedTypeOptions.length >= 2}
+				onChange={(selected) => {
+					const value = selected.map(option => option.id).join(",");
+					updateQuery("type", value);
+				}}
+				autoHeight
+				isMulti
+				components={animatedComponents}
+
+
 			/>
 			<Select
 				label={t("product_key")}

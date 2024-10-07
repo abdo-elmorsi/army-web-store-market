@@ -67,5 +67,6 @@
     "return_from_market_key": "Return from market",
     "sales_key": "Sales",
     "sales_return_key": "Sales return",
-    "admin_key": "Admin"
+    "admin_key": "Admin",
+    "inventory_key": "Inventory"
 }

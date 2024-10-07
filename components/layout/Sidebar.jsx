@@ -114,7 +114,14 @@ const Sidebar = React.memo(() => {
           href: "/store/return-from-market",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/store/return-from-market",
-        }
+        },
+        {
+          nameAR: "جرد",
+          nameEN: "Inventory",
+          href: "/store/inventory",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/store/inventory",
+        },
       ],
     },
     {
@@ -138,6 +145,13 @@ const Sidebar = React.memo(() => {
           icon: <ShoppingCartIcon className="w-5 h-5" />,
           current: router.pathname === "/market/sales-return",
         },
+        {
+          nameAR: "جرد",
+          nameEN: "Inventory",
+          href: "/market/inventory",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/market/inventory",
+        },
       ],
     },
     {
@@ -147,7 +161,7 @@ const Sidebar = React.memo(() => {
       href: "/reports",
       current: router.pathname === "/reports",
       submenuOpen: false,
-      omit: !admin
+      // omit: !admin
     },
     {
       nameAR: "الإعدادات",

@@ -11,20 +11,17 @@ const Filter = () => {
 	const { updateQuery } = useQueryString();
 
 	const { data: productOptions = [] } = useApi(`/products?forSelect=true`);
-	const { data: userOptions = [] } = useApi(`/users?forSelect=true`);
 	const { data: categoryOptions = [] } = useApi(`/categories`);
 	const { data: unitOptions = [] } = useApi(`/units`);
 
 
 
 	const currentProduct = router.query.product || null;
-	const currentUser = router.query.user || null;
 	const currentCategory = router.query.category || null;
 	const currentUnit = router.query.unit || null;
 
 
 	const selectedProductOption = findSelectedOption(productOptions, currentProduct);
-	const selectedUserOption = findSelectedOption(userOptions, currentUser);
 	const selectedCategoryOption = findSelectedOption(categoryOptions, currentCategory);
 	const selectedUnitOption = findSelectedOption(unitOptions, currentUnit);
 
@@ -37,14 +34,6 @@ const Filter = () => {
 				getOptionLabel={(option) => option.name}
 				value={selectedProductOption}
 				onChange={(selected) => updateQuery('product', selected?.id)}
-			/>
-			<Select
-				label={t("created_by_key")}
-				options={userOptions}
-				getOptionValue={(option) => option.id}
-				getOptionLabel={(option) => option.username}
-				value={selectedUserOption}
-				onChange={(selected) => updateQuery('user', selected?.id)}
 			/>
 
 			<Select
