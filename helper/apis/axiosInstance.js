@@ -4,11 +4,16 @@ import { signOut } from "next-auth/react";
 
 let cancelTokenSources = {};
 
+// Function to get the client's timezone
+const getTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+
 const axiosInstance = axios.create({
   baseURL: "/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    "Timezone": getTimezone(),
   },
 });
 

@@ -5,7 +5,7 @@ const handler = async (req, res) => {
   try {
     switch (method) {
       case "GET":
-        await getTransactions(query, res);
+        await getTransactions(req, res);
         break;
       case "POST":
         await handleStockMovement(body, res);
