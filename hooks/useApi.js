@@ -40,26 +40,24 @@ const mutationHandler = async (url, { arg }) => {
 // Custom hook for GET requests
 export const useApi = (endpoint, options = {}) => {
   const {
-    revalidateOnFocus = false,
-    revalidateOnReconnect = false,
-    focusThrottleInterval = 0,
-    refreshInterval = 0,
-    onErrorRetry,
+    revalidateOnFocus = true, // Enable revalidate on focus
+    revalidateOnReconnect = true, // Enable revalidate on reconnect
+    focusThrottleInterval = 3000, // Throttle revalidation
+    refreshInterval = 0, // Set to a positive number to enable automatic refresh
+    dedupingInterval = 2000, // Cache data for 2 seconds
+    errorRetryCount = 2, //
+    errorRetryInterval = 5000,
     ...restOptions
   } = options;
 
-  const { data, error, isLoading, mutate } = useSWR(endpoint, fetcher, {
+  const { data, error, isLoading, isValidating, mutate } = useSWR(endpoint, fetcher, {
     revalidateOnFocus,
     revalidateOnReconnect,
     focusThrottleInterval,
     refreshInterval,
-    onErrorRetry: (error, key, config, revalidate) => {
-      if (error.response?.status === 404) return; // Skip retry on 404
-      const retryCount = config?.retryCount || 0;
-      if (retryCount < 3) {
-        setTimeout(() => revalidate({ retryCount: retryCount + 1 }), 5000);
-      }
-    },
+    dedupingInterval,
+    errorRetryCount,
+    errorRetryInterval,
     ...restOptions,
   });
 
@@ -67,6 +65,7 @@ export const useApi = (endpoint, options = {}) => {
     data,
     error,
     isLoading, // True if loading
+    isValidating,
     mutate,
   };
 };
@@ -79,6 +78,8 @@ export const useApiMutation = (endpoint) => {
     try {
       return await trigger({ method, data });
     } catch (error) {
+      // Handle errors appropriately
+      console.error("Mutation error:", error);
       throw new Error(error.message);
     }
   };

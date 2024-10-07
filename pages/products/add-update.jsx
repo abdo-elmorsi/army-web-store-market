@@ -26,7 +26,7 @@ const Index = ({ session }) => {
 	const { data: units } = useApi(`/units`);
 
 
-	const { data: product, isLoading } = useApi(productId ? `/products?id=${productId}` : null);
+	const { data: product, isLoading, isValidating, mutate } = useApi(productId ? `/products?id=${productId}` : null);
 	const { executeMutation, isMutating } = useApiMutation(`/products`);
 
 	const name = useInput("", null);
@@ -61,6 +61,7 @@ const Index = ({ session }) => {
 
 		try {
 			await executeMutation(productId ? 'PUT' : "POST", newProduct);
+			mutate(`/products?id=${productId}`)
 			router.back();
 		} catch (error) {
 			handleMessage(error);
@@ -68,17 +69,17 @@ const Index = ({ session }) => {
 	};
 
 	useEffect(() => {
-		if (!isLoading && product) {
-			name.changeValue(product.name);
-			description.changeValue(product.description);
+		if (!isValidating && !!product) {
+			name.changeValue(product.name || "");
+			description.changeValue(product.description || "");
 			category.changeValue({ id: product.category?.id, name: product.category?.name });
 			unit.changeValue({ id: product.unit?.id, name: product.unit?.name });
 
-			quantityInStore.changeValue(product.quantityInStore);
-			quantityInMarket.changeValue(product.quantityInMarket);
+			quantityInStore.changeValue(product.quantityInStore || 0);
+			quantityInMarket.changeValue(product.quantityInMarket || 0);
 
 		}
-	}, [isLoading]);
+	}, [isValidating]);
 
 	return (
 		<>

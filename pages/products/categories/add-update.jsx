@@ -20,7 +20,7 @@ const Index = () => {
 
 	const { t } = useTranslation("common");
 
-	const { data: categorie, isLoading } = useApi(categorieId ? `/categories?id=${categorieId}` : null);
+	const { data: categorie, isLoading, isValidating, mutate } = useApi(categorieId ? `/categories?id=${categorieId}` : null);
 	const { executeMutation, isMutating } = useApiMutation(`/categories`);
 
 
@@ -37,6 +37,7 @@ const Index = () => {
 
 		try {
 			await executeMutation(categorieId ? 'PUT' : "POST", newCategorie);
+			mutate(`/categories?id=${categorieId}`)
 			router.back()
 		} catch (error) {
 			handleMessage(error);
@@ -46,10 +47,10 @@ const Index = () => {
 
 
 	useEffect(() => {
-		if (!isLoading && categorie) {
-			name.changeValue(categorie.name);
+		if (!isValidating && !!categorie) {
+			name.changeValue(categorie.name || "");
 		}
-	}, [isLoading])
+	}, [isValidating])
 
 
 

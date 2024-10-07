@@ -20,7 +20,7 @@ const Index = ({ session }) => {
 
 	const { t } = useTranslation("common");
 
-	const { data: transaction, isLoading } = useApi(transactionId ? `/transactions?id=${transactionId}` : null);
+	const { data: transaction, isLoading, isValidating, mutate } = useApi(transactionId ? `/transactions?id=${transactionId}` : null);
 	const { executeMutation, isMutating } = useApiMutation(`/transactions`);
 
 
@@ -48,6 +48,7 @@ const Index = ({ session }) => {
 
 		try {
 			await executeMutation(transactionId ? 'PUT' : "POST", newTransaction);
+			mutate(`/transactions?id=${transactionId}`)
 			router.back()
 		} catch (error) {
 			handleMessage(error);
@@ -57,12 +58,12 @@ const Index = ({ session }) => {
 
 
 	useEffect(() => {
-		if (!isLoading && transaction) {
-			quantity.changeValue(transaction.quantity);
-			description.changeValue(transaction.description);
+		if (!isValidating && !!transaction) {
+			quantity.changeValue(transaction.quantity || "");
+			description.changeValue(transaction.description || "");
 			productId.changeValue({ id: transaction.product?.id, name: transaction.product?.name });
 		}
-	}, [isLoading])
+	}, [isValidating])
 
 
 
