@@ -59,7 +59,6 @@
     "reset_key": "Reset",
     "of_key": "of",
     "rows_per_page_key": "Rows per page",
-    "reports_key": "Reports",
     "home_key": "Home",
     "purchase_key": "Purchase",
     "purchase_return_key": "Purchase return",
@@ -70,5 +69,8 @@
     "admin_key": "Admin",
     "inventory_key": "Inventory",
     "value_is_invalid_key": "Value is invalid",
-    "settings_key": "Settings"
+    "settings_key": "Settings",
+    "sales_report_key": "Sales Report",
+    "purchase_report_key": "Purchase Report",
+    "transactions_key": "Transactions"
 }

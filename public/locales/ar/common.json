@@ -59,7 +59,6 @@
     "reset_key": "أعادة تعيين",
     "of_key": "من",
     "rows_per_page_key": "عدد الصفوف",
-    "reports_key": "التقارير",
     "home_key": "الصفحة الرئيسية",
     "purchase_key": "المشتريات",
     "purchase_return_key": "مردودات المشتريات",
@@ -70,5 +69,8 @@
     "admin_key": "ادمين",
     "inventory_key": "جرد",
     "value_is_invalid_key": "القيمة غير صالحة",
-    "settings_key": "الاعدادات"
+    "settings_key": "الاعدادات",
+    "sales_report_key": "تقرير المبيعات",
+    "purchase_report_key": "تقرير المشتريات",
+    "transactions_key": "الحركات"
 }

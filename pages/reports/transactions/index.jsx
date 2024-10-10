@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-import moment from "moment";
+import moment from 'moment-timezone';
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
@@ -14,6 +14,7 @@ import { Filter } from "components/pages/reports";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
+import { formatComma } from "utils/utils";
 
 const Index = () => {
     const router = useRouter();
@@ -75,6 +76,7 @@ const Index = () => {
             {
                 name: t("quantity_key"), // Translate key for quantity
                 selector: (row) => row?.quantity, // Access quantity
+                cell: (row) => formatComma(row?.quantity), // Access quantity
                 sortable: true
             },
             {
@@ -114,7 +116,7 @@ const Index = () => {
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("reports_key"), handleMessage);
+        await exportExcel(tableData, columns, t("transactions_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -130,7 +132,7 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("reports_key")}
+                    title={t("transactions_key")}
                     path="/reports"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
@@ -157,7 +159,7 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("reports_key")}
+                title={t("transactions_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}

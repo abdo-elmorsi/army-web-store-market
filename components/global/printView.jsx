@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef, useCallback } from "react";
 import { useRouter } from "next/router";
-import moment from 'moment';
+import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
 
 // custom

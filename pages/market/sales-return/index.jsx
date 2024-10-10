@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-import moment from "moment";
+import moment from 'moment-timezone';
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
@@ -15,6 +15,7 @@ import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { formatComma } from "utils/utils";
 
 const Index = () => {
     const router = useRouter();
@@ -64,6 +65,7 @@ const Index = () => {
             {
                 name: t("quantity_key"), // Translate key for quantity
                 selector: (row) => row?.quantity, // Access quantity
+                cell: (row) => formatComma(row?.quantity), // Access quantity
                 sortable: true
             },
             {

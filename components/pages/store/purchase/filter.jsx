@@ -1,7 +1,7 @@
 import { DatePicker, Select } from 'components/UI';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { useApi } from 'hooks/useApi';
 import { findSelectedOption } from 'utils/utils';
 import { useMemo } from 'react';

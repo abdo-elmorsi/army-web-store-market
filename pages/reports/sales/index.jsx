@@ -9,12 +9,11 @@ import moment from 'moment-timezone';
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { Header, ServerTable, PrintView } from "components/global";
-import { Actions, Button, MinimizedBox } from "components/UI";
-import { Filter } from "components/pages/store/purchase";
+import { Actions, MinimizedBox } from "components/UI";
+import { Filter } from "components/pages/reports";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { formatComma } from "utils/utils";
 
 const Index = () => {
@@ -36,7 +35,7 @@ const Index = () => {
         page,
         limit,
         startDate,
-        type: "storeOut"
+        type: "marketOut"
     });
 
 
@@ -96,41 +95,16 @@ const Index = () => {
                 name: t("description_key"), // Translate key for description
                 selector: (row) => row?.description, // Access description
                 sortable: true
-            },
-            {
-                name: t("actions_key"), // Translate key for actions
-                selector: (row) => row?.id,
-                noExport: true,
-                noPrint: true,
-                cell: (row) => (
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={() => router.push(`/store/purchase-return/add-update?id=${row?.id}`)}
-                            className="px-3 py-2 cursor-pointer btn--primary"
-                        >
-                            <PencilSquareIcon width={22} />
-                        </Button>
-                        {/* <Button
-                            onClick={() =>
-                                setShowDeleteModal({ isOpen: true, id: row?.id })
-                            }
-                            className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
-                        >
-                            <TrashIcon width={22} />
-                        </Button> */}
-                    </div>
-                ),
-                sortable: false
             }
         ],
-        [date_format, router, t]
+        [date_format, t]
     );
 
 
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("purchase_return_key"), handleMessage);
+        await exportExcel(tableData, columns, t("sales_report_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -146,12 +120,12 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("purchase_return_key")}
-                    path="/store/purchase-return"
+                    title={t("sales_report_key")}
+                    path="/reports/sales"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
-                    <Filter />
+                    <Filter showType={false} />
                 </MinimizedBox>
                 <ServerTable
                     columns={columns}
@@ -164,8 +138,6 @@ const Index = () => {
                     paginationDefaultPage={page} // Use page from router query
                     actions={
                         <Actions
-                            addMsg={t("add_key")}
-                            onClickAdd={() => router.push("/store/purchase-return/add-update")}
                             onClickPrint={exportPDF}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
@@ -175,7 +147,7 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("purchase_return_key")}
+                title={t("sales_report_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}

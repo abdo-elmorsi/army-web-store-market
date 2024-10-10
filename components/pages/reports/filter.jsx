@@ -1,7 +1,7 @@
 import { DatePicker, Select } from 'components/UI';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { useApi } from 'hooks/useApi';
 import { findSelectedOption } from 'utils/utils';
 import { useMemo } from 'react';
@@ -9,7 +9,7 @@ import { useQueryString } from 'hooks';
 import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 
-const Filter = ({ typeOptions }) => {
+const Filter = ({ typeOptions = [], showType = true }) => {
 	const { t } = useTranslation("common");
 	const router = useRouter();
 	const { updateQuery } = useQueryString();
@@ -56,7 +56,7 @@ const Filter = ({ typeOptions }) => {
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-4 gap-5 md:gap-10">
-			<Select
+			{showType && <Select
 				label={t("transaction_type_key")}
 				options={typeOptions}
 				value={selectedTypeOptions}
@@ -70,9 +70,7 @@ const Filter = ({ typeOptions }) => {
 				autoHeight
 				isMulti
 				components={animatedComponents}
-
-
-			/>
+			/>}
 			<Select
 				label={t("product_key")}
 				options={productOptions}

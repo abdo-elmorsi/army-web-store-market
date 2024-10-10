@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
-  BookOpenIcon,
+  BriefcaseIcon,
   BuildingStorefrontIcon,
-  ChartBarIcon,
   ChevronRightIcon,
   CircleStackIcon,
   CogIcon,
+  DocumentChartBarIcon,
   ShoppingCartIcon,
   TruckIcon,
   UsersIcon,
@@ -54,7 +54,7 @@ const Sidebar = React.memo(() => {
     {
       nameAR: "المنتجات",
       nameEN: "Products",
-      icon: <CircleStackIcon className="w-5 h-5" />,
+      icon: <BriefcaseIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 2,
       submenu: [
         {
@@ -83,7 +83,7 @@ const Sidebar = React.memo(() => {
     {
       nameAR: "المخزن",
       nameEN: "Store",
-      icon: <BuildingStorefrontIcon className="w-5 h-5" />,
+      icon: <CircleStackIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 3,
       omit: market,
       submenu: [
@@ -127,7 +127,7 @@ const Sidebar = React.memo(() => {
     {
       nameAR: "الكانتين",
       nameEN: "Market",
-      icon: <BookOpenIcon className="w-5 h-5" />,
+      icon: <BuildingStorefrontIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 4,
       omit: store,
       submenu: [
@@ -157,11 +157,32 @@ const Sidebar = React.memo(() => {
     {
       nameAR: "التقارير",
       nameEN: "Reports",
-      icon: <ChartBarIcon className="w-5 h-5" />,
-      href: "/reports",
-      current: router.pathname === "/reports",
-      submenuOpen: false,
-      // omit: !admin
+      icon: <DocumentChartBarIcon className="w-5 h-5" />,
+      submenuOpen: activeAdminSubMenu === 5,
+      omit: store,
+      submenu: [
+        {
+          nameAR: "الحركات",
+          nameEN: "Transactions",
+          href: "/reports/transactions",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/reports/transactions",
+        },
+        {
+          nameAR: "تقرير المبيعات",
+          nameEN: "Sales Report",
+          href: "/reports/sales",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/reports/sales",
+        },
+        {
+          nameAR: "تقرير المشتريات",
+          nameEN: "Purchase Report",
+          href: "/reports/purchase",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/reports/purchase",
+        },
+      ],
     },
     {
       nameAR: "الإعدادات",

@@ -13,7 +13,7 @@ import { exportExcel } from "utils";
 import { useHandleMessage } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import moment from "moment";
+import moment from 'moment-timezone';
 
 const Index = () => {
     const router = useRouter();

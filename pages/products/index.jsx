@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-import moment from "moment";
+import moment from 'moment-timezone';
 
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
