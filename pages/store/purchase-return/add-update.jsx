@@ -11,25 +11,30 @@ import { Header } from "components/global";
 import { Button, Input, Select, Spinner } from "components/UI";
 import { useHandleMessage, useInput, useSelect } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
+import { formatComma } from "utils/utils";
 
 
 const Index = ({ session }) => {
 	const router = useRouter();
-	const transactionId = router.query.id;
+	const { t } = useTranslation("common");
 	const handleMessage = useHandleMessage();
 
-	const { t } = useTranslation("common");
+	const transactionId = router.query.id;
+
+	const productId = useSelect("", "select", null);
+	const productID = productId.value?.id || null;
+	const quantity = useInput("", "number", true);
+	const description = useInput("", null);
+
 
 	const { data: transaction, isLoading, isValidating, mutate } = useApi(transactionId ? `/transactions?id=${transactionId}` : null);
 	const { executeMutation, isMutating } = useApiMutation(`/transactions`);
 
+	const { isLoading: isLoadingProductOptions, data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
+	// Fetch available quantity for return
+	const { data: availableQty = 0, isLoading: loadingAvailableQty } = useApi(productID ? `/transactions/trans-availability?productId=${productID}&type=purchaseReturn` : null);
 
-	const { data: productOptions = [] } = useApi(`/products?forSelect=true`);
-
-	const productId = useSelect("", "select", null);
-	const quantity = useInput("", "number", true);
-	const description = useInput("", null);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -38,7 +43,7 @@ const Index = ({ session }) => {
 				id: transactionId,
 				lastUpdatedById: session.user?.id
 			} : {
-				productId: productId.value?.id || null,
+				productId: productID || null,
 				type: "storeOut",
 				createdById: session.user?.id,
 			}),
@@ -56,7 +61,6 @@ const Index = ({ session }) => {
 	};
 
 
-
 	useEffect(() => {
 		if (!isValidating && !!transaction) {
 			quantity.changeValue(transaction.quantity || "");
@@ -71,7 +75,7 @@ const Index = ({ session }) => {
 		<>
 			<div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
 				<Header
-					title={t("purchase_key")}
+					title={t("purchase_return_key")}
 					path="/store/purchase-return"
 					classes="bg-gray-100 dark:bg-gray-700 border-none"
 					links={[{ label: transactionId ? t("edit_key") : t("add_key") }]}
@@ -86,10 +90,11 @@ const Index = ({ session }) => {
 								<Select
 									mandatory
 									isDisabled={transactionId}
-									label={t("product_key")}
+									label={`${t("product_key")}  ${(loadingAvailableQty) ? t("loading_key") : formatComma(availableQty)}`}
 									options={productOptions}
 									getOptionValue={(option) => option?.id}
 									getOptionLabel={(option) => option?.name}
+									isLoading={isLoadingProductOptions}
 									{...productId.bind}
 								/>
 
@@ -97,6 +102,10 @@ const Index = ({ session }) => {
 									mandatory
 									label={t("quantity_key")}
 									{...quantity.bind}
+									validator={{
+										valid: !isNaN(quantity.value) && +quantity.value >= 0 && +quantity.value <= availableQty,
+										message: t('value_is_invalid_key'),
+									}}
 								/>
 								<Input
 									label={t("description_key")}
@@ -105,7 +114,7 @@ const Index = ({ session }) => {
 							</div>
 							<div className="flex justify-start gap-8 items-center">
 								<Button
-									disabled={isMutating || !productId.value?.id || !+quantity.value}
+									disabled={isMutating || !productID || !+quantity.value || +quantity.value > availableQty || loadingAvailableQty}
 									className="btn--primary w-32 flex items-center justify-center"
 									type="submit"
 								>
@@ -127,7 +136,7 @@ const Index = ({ session }) => {
 							</div>
 						</form>}
 				</div>
-			</div >
+			</div>
 		</>
 	);
 };
@@ -142,7 +151,6 @@ Index.getLayout = function PageLayout(page) {
 	);
 };
 
-export default Index;
 
 Index.propTypes = {
 	session: PropTypes.object.isRequired
@@ -167,3 +175,5 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
 		};
 	}
 };
+
+export default Index;

@@ -68,5 +68,7 @@
     "sales_key": "المبيعات",
     "sales_return_key": "مردودات المبيعات",
     "admin_key": "ادمين",
-    "inventory_key": "جرد"
+    "inventory_key": "جرد",
+    "value_is_invalid_key": "القيمة غير صالحة",
+    "settings_key": "الاعدادات"
 }

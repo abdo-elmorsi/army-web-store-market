@@ -68,5 +68,7 @@
     "sales_key": "Sales",
     "sales_return_key": "Sales return",
     "admin_key": "Admin",
-    "inventory_key": "Inventory"
+    "inventory_key": "Inventory",
+    "value_is_invalid_key": "Value is invalid",
+    "settings_key": "Settings"
 }
