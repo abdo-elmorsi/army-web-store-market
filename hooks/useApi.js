@@ -79,7 +79,6 @@ export const useApiMutation = (endpoint) => {
       return await trigger({ method, data });
     } catch (error) {
       // Handle errors appropriately
-      console.error("Mutation error:", error);
       throw new Error(error.message);
     }
   };

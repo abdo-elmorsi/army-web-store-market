@@ -54,7 +54,7 @@ const Index = () => {
 				const base64String = await convertImageToBase64(file);
 				setImage(base64String)
 			} catch (error) {
-				console.error("Error converting image to Base64:", error);
+				setImage("")
 			}
 		}
 

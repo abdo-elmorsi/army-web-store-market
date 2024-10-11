@@ -12,7 +12,6 @@ const options = {
             name: { ...userData },
           };
         } catch (error) {
-          console.error('Error parsing user data:', error);
           return null;
         }
       },
