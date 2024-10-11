@@ -70,7 +70,10 @@ export default function MainNav() {
 
           <div className="items-center hidden gap-2 md:flex">
 
-            <Button onClick={selectLanguageHandler} className="flex items-center justify-center w-8 h-8 px-2 py-2 text-sm bg-gray-100 rounded-full cursor-pointer text-dark hover:bg-gray-200 dark:bg-gray-500 dark:hover:bg-gray-400">
+            <Button
+              onClick={selectLanguageHandler}
+              className="flex items-center justify-center w-8 h-8 px-2 py-2 text-sm bg-gray-200 rounded-full cursor-pointer text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
+            >
               {router.locale.includes("ar") ? "EN" : "AR"}
             </Button>
 
@@ -92,7 +95,7 @@ export default function MainNav() {
           </div>
           <Popover className="relative">
             <PopoverHandler className="flex items-center justify-center">
-              <button >
+              <button aria-label="notification btn">
                 <Badge content={0}>
                   <BellIcon className="flex items-center justify-center w-8 h-8 p-2 mx-2 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200 dark:bg-gray-500 dark:hover:bg-gray-400" />
                 </Badge>

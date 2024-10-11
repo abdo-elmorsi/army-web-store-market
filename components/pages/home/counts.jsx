@@ -60,7 +60,7 @@ function Counts() {
 					<div className="font-bold text-slate-600 dark:text-slate-200">
 						{t(card.title)}
 					</div>
-					<div className="mt-3 text-3xl font-semibold text-primary">
+					<h3 className="mt-3 text-2xl font-semibold text-primary">
 						{isLoading ? (
 							<Spinner className="w-5 h-5 text-primary" />
 						) : (
@@ -69,21 +69,26 @@ function Counts() {
 						<span className="px-2 text-sm text-slate-400 dark:text-slate-200">
 							{t(card.desc)}
 						</span>
-					</div>
+					</h3>
 					<div className="flex mt-3">
 						<span
 							className={`p-1 text-sm ${card.percentage < 0 ? "text-red-600 font-bold bg-red-100" : "text-green-600 font-bold bg-green-100"} rounded-md`}
+							aria-live="polite" // Inform assistive technologies about status changes
 						>
 							{isLoading ? (
-								<Spinner className={`w-10 h-5 ${card.percentage < 0 ? "text-red-600" : "text-green-600"}`} />
+								<Spinner
+									className={`w-10 h-5 ${card.percentage < 0 ? "text-red-600" : "text-green-600"}`}
+									aria-label="Loading percentage" // Add aria-label for accessibility
+								/>
 							) : (
-								<span dir="ltr">{`${card.percentage}%`}</span>
+								<span dir="ltr" className="text-gray-800">{`${card.percentage}%`}</span> // Ensure text contrast
 							)}
 						</span>
-						<span dir="ltr" className="mx-2 font-thin text-gray-300">
+						<span dir="ltr" className="mx-2 font-thin text-gray-200">
 							{card.duration}
 						</span>
 					</div>
+
 				</div>
 			))}
 		</div>

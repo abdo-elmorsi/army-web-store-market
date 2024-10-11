@@ -205,11 +205,12 @@ const Sidebar = React.memo(() => {
 
 
           {Links?.map((tab, index) => {
-            return !tab.omit ? <div key={tab.nameEN}>
+            return !tab.omit ? <li key={tab.nameEN}>
               {tab.submenu ? (
                 <>
                   <div className="relative flex flex-row items-center h-11">
                     <button
+                      aria-label="sidebar toggle"
                       onClick={() =>
                         setActiveAdminSubMenu(() =>
                           tab.submenuOpen ? null : index
@@ -256,25 +257,27 @@ const Sidebar = React.memo(() => {
                   )}
                 </>
               ) : (
-                <li className="cursor-pointer" aria-hidden="true" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
-                  <Link href={tab.href}>
-                    <div
-                      className={`${tab.current
-                        ? 'dark:text-gray-100 border-primary'
-                        : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
-                        } text-white-600 relative flex h-11 flex-row items-center border-l-4 pr-6 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-4`}
-                    >
-                      <span className="inline-flex items-center justify-center ml-4">
-                        {tab.icon}
-                      </span>
-                      <span className="ml-2 text-sm tracking-wide truncate">
-                        {router.locale === 'en' ? tab.nameEN : tab.nameAR}
-                      </span>
-                    </div>
-                  </Link>
-                </li>
+                <div>
+                  <li className="cursor-pointer" aria-hidden="true" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
+                    <Link href={tab.href}>
+                      <div
+                        className={`${tab.current
+                          ? 'dark:text-gray-100 border-primary'
+                          : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
+                          } text-white-600 relative flex h-11 flex-row items-center border-l-4 pr-6 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-4`}
+                      >
+                        <span className="inline-flex items-center justify-center ml-4">
+                          {tab.icon}
+                        </span>
+                        <span className="ml-2 text-sm tracking-wide truncate">
+                          {router.locale === 'en' ? tab.nameEN : tab.nameAR}
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                </div>
               )}
-            </div> : null
+            </li> : null
           })}
 
 

@@ -33,6 +33,7 @@ function ScrollToTopButton() {
       {isVisible && (
         <button
           ref={buttonRef}
+          aria-label="scroll to top"
           className="animate-bounce fixed bottom-4 right-4 p-2 bg-primary dark:bg-gray-800 text-white rounded-full shadow-md hover:bg-hoverPrimary dark:hover:bg-gray-700 focus:outline-none"
           onClick={handleButtonClick}
         >

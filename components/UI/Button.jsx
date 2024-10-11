@@ -1,8 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const Button = ({ className = "btn--primary", type = "button", children, disabled, ...rest }) => {
+const Button = ({ className = "btn--primary", type = "button", children, disabled, ariaLabel, ...rest }) => {
   const boxClasses = classNames(
     `btn`,
     className
@@ -10,6 +9,7 @@ const Button = ({ className = "btn--primary", type = "button", children, disable
   return (
     <button
       className={boxClasses}
+      aria-label={ariaLabel || (typeof children === "string" ? children : "button action")} // Dynamic default aria-label
       type={type}
       disabled={disabled}
       {...rest}

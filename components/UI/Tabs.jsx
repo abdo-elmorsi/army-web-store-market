@@ -10,6 +10,7 @@ export default function Tabs({ tabsData }) {
         {tabsData.map((tab, idx) => {
           return (
             <button
+              aria-label="toggle tab"
               key={idx}
               className={`flex flex-1 md:flex-initial items-center gap-1 capitalize p-2 rounded-t-md ${idx === activeTabIndex
                 ? "bg-gray-600 text-white  dark:bg-gray-900"

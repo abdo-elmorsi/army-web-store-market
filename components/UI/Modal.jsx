@@ -26,6 +26,7 @@ export default function Modal({
                 <div className="flex items-center justify-between p-4 border-b border-solid rounded-t border-slate-200 dark:border-gray-500 dark:bg-gray-800 dark:text-white">
                   <h3 className="text-3xl font-semibold capitalize">{title}</h3>
                   <button
+                    aria-label="toggle modal"
                     className="float-right p-2 transition-all duration-200 rounded-full hover:rotate-180 bg-secondary text-primary hover:text-white hover:bg-hoverPrimary rtl:ml-0 rtl:mr-auto"
                     onClick={onClose}
                   >

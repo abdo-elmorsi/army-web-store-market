@@ -57,6 +57,7 @@ const MinimizedBox = ({
       <header className="flex items-center justify-between p-4 rounded-t-xl">
         <h3 className="text-lg font-medium">{t(title)}</h3>
         <button
+          aria-label="minimize toggler"
           disabled={loading}
           className={classNames(
             isMinimized ? "bg-gray-100" : "bg-secondary",
@@ -84,7 +85,7 @@ const MinimizedBox = ({
         <div className="p-4">
           <div>{children}</div>
           <div className="flex justify-start items-center">
-            <button onClick={resetFilters} className="text-primary underline cursor-pointer">{t("reset_key")}</button>
+            <button aria-label={t("reset_key")} onClick={resetFilters} className="text-primary underline cursor-pointer">{t("reset_key")}</button>
           </div>
         </div>
       </div>
