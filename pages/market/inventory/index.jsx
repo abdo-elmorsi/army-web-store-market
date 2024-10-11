@@ -60,7 +60,7 @@ const Index = () => {
                     const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
                     return <div className="flex gap-2">
                         <Button
-                            onClick={() => router.push(`/reports?productId=${row?.id}&startDate=${yesterday}&endDate=${yesterday}`)}
+                            onClick={() => router.push(`/reports/transactions?productId=${row?.id}&startDate=${yesterday}`)}
                             className="px-3 py-2 cursor-pointer btn--primary"
                         >
                             <EyeIcon width={22} />
@@ -134,8 +134,6 @@ Index.getLayout = function PageLayout(page) {
     );
 };
 
-export default Index;
-
 Index.propTypes = {
     session: PropTypes.object.isRequired,
 };
@@ -160,3 +158,5 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
         };
     }
 };
+
+export default Index;

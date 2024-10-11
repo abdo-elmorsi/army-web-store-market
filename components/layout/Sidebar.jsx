@@ -56,6 +56,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Products",
       icon: <BriefcaseIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 2,
+      omit: market,
       submenu: [
         {
           nameAR: "المنتجات",
@@ -159,7 +160,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Reports",
       icon: <DocumentChartBarIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 5,
-      omit: store,
+      // omit: store,
       submenu: [
         {
           nameAR: "الحركات",
@@ -174,6 +175,7 @@ const Sidebar = React.memo(() => {
           href: "/reports/sales",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/reports/sales",
+          omit: store,
         },
         {
           nameAR: "تقرير المشتريات",
@@ -181,6 +183,7 @@ const Sidebar = React.memo(() => {
           href: "/reports/purchase",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/reports/purchase",
+          omit: market,
         },
       ],
     },
@@ -234,25 +237,27 @@ const Sidebar = React.memo(() => {
                   </div>
                   {tab.submenuOpen && (
                     <ul className="flex flex-col px-2 py-4 space-y-1">
-                      {tab.submenu.map((subTab) => (
-                        <li key={subTab.href} className="tab_link cursor-pointer">
-                          <Link href={subTab.href}>
-                            <div
-                              className={`${subTab.current
-                                ? 'dark:text-gray-100 border-primary'
-                                : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
-                                } text-white-600 relative flex h-11 flex-row items-center border-l-4 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-2`}
-                            >
-                              <span className="inline-flex items-center justify-center ml-4 duration-500 sub-menu-icon">
-                                <ArrowRightCircleIcon className="w-5 h-5 rtl:rotate-180" />
-                              </span>
-                              <span className="ml-2 text-sm tracking-wide truncate">
-                                {router.locale === 'en' ? subTab.nameEN : subTab.nameAR}
-                              </span>
-                            </div>
-                          </Link>
-                        </li>
-                      ))}
+                      {tab.submenu.map((subTab) => {
+                        return !subTab.omit ? (
+                          <li key={subTab.href} className="tab_link cursor-pointer">
+                            <Link href={subTab.href}>
+                              <div
+                                className={`${subTab.current
+                                  ? 'dark:text-gray-100 border-primary'
+                                  : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
+                                  } text-white-600 relative flex h-11 flex-row items-center border-l-4 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-2`}
+                              >
+                                <span className="inline-flex items-center justify-center ml-4 duration-500 sub-menu-icon">
+                                  <ArrowRightCircleIcon className="w-5 h-5 rtl:rotate-180" />
+                                </span>
+                                <span className="ml-2 text-sm tracking-wide truncate">
+                                  {router.locale === 'en' ? subTab.nameEN : subTab.nameAR}
+                                </span>
+                              </div>
+                            </Link>
+                          </li>
+                        ) : null
+                      })}
                     </ul>
                   )}
                 </>

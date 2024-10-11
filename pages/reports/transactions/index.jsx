@@ -133,7 +133,7 @@ const Index = () => {
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
                     title={t("transactions_key")}
-                    path="/reports"
+                    path="/reports/transactions"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
@@ -176,8 +176,6 @@ Index.getLayout = function PageLayout(page) {
     );
 };
 
-export default Index;
-
 Index.propTypes = {
     session: PropTypes.object.isRequired
 };
@@ -202,3 +200,6 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
         };
     }
 };
+
+
+export default Index;

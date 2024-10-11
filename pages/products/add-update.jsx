@@ -11,11 +11,9 @@ import { Header } from "components/global";
 import { Button, Input, Select, Spinner } from "components/UI";
 import { useHandleMessage, useInput, useSelect } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
-import { getRole } from "utils/utils";
 
 const Index = ({ session }) => {
 	const router = useRouter();
-	const admin = getRole(session, "admin")
 	const productId = router.query.id;
 	const handleMessage = useHandleMessage();
 
@@ -118,8 +116,8 @@ const Index = ({ session }) => {
 									getOptionValue={(option) => option.id}
 								/>
 
-								<Input disabled={productId && !admin} label={t("quantity_in_store_key")} {...quantityInStore.bind} />
-								<Input disabled={productId && !admin} label={t("quantity_in_market_key")} {...quantityInMarket.bind} />
+								<Input disabled={productId} label={t("quantity_in_store_key")} {...quantityInStore.bind} />
+								<Input disabled={productId} label={t("quantity_in_market_key")} {...quantityInMarket.bind} />
 							</div>
 
 							<div className="flex justify-start gap-8 items-center mt-4">
@@ -160,8 +158,6 @@ Index.getLayout = function PageLayout(page) {
 	);
 };
 
-export default Index;
-
 Index.propTypes = {
 	session: PropTypes.object.isRequired,
 };
@@ -185,3 +181,5 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
 		};
 	}
 };
+
+export default Index;

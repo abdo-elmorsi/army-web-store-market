@@ -114,8 +114,6 @@ Index.getLayout = function PageLayout(page) {
 	);
 };
 
-export default Index;
-
 Index.propTypes = {
 	session: PropTypes.object.isRequired
 };
@@ -139,3 +137,5 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
 		};
 	}
 };
+
+export default Index;

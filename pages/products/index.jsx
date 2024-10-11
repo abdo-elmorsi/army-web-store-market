@@ -15,10 +15,9 @@ import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { formatComma, getRole } from "utils/utils";
+import { formatComma } from "utils/utils";
 
-const Index = ({ session }) => {
-    const admin = getRole(session, "admin")
+const Index = () => {
     const router = useRouter();
     const language = router.locale.toLowerCase();
     const date_format = language === "en" ? "DD-MM-YYYY (hh:mm-A)" : "DD-MM-YYYY (hh:mm-A)";
@@ -128,7 +127,6 @@ const Index = ({ session }) => {
                             <PencilSquareIcon width={22} />
                         </Button>
                         <Button
-                            disabled={!admin}
                             onClick={() => setShowDeleteModal({ isOpen: true, id: row?.id })}
                             className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
                         >
@@ -139,7 +137,7 @@ const Index = ({ session }) => {
                 sortable: false
             }
         ],
-        [admin, date_format, router, t]
+        [date_format, router, t]
     );
 
     // ================== Export Functions ==================
@@ -219,8 +217,6 @@ Index.getLayout = function PageLayout(page) {
     );
 };
 
-export default Index;
-
 Index.propTypes = {
     session: PropTypes.object.isRequired,
 };
@@ -245,3 +241,5 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
         };
     }
 };
+
+export default Index;
