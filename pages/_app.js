@@ -5,7 +5,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { SessionProvider } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 
 import NextNprogress from 'nextjs-progressbar';
 import { ToastContainer } from 'react-toastify';
@@ -66,12 +65,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <title>Store-Market System</title>
-        <meta name="description" content="Store-Market System"></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#336a86" />
-      </Head>
       <SessionProvider
         refetchOnWindowFocus={false}
         session={pageProps.session}>
