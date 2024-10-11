@@ -34,7 +34,7 @@ const Index = ({ session }) => {
 
 	const { isLoading: isLoadingProductOptions, data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
-	// Fetch available quantity for sales
+	// Fetch available quantity for move to market
 	const { isLoading: loadingAvailableQty, data: productDetails = [] } = useApi(productID ? `/products?product=${productID}` : null);
 	const availableQty = productDetails[0]?.quantityInStore + (transaction?.quantity || 0) || 0;
 

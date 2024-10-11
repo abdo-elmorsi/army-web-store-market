@@ -33,7 +33,8 @@ const Index = ({ session }) => {
 	const { isLoading: isLoadingProductOptions, data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
 	// Fetch available quantity for return
-	const { data: availableQty = 0, isLoading: loadingAvailableQty } = useApi(productID ? `/transactions/trans-availability?productId=${productID}&type=purchaseReturn` : null);
+	const { isLoading: loadingAvailableQty, data: productDetails = [] } = useApi(productID ? `/products?product=${productID}` : null);
+	const availableQty = productDetails[0]?.quantityInStore + (transaction?.quantity || 0) || 0;
 
 
 	const onSubmit = async (e) => {
