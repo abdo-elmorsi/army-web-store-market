@@ -84,7 +84,7 @@ function Counts() {
 								<span dir="ltr" className="text-gray-800">{`${card.percentage}%`}</span> // Ensure text contrast
 							)}
 						</span>
-						<span dir="ltr" className="mx-2 font-thin text-gray-200">
+						<span dir="ltr" className="mx-2 font-thin text-gray-900 dark:text-gray-200">
 							{card.duration}
 						</span>
 					</div>

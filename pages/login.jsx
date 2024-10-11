@@ -21,7 +21,7 @@ const Login = () => {
 
   const [_, set_user_image] = useSavedState("", 'user-image');
   const username = useInput("", null);
-  const password = useInput("", "password_optional", true);
+  const password = useInput("", null);
 
   const [showPass, setShowPass] = useState(false);
   const handleShowPass = () => setShowPass(!showPass);
