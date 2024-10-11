@@ -71,7 +71,7 @@ class MyDocument extends Document {
           <meta property="og:description" content="Best Army Store Market App in the world" />
           <meta property="og:site_name" content="Army | Store Market" />
           <meta property="og:url" content="https://army-web-store-market.vercel.app" />
-          <meta property="og:image" content="https://army-web-store-market.vercel.app/apple-touch-icon.png" />
+          <meta property="og:image" content="/apple-touch-icon.png" />
 
           {/* Language Support */}
           <meta httpEquiv="content-language" content="ar, en" />
