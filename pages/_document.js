@@ -48,10 +48,14 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#336a86" />
           <meta name="msapplication-config" content="/browserconfig.xml" />
 
+          <meta name="msapplication-TileImage" content="/touch-icon/touch-icon-144x144.png" />
+
+
           {/* Icons */}
           <link rel="apple-touch-icon" sizes="152x152" href="/touch-icon/touch-icon-ipad.png" />
           <link rel="apple-touch-icon" sizes="180x180" href="/touch-icon/touch-icon-iphone-retina.png" />
           <link rel="apple-touch-icon" sizes="167x167" href="/touch-icon/touch-icon-ipad-retina.png" />
+          <link rel="apple-touch-icon" sizes="144x144" href="/touch-icon/touch-icon-144x144.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
           <link rel="shortcut icon" href="/favicon.ico" />
@@ -71,7 +75,7 @@ class MyDocument extends Document {
           <meta property="og:description" content="Best Army Store Market App in the world" />
           <meta property="og:site_name" content="Army | Store Market" />
           <meta property="og:url" content="https://army-web-store-market.vercel.app" />
-          <meta property="og:image" content="/apple-touch-icon.png" />
+          <meta property="og:image" content="https://army-web-store-market.vercel.app/apple-touch-icon.png" />
 
           {/* Language Support */}
           <meta httpEquiv="content-language" content="ar, en" />
