@@ -18,12 +18,12 @@ import { useRouter } from "next/router";
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload }) => {
 	if (active && payload && payload.length) {
-		const { name: countName, value: countValue } = payload[0]; // Accessing the first payload item
-		const { name: quantityName, value: quantityValue } = payload[1]; // Accessing the first payload item
+		// const { name: countName, value: countValue } = payload[0]; // Accessing the first payload item
+		const { name: quantityName, value: quantityValue } = payload[0]; // Accessing the first payload item
 
 		return (
 			<div className="p-2 rounded-md shadow-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-200">
-				<p className="font-semibold">{`${countName} : ${countValue}`}</p>
+				{/* <p className="font-semibold">{`${countName} : ${countValue}`}</p> */}
 				<p className="font-semibold">{`${quantityName} : ${quantityValue}`}</p>
 			</div>
 		);
@@ -54,7 +54,7 @@ const Chart = ({ title, data, color, isLoading }) => (
 					<YAxis stroke="currentColor" />
 					<Tooltip content={<CustomTooltip />} />
 					<Legend />
-					<Area type="monotone" dataKey="count" stroke={color} fillOpacity={0.3} fill={color} />
+					{/* <Area type="monotone" dataKey="count" stroke={color} fillOpacity={0.3} fill={color} /> */}
 					<Area type="monotone" dataKey="quantity" stroke={color} fillOpacity={0.3} fill={color} /> {/* Add this line for quantity */}
 				</AreaChart>
 			</ResponsiveContainer>

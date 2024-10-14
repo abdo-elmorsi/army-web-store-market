@@ -18,6 +18,7 @@ import GlobalSetting from 'helper/settings/GlobalSetting';
 import { ThemeProvider } from 'context/ThemeContext';
 
 import 'styles/globals.scss';
+import Head from 'next/head';
 
 const FONT_SIZE_BASE = 16;
 const FONT_SIZE_RATIO = 0.04; // Ratio for responsive font size
@@ -65,6 +66,10 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </Head>
+
       <SessionProvider
         refetchOnWindowFocus={false}
         session={pageProps.session}>

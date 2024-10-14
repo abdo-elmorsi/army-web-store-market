@@ -33,6 +33,7 @@ const Index = ({ session }) => {
 	const category = useSelect("", 'select', null);
 	const unit = useSelect("", 'select', null);
 
+	const price = useInput(0, 'number', true);
 	const quantityInStore = useInput(0, 'number', true);
 	const quantityInMarket = useInput(0, 'number', true);
 
@@ -52,6 +53,7 @@ const Index = ({ session }) => {
 			category: category.value?.id || null,
 			unit: unit.value?.id || null,
 
+			price: parseFloat(price.value) || 0,
 			quantityInStock: (+quantityInStore.value + +quantityInMarket.value) || 0,
 			quantityInStore: +quantityInStore.value || 0,
 			quantityInMarket: +quantityInMarket.value || 0,
@@ -73,6 +75,7 @@ const Index = ({ session }) => {
 			category.changeValue({ id: product.category?.id, name: product.category?.name });
 			unit.changeValue({ id: product.unit?.id, name: product.unit?.name });
 
+			price.changeValue(product.price || 0);
 			quantityInStore.changeValue(product.quantityInStore || 0);
 			quantityInMarket.changeValue(product.quantityInMarket || 0);
 
@@ -116,6 +119,7 @@ const Index = ({ session }) => {
 									getOptionValue={(option) => option.id}
 								/>
 
+								<Input label={t("price_key")} {...price.bind} />
 								<Input disabled={productId} label={t("quantity_in_store_key")} {...quantityInStore.bind} />
 								<Input disabled={productId} label={t("quantity_in_market_key")} {...quantityInMarket.bind} />
 							</div>

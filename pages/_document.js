@@ -35,7 +35,6 @@ class MyDocument extends Document {
           <meta name="keywords" content="army, store, military, market, best army store, supplies" />
           <meta name="author" content="Abdo Elmorsi" />
           <meta name="format-detection" content="telephone=no" />
-          <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
           <meta charSet="UTF-8" />
 
           {/* PWA and Apple Touch Meta */}

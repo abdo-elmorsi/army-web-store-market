@@ -65,6 +65,12 @@ const Index = () => {
                 sortable: true
             },
             {
+                name: t("price_key"),
+                selector: (row) => row?.price,
+                cell: (row) => formatComma(row?.price),
+                sortable: true
+            },
+            {
                 name: t("category_key"),
                 selector: (row) => row?.category?.name,
                 sortable: true
