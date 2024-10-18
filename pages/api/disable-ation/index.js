@@ -3,7 +3,7 @@ const handler = async (req, res) => {
 	try {
 		switch (method) {
 			case "GET":
-				await res.status(201).json(true)
+				await res.status(201).json(false)
 				break;
 			default:
 				res.status(405).json({ message: "Method Not Allowed" });
