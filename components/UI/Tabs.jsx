@@ -5,7 +5,7 @@ export default function Tabs({ tabsData }) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div className="p-6 bg-white rounded-lg shadow-sm dark:bg-gray-800">
       <div className="flex flex-wrap gap-3 border-b dark:border-gray-500">
         {tabsData.map((tab, idx) => {
           return (
