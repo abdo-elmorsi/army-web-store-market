@@ -8,9 +8,11 @@ import { useRouter } from "next/router";
 // Custom
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { Header } from "components/global";
-import { Button, Input, Select, Spinner } from "components/UI";
+import { Button, Spinner, Tabs } from "components/UI";
 import { useHandleMessage, useInput, useSelect } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
+import { CurrencyDollarIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
+import { Counts, MainInfo, Prices } from "components/pages/products";
 
 const Index = ({ session }) => {
 	const router = useRouter();
@@ -19,9 +21,6 @@ const Index = ({ session }) => {
 
 
 	const { t } = useTranslation("common");
-
-	const { data: categories } = useApi(`/categories`);
-	const { data: units } = useApi(`/units`);
 
 
 	const { data: product, isLoading, isValidating, mutate } = useApi(productId ? `/products?id=${productId}` : null);
@@ -34,6 +33,8 @@ const Index = ({ session }) => {
 	const unit = useSelect("", 'select', null);
 
 	const price = useInput(0, 'number', true);
+	const wholesalePrice = useInput(0, 'number', true);
+	const piecesNo = useInput(0, 'number', true);
 	const quantityInStore = useInput(0, 'number', true);
 	const quantityInMarket = useInput(0, 'number', true);
 
@@ -54,6 +55,8 @@ const Index = ({ session }) => {
 			unit: unit.value?.id || null,
 
 			price: parseFloat(price.value) || 0,
+			wholesalePrice: parseFloat(wholesalePrice.value) || 0,
+			piecesNo: parseFloat(piecesNo.value) || 0,
 			quantityInStock: (+quantityInStore.value + +quantityInMarket.value) || 0,
 			quantityInStore: +quantityInStore.value || 0,
 			quantityInMarket: +quantityInMarket.value || 0,
@@ -76,11 +79,33 @@ const Index = ({ session }) => {
 			unit.changeValue({ id: product.unit?.id, name: product.unit?.name });
 
 			price.changeValue(product.price || 0);
+			wholesalePrice.changeValue(product.wholesalePrice || 0);
+			piecesNo.changeValue(product.piecesNo || 0);
 			quantityInStore.changeValue(product.quantityInStore || 0);
 			quantityInMarket.changeValue(product.quantityInMarket || 0);
 
 		}
 	}, [isValidating]);
+
+
+	const tabsData = [
+		{
+			label: t("main_info_key"),
+			icon: <InformationCircleIcon className="h-5 w-5" />,
+			content: <MainInfo name={name} description={description} category={category} unit={unit} />,
+		},
+		{
+			label: t("prices_key"),
+			icon: <CurrencyDollarIcon className="h-5 w-5" />,
+			content: <Prices price={price} wholesalePrice={wholesalePrice} piecesNo={piecesNo} />,
+		},
+		{
+			label: t("counts_key"),
+			icon: <InformationCircleIcon className="h-5 w-5" />,
+			content: <Counts productId={productId} quantityInStore={quantityInStore} quantityInMarket={quantityInMarket} />,
+		},
+
+	];
 
 	return (
 		<>
@@ -98,35 +123,11 @@ const Index = ({ session }) => {
 						</div>
 					) : (
 						<form onSubmit={onSubmit}>
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 min-h-80">
-								<Input mandatory label={t("name_key")} {...name.bind} />
-								<Input label={t("description_key")} {...description.bind} />
-
-								<Select
-									mandatory
-									label={t("category_key")}
-									{...category.bind}
-									options={categories}
-									getOptionLabel={(option) => option.name}
-									getOptionValue={(option) => option.id}
-								/>
-								<Select
-									mandatory
-									label={t("unit_key")}
-									{...unit.bind}
-									options={units}
-									getOptionLabel={(option) => option.name}
-									getOptionValue={(option) => option.id}
-								/>
-
-								<Input label={t("price_key")} {...price.bind} />
-								<Input disabled={productId} label={t("quantity_in_store_key")} {...quantityInStore.bind} />
-								<Input disabled={productId} label={t("quantity_in_market_key")} {...quantityInMarket.bind} />
-							</div>
+							<Tabs tabsData={tabsData} />
 
 							<div className="flex justify-start gap-8 items-center mt-4">
 								<Button
-									disabled={isMutating || !name.value || !category.value?.id || !unit.value?.id}
+									disabled={isMutating || !name.value || !+price.value || !category.value?.id || !unit.value?.id}
 									className="btn--primary w-32 flex items-center justify-center"
 									type="submit"
 								>

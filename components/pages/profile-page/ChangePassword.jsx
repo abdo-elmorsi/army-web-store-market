@@ -84,7 +84,7 @@ const ChangePassword = ({ username }) => {
 							<Spinner className="mr-3 h-4 w-4 rtl:ml-3" /> {t("loading_key")}
 						</>
 					) : (
-						t("update_key")
+						t("save_key")
 					)}
 				</Button>
 			</div>

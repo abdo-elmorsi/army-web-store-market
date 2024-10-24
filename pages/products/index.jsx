@@ -71,6 +71,12 @@ const Index = () => {
                 sortable: true
             },
             {
+                name: t("wholesale_price_key"),
+                selector: (row) => row?.wholesalePrice,
+                cell: (row) => formatComma(row?.wholesalePrice),
+                sortable: true
+            },
+            {
                 name: t("category_key"),
                 selector: (row) => row?.category?.name,
                 sortable: true

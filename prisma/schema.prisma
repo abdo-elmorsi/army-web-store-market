@@ -36,6 +36,8 @@ model Product {
   quantityInStock  Int
   quantityInStore  Int
   price            Float // New price field
+  wholesalePrice   Float // New wholesale price field
+  piecesNo         Float // New piecesNo field
   createdBy        User     @relation("CreatedProducts", fields: [createdById], references: [id])
   createdById      String   @db.ObjectId
   lastUpdatedBy    User     @relation("UpdatedProducts", fields: [lastUpdatedById], references: [id])

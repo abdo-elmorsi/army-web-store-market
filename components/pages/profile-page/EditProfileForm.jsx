@@ -71,8 +71,8 @@ const EditProfileForm = () => {
           onChange={updateImage}
         />
         <p className={`text-center text-xs text-gray-500 ${image?.size / 1000 / 1000 >= 3.1 ? `text-red-500` : ""} sm:text-sm`}>
-          {t("allowed *.jpeg, *.jpg, *.png, *.gif")}{" "}
-          <br></br> {t("max size of 3.1 MB")}
+          {t("image_allowed_key")}{" "}
+          <br></br> {t("max_image_size_key")}
         </p>
       </div>
 
@@ -98,7 +98,7 @@ const EditProfileForm = () => {
               {t("loading_key")}
             </>
           ) : (
-            t("update_key")
+            t("save_key")
           )}
         </Button>
       </div>

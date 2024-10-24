@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import { useState, useCallback } from 'react';
 import useWatch from './useWatch';
 
 export default function useSavedState(initValue, cacheKey, options = {}) {
     const { getCachedCallback = (v => v), expirationDays } = options;
 
-
+    // Initialize state with the initial value
     const [value, setValue] = useState(() => {
         const cachedItem = localStorage.getItem(cacheKey);
         if (cachedItem) {
@@ -18,6 +18,7 @@ export default function useSavedState(initValue, cacheKey, options = {}) {
         return getCachedCallback(initValue);
     });
 
+    // Watch value changes
     useWatch(() => {
         if (value === null || value === undefined) {
             localStorage.removeItem(cacheKey);
@@ -28,11 +29,17 @@ export default function useSavedState(initValue, cacheKey, options = {}) {
         localStorage.setItem(cacheKey, JSON.stringify(cachedValue));
     }, [value]);
 
+    // Validate cacheKey
     if (cacheKey === undefined || cacheKey === null) {
         throw new Error('Please insert cacheKey');
     }
 
-    const clearCache = useCallback(() => localStorage.removeItem(cacheKey), []);
+    // Clear cache function
+    const clearCache = useCallback(() => {
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem(cacheKey);
+        }
+    }, [cacheKey]);
 
     return [
         value,

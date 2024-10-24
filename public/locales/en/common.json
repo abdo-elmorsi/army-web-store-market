@@ -72,5 +72,21 @@
     "settings_key": "Settings",
     "sales_report_key": "Sales Report",
     "purchase_report_key": "Purchase Report",
-    "transactions_key": "Transactions"
+    "transactions_key": "Transactions",
+    "wholesale_price_key": "Wholesale Price",
+    "price_key": "Price",
+    "warning_delete_key": "Are you sure you want to delete",
+    "updated_successfully_key": "Updated successfully",
+    "max_image_size_key": "max size of 3.1 MB",
+    "image_allowed_key": "allowed *.jpeg, *.jpg, *.png, *.gif",
+    "old_password_key": "old password",
+    "new_password_key": "new password",
+    "confirm_new_password_key": "confirm new password",
+    "new_password_does_not_match_confirm_password_key": "new password does not match confirm password",
+    "general_key": "General",
+    "change_password_key": "Change password",
+    "number_of_pieces_key": "Number of pieces",
+    "main_info_key": "Main info",
+    "prices_key": "Prices",
+    "counts_key": "Counts"
 }

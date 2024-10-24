@@ -262,41 +262,32 @@ const Sidebar = React.memo(() => {
                   )}
                 </>
               ) : (
-                <div>
-                  <li className="cursor-pointer" aria-hidden="true" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
-                    <Link href={tab.href}>
-                      <div
-                        className={`${tab.current
-                          ? 'dark:text-gray-100 border-primary'
-                          : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
-                          } text-white-600 relative flex h-11 flex-row items-center border-l-4 pr-6 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-4`}
-                      >
-                        <span className="inline-flex items-center justify-center ml-4">
-                          {tab.icon}
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          {router.locale === 'en' ? tab.nameEN : tab.nameAR}
-                        </span>
-                      </div>
-                    </Link>
-                  </li>
+                <div className="cursor-pointer" aria-hidden="true" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
+                  <Link href={tab.href}>
+                    <div
+                      className={`${tab.current
+                        ? 'dark:text-gray-100 border-primary'
+                        : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
+                        } text-white-600 relative flex h-11 flex-row items-center border-l-4 pr-6 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-4`}
+                    >
+                      <span className="inline-flex items-center justify-center ml-4">
+                        {tab.icon}
+                      </span>
+                      <span className="ml-2 text-sm tracking-wide truncate">
+                        {router.locale === 'en' ? tab.nameEN : tab.nameAR}
+                      </span>
+                    </div>
+                  </Link>
                 </div>
               )}
             </li> : null
           })}
-
-
         </ul>
-
-
-
-
 
 
         <Button onClick={() => setFixedSideBar(!fixedSideBar)} className="mx-auto mt-auto text-xs tracking-wide text-center truncate dark:text-primary">
           <ArrowLeftCircleIcon className={` transition-all duration-300 hover:scale-110 ${!fixedSideBar ? "-rotate-180 rtl:rotate-0" : "rtl:rotate-180"}`} width={25} />
         </Button>
-        {/* <ClearStorageButton /> */}
       </div>
     </div>
   );

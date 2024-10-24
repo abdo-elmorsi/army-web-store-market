@@ -1,13 +1,16 @@
-import React, { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
+import { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
 
 // Constants for action types
 const TOGGLE_THEME = 'TOGGLE_THEME';
 
 const ThemeContext = createContext();
 
-// Lazy initialization of the theme from localStorage
-const initialState = {
-	theme: typeof window !== 'undefined' && localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light',
+// Initial state function to handle server-side rendering
+const getInitialTheme = () => {
+	if (typeof window !== 'undefined') {
+		return localStorage.getItem('theme') || 'light';
+	}
+	return 'light'; // Default theme for server-side rendering
 };
 
 // Reducer function to manage theme state
@@ -22,7 +25,9 @@ const themeReducer = (state, action) => {
 
 // ThemeProvider component
 export const ThemeProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(themeReducer, initialState);
+	const [state, dispatch] = useReducer(themeReducer, {
+		theme: getInitialTheme(),
+	});
 
 	// Update the HTML class and localStorage when the theme changes
 	useEffect(() => {
