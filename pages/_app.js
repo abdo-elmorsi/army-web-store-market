@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { appWithTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { Analytics } from '@vercel/analytics/react';
+
+
 import { SessionProvider } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
@@ -109,6 +112,8 @@ function MyApp({ Component, pageProps }) {
 
           {/* Footer */}
           <CopyRights />
+
+          <Analytics />
         </ThemeProvider>
       </SessionProvider>
     </>
