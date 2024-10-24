@@ -61,7 +61,7 @@ export default function MainNav() {
           <div className="inset-y-0 left-0 flex items-center sm:hidden">
           </div>
           <div className="flex items-center justify-start flex-1 sm:items-stretch sm:justify-start">
-            <div className="flex items-center flex-shrink-0 w-12 md:w-52">
+            <div className="flex items-center flex-shrink-0 w-24 h-16 md:w-52 overflow-hidden">
               <Link href="/">
                 <MainLogo className="cursor-pointer" />
               </Link>

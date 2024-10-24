@@ -34,7 +34,7 @@ function ScrollToTopButton() {
         <button
           ref={buttonRef}
           aria-label="scroll to top"
-          className="animate-bounce fixed bottom-4 right-4 p-2 bg-primary dark:bg-gray-800 text-white rounded-full shadow-md hover:bg-hoverPrimary dark:hover:bg-gray-700 focus:outline-none"
+          className="animate-bounce fixed bottom-4 rtl:right-auto rtl:left-4 right-4 p-2 bg-primary dark:bg-gray-800 text-white rounded-full shadow-md hover:bg-hoverPrimary dark:hover:bg-gray-700 focus:outline-none"
           onClick={handleButtonClick}
         >
           <ChevronUpIcon className="w-6 h-6" />
