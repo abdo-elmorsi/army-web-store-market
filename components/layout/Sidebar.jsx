@@ -204,7 +204,7 @@ const Sidebar = React.memo(() => {
     // w-14 hover:w-64
     <div className={`group flex flex-col flex-shrink-0  transition-all duration-300 bg-white border-none w-14 hover:w-64 ${fixedSideBar ? "md:w-64 opened" : ""} sidebar dark:bg-gray-900 `}>
       <div className="flex flex-col fixed">
-        <ul className="flex flex-col py-4 space-y-1 overflow-y-auto">
+        <ul className="flex flex-col py-4 space-y-1 overflow-y-auto border-y-2 border-gray-100 dark:border-gray-700">
 
 
           {Links?.map((tab, index) => {
