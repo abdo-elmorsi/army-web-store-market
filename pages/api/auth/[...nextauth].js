@@ -1,10 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+const time = 24 * 60 * 60;
 const options = {
   providers: [
     CredentialsProvider({
       name: 'credentials',
-
       async authorize({ user }) {
         try {
           const userData = JSON.parse(user);
@@ -18,10 +18,20 @@ const options = {
     }),
   ],
 
+  session: {
+    strategy: "jwt", // Use JWT for session tokens
+    maxAge: time, // Session expires in 1 day (in seconds)
+  },
+
+  jwt: {
+    maxAge: time, // Token expires in 1 day (in seconds)
+  },
+
   callbacks: {
-    async session({ session }) {
+    async session({ session, token }) {
       const { user: { name } } = session;
       session.user = name;
+      session.expires = token.exp; // Include the expiration date in the session
       return session;
     },
 
