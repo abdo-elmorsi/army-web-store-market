@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { Header, ServerTable, PrintView } from "components/global";
 import { Actions, Button, MinimizedBox } from "components/UI";
-import { Filter } from "components/pages/store/purchase";
+import { Filter } from "components/pages/transactions";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";

@@ -18,10 +18,8 @@ const Index = () => {
                     path="/settings"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
-                <MinimizedBox>
 
-                </MinimizedBox>
-                <div>
+                <div className="flex justify-center items-center w-full remain-height text-primary text-3xl">
                     {t("settings_key")}
                 </div>
 

@@ -88,5 +88,7 @@
     "number_of_pieces_key": "عدد القطع",
     "main_info_key": "البيانات الاساسيه",
     "prices_key": "ألاسعار",
-    "counts_key": "الكميات"
+    "counts_key": "الكميات",
+    "earning_key": "الربح",
+    "earnings_report_key": "تقرير الأرباح"
 }

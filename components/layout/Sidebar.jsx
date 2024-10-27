@@ -26,8 +26,8 @@ import { getRole } from "utils/utils";
 const Sidebar = React.memo(() => {
   const { data: session } = useSession();
   const admin = getRole(session, "admin")
-  const store = getRole(session, "store")
-  const market = getRole(session, "market")
+  // const store = getRole(session, "store")
+  // const market = getRole(session, "market")
   const router = useRouter();
   const [activeAdminSubMenu, setActiveAdminSubMenu] = useState(null);
   const [fixedSideBar, setFixedSideBar] = useSavedState(true, "store-market-fixed-side-barr-cache")
@@ -56,7 +56,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Products",
       icon: <BriefcaseIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 2,
-      omit: market,
+
       submenu: [
         {
           nameAR: "المنتجات",
@@ -86,7 +86,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Store",
       icon: <CircleStackIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 3,
-      omit: market,
+
       submenu: [
         {
           nameAR: "المشتريات",
@@ -130,7 +130,7 @@ const Sidebar = React.memo(() => {
       nameEN: "Market",
       icon: <BuildingStorefrontIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 4,
-      omit: store,
+
       submenu: [
         {
           nameAR: "المبيعات",
@@ -160,7 +160,6 @@ const Sidebar = React.memo(() => {
       nameEN: "Reports",
       icon: <DocumentChartBarIcon className="w-5 h-5" />,
       submenuOpen: activeAdminSubMenu === 5,
-      // omit: store,
       submenu: [
         {
           nameAR: "الحركات",
@@ -170,12 +169,20 @@ const Sidebar = React.memo(() => {
           current: router.pathname === "/reports/transactions",
         },
         {
+          nameAR: "تقرير الأرباح",
+          nameEN: "Earnings report",
+          href: "/reports/earnings",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/reports/earnings",
+          omit: !admin
+        },
+        {
           nameAR: "تقرير المبيعات",
           nameEN: "Sales Report",
           href: "/reports/sales",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/reports/sales",
-          omit: store,
+
         },
         {
           nameAR: "تقرير المشتريات",
@@ -183,7 +190,7 @@ const Sidebar = React.memo(() => {
           href: "/reports/purchase",
           icon: <TruckIcon className="w-5 h-5" />,
           current: router.pathname === "/reports/purchase",
-          omit: market,
+
         },
       ],
     },
@@ -196,7 +203,7 @@ const Sidebar = React.memo(() => {
       submenuOpen: false,
       omit: !admin
     },
-  ], [admin, store, market, router.pathname, activeAdminSubMenu]);
+  ], [admin, router.pathname, activeAdminSubMenu]);
 
 
 

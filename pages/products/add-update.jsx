@@ -127,7 +127,15 @@ const Index = ({ session }) => {
 
 							<div className="flex justify-start gap-8 items-center mt-4">
 								<Button
-									disabled={isMutating || !name.value || !+price.value || !category.value?.id || !unit.value?.id}
+									disabled={
+										isMutating ||
+										!name.value ||
+										!+price.value ||
+										!category.value?.id ||
+										!unit.value?.id ||
+										!+wholesalePrice.value ||
+										!+piecesNo.value
+									}
 									className="btn--primary w-32 flex items-center justify-center"
 									type="submit"
 								>

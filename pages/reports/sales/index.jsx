@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { Header, ServerTable, PrintView } from "components/global";
 import { Actions, MinimizedBox } from "components/UI";
-import { Filter } from "components/pages/reports";
+import { Filter } from "components/pages/transactions";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
@@ -125,7 +125,7 @@ const Index = () => {
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
-                    <Filter showType={false} />
+                    <Filter />
                 </MinimizedBox>
                 <ServerTable
                     columns={columns}

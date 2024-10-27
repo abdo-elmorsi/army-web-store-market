@@ -88,5 +88,7 @@
     "number_of_pieces_key": "Number of pieces",
     "main_info_key": "Main info",
     "prices_key": "Prices",
-    "counts_key": "Counts"
+    "counts_key": "Counts",
+    "earning_key": "Earning",
+    "earnings_report_key": "Earnings Report"
 }

@@ -9,12 +9,11 @@ import moment from 'moment-timezone';
 // Custom imports
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { Header, ServerTable, PrintView } from "components/global";
-import { Actions, Button, MinimizedBox } from "components/UI";
+import { Actions, MinimizedBox } from "components/UI";
 import { Filter } from "components/pages/transactions";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { formatComma } from "utils/utils";
 
 const Index = () => {
@@ -36,7 +35,8 @@ const Index = () => {
         page,
         limit,
         startDate,
-        type: "storeToMarket"
+        type: "marketOut",
+        getProductDetails: true
     });
 
 
@@ -69,6 +69,20 @@ const Index = () => {
                 sortable: true
             },
             {
+                name: t("price_key"), // Translate key for quantity
+                selector: (row) => row?.product?.price, // Access quantity
+                cell: (row) => formatComma(row?.product?.price), // Access quantity
+                sortable: true
+            },
+            {
+                name: t("earning_key"), // Translate key for quantity
+                selector: (row) => row?.quantity * row?.product?.price - ((row?.quantity / row?.product?.piecesNo) * row?.product?.wholesalePrice), // Access quantity
+                cell: (row) => <p className="text-green-500">
+                    {formatComma(row?.quantity * row?.product?.price - ((row?.quantity / row?.product?.piecesNo) * row?.product?.wholesalePrice))}
+                </p>, // Access quantity
+                sortable: true
+            },
+            {
                 name: t("created_by_key"),
                 selector: (row) => row?.createdBy?.username,
                 sortable: true
@@ -96,41 +110,16 @@ const Index = () => {
                 name: t("description_key"), // Translate key for description
                 selector: (row) => row?.description, // Access description
                 sortable: true
-            },
-            {
-                name: t("actions_key"), // Translate key for actions
-                selector: (row) => row?.id,
-                noExport: true,
-                noPrint: true,
-                cell: (row) => (
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={() => router.push(`/store/move-to-market/add-update?id=${row?.id}`)}
-                            className="px-3 py-2 cursor-pointer btn--primary"
-                        >
-                            <PencilSquareIcon width={22} />
-                        </Button>
-                        {/* <Button
-                            onClick={() =>
-                                setShowDeleteModal({ isOpen: true, id: row?.id })
-                            }
-                            className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
-                        >
-                            <TrashIcon width={22} />
-                        </Button> */}
-                    </div>
-                ),
-                sortable: false
             }
         ],
-        [date_format, router, t]
+        [date_format, t]
     );
 
 
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("move_to_market_key"), handleMessage);
+        await exportExcel(tableData, columns, t("earnings_report_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -146,12 +135,15 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("move_to_market_key")}
-                    path="/store/move-to-market"
+                    title={t("earnings_report_key")}
+                    path="/reports/earnings"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
-                    <Filter />
+                    <Filter
+                        showCreatedBy={false}
+                        showUpdatedBy={false}
+                        showType={false} />
                 </MinimizedBox>
                 <ServerTable
                     columns={columns}
@@ -164,8 +156,6 @@ const Index = () => {
                     paginationDefaultPage={page} // Use page from router query
                     actions={
                         <Actions
-                            addMsg={t("add_key")}
-                            onClickAdd={() => router.push("/store/move-to-market/add-update")}
                             onClickPrint={exportPDF}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
@@ -175,7 +165,7 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("move_to_market_key")}
+                title={t("earnings_report_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}

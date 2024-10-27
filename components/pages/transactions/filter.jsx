@@ -6,8 +6,10 @@ import { useApi } from 'hooks/useApi';
 import { findSelectedOption } from 'utils/utils';
 import { useMemo } from 'react';
 import { useQueryString } from 'hooks';
+import makeAnimated from 'react-select/animated';
+const animatedComponents = makeAnimated();
 
-const Filter = () => {
+const Filter = ({ typeOptions = [], showType = false, showCreatedBy = true, showUpdatedBy = true }) => {
 	const { t } = useTranslation("common");
 	const router = useRouter();
 	const { updateQuery } = useQueryString();
@@ -15,9 +17,15 @@ const Filter = () => {
 	const { data: userOptions = [] } = useApi(`/users?forSelect=true`);
 	const { data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
+	const type = useMemo(() => router.query?.type ? router.query.type.split(",") : [], [router.query?.type]);
+
 	const createdById = router.query?.createdById || null;
 	const lastUpdatedById = router.query?.lastUpdatedById || null;
 	const currentProduct = router.query?.productId || null;
+
+	const selectedTypeOptions = useMemo(() => {
+		return typeOptions.filter(option => type.includes(option.id.toString()));
+	}, [typeOptions, type]);
 
 	const selectedCreatedByOption = useMemo(() => findSelectedOption(userOptions, createdById), [userOptions, createdById]);
 	const selectedLastUpdatedByOption = useMemo(() => findSelectedOption(userOptions, lastUpdatedById), [userOptions, lastUpdatedById]);
@@ -38,12 +46,31 @@ const Filter = () => {
 	}, [router.query?.endDate, defaultEndDate]);
 
 	const handleDateChange = (key, date) => {
-		const formattedDate = moment(date).isValid() ? moment(date).format("YYYY-MM-DD") : key == "startDate" ? defaultStartDate.format("YYYY-MM-DD") : defaultEndDate.format("YYYY-MM-DD");
+		const formattedDate = moment(date).isValid()
+			? moment(date).format("YYYY-MM-DD")
+			: key === "startDate"
+				? defaultStartDate.format("YYYY-MM-DD")
+				: defaultEndDate.format("YYYY-MM-DD");
 		updateQuery(key, formattedDate);
 	};
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
+		<div className="grid grid-cols-1 md:grid-cols-4 gap-5 md:gap-10">
+			{showType && <Select
+				label={t("transaction_type_key")}
+				options={typeOptions}
+				value={selectedTypeOptions}
+				getOptionValue={(option) => option?.id}
+				getOptionLabel={(option) => option?.name}
+				isOptionDisabled={() => selectedTypeOptions.length >= 2}
+				onChange={(selected) => {
+					const value = selected.map(option => option.id).join(",");
+					updateQuery("type", value);
+				}}
+				autoHeight
+				isMulti
+				components={animatedComponents}
+			/>}
 			<Select
 				label={t("product_key")}
 				options={productOptions}
@@ -52,22 +79,22 @@ const Filter = () => {
 				getOptionLabel={(option) => option?.name}
 				onChange={(selected) => updateQuery("productId", selected?.id)}
 			/>
-			<Select
+			{showCreatedBy && <Select
 				label={t("created_by_key")}
 				options={userOptions}
 				value={selectedCreatedByOption}
 				getOptionValue={(option) => option?.id}
 				getOptionLabel={(option) => option?.username}
 				onChange={(selected) => updateQuery("createdById", selected?.id)}
-			/>
-			<Select
+			/>}
+			{showUpdatedBy && < Select
 				label={t("updated_by_key")}
 				options={userOptions}
 				value={selectedLastUpdatedByOption}
 				getOptionValue={(option) => option?.id}
 				getOptionLabel={(option) => option?.username}
 				onChange={(selected) => updateQuery("lastUpdatedById", selected?.id)}
-			/>
+			/>}
 			<DatePicker
 				label={t("from_date_key")}
 				value={selectedStartDate}
