@@ -40,7 +40,7 @@ const Login = () => {
       const user = await executeMutation("POST", submitData);
       handleMessage(user.message, "success");
 
-      Cookies.set('user-token', user.token, { secure: true })
+      Cookies.set('user-token', user.token, { expires: 1, secure: true })
       set_user_image(user.user?.img)
       await signIn("credentials", {
         redirect: false,
