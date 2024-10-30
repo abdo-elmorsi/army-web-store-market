@@ -10,9 +10,11 @@ import { useQueryString } from "hooks";
 const ServerSearchInput = ({ placeholder, className, ...props }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { updateQuery } = useQueryString();
+  const { queryString, updateQuery } = useQueryString();
   const language = router.locale.toLowerCase();
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const _newQueryString = new URLSearchParams(queryString);
+  const [searchQuery, setSearchQuery] = useState(_newQueryString.get("search") || "");
 
   // Debounced search function
   const onSearch = useCallback(

@@ -23,7 +23,9 @@ const Index = ({ session }) => {
 	const { t } = useTranslation("common");
 
 
-	const { data: product, isLoading, isValidating, mutate } = useApi(productId ? `/products?id=${productId}` : null);
+	const { data: product, isLoading, isValidating, mutate } = useApi(productId ? `/products?id=${productId}` : null, {
+		revalidateOnFocus: false
+	});
 	const { executeMutation, isMutating } = useApiMutation(`/products`);
 
 	const name = useInput("", null);
