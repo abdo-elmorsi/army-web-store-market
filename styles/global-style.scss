@@ -66,37 +66,6 @@ html {
             box-shadow: 0px -1px 0px 0px #edf2f7 inset;
         }
 
-        // main scrollbar
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-        }
-
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-            background: #777;
-        }
-
-        .hide-scroll-bar {
-            scrollbar-width: none;
-            /* Firefox */
-        }
-
-        /* Hide scrollbar for Webkit (Safari/Chrome) */
-        .hide-scroll-bar::-webkit-scrollbar {
-            display: none;
-        }
-
         /* Hide scrollbar for Chrome, Safari and Opera */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -108,15 +77,6 @@ html {
             /* IE and Edge */
             scrollbar-width: none;
             /* Firefox */
-        }
-
-        // for input popup
-        div[tabindex="0"] {
-            z-index: 9999;
-        }
-
-        .h-92 {
-            height: 92px;
         }
     }
 }

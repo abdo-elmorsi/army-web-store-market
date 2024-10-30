@@ -211,7 +211,7 @@ const Sidebar = React.memo(() => {
     // w-14 hover:w-64
     <div className={`group flex flex-col flex-shrink-0  transition-all duration-300 bg-white border-none w-14 hover:w-64 ${fixedSideBar ? "md:w-64 opened" : ""} sidebar dark:bg-gray-900 `}>
       <div className="flex flex-col fixed">
-        <ul className="flex flex-col py-4 space-y-1 overflow-y-auto border-y-2 border-gray-100 dark:border-gray-700">
+        <ul className="flex flex-col py-4 space-y-1 overflow-y-auto no-scrollbar border-y-2 border-gray-100 dark:border-gray-700">
 
 
           {Links?.map((tab, index) => {
@@ -247,12 +247,11 @@ const Sidebar = React.memo(() => {
                       {tab.submenu.map((subTab) => {
                         return !subTab.omit ? (
                           <li key={subTab.href} className="tab_link cursor-pointer">
-                            <Link href={subTab.href}>
-                              <div
-                                className={`${subTab.current
-                                  ? 'dark:text-gray-100 border-primary'
-                                  : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
-                                  } text-white-600 relative flex h-11 flex-row items-center border-l-4 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-2`}
+                            <Link href={subTab.href} >
+                              <a className={`${subTab.current
+                                ? 'dark:text-gray-100 border-primary'
+                                : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
+                                } text-white-600 relative flex h-11 flex-row items-center border-l-4 focus:outline-none rtl:border-l-0 rtl:border-r-4 rtl:pr-2`}
                               >
                                 <span className="inline-flex items-center justify-center ml-4 duration-500 sub-menu-icon">
                                   <ArrowRightCircleIcon className="w-5 h-5 rtl:rotate-180" />
@@ -260,7 +259,7 @@ const Sidebar = React.memo(() => {
                                 <span className="ml-2 text-sm tracking-wide truncate">
                                   {router.locale === 'en' ? subTab.nameEN : subTab.nameAR}
                                 </span>
-                              </div>
+                              </a>
                             </Link>
                           </li>
                         ) : null
@@ -271,7 +270,7 @@ const Sidebar = React.memo(() => {
               ) : (
                 <div className="cursor-pointer" aria-hidden="true" onClick={() => activeAdminSubMenu && setActiveAdminSubMenu(null)}>
                   <Link href={tab.href}>
-                    <div
+                    <a
                       className={`${tab.current
                         ? 'dark:text-gray-100 border-primary'
                         : 'dark:text-white border-transparent hover:border-primary dark:hover:border-primary'
@@ -283,7 +282,7 @@ const Sidebar = React.memo(() => {
                       <span className="ml-2 text-sm tracking-wide truncate">
                         {router.locale === 'en' ? tab.nameEN : tab.nameAR}
                       </span>
-                    </div>
+                    </a>
                   </Link>
                 </div>
               )}
