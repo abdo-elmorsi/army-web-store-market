@@ -20,7 +20,7 @@ const ServerSearchInput = ({ placeholder, className, ...props }) => {
   const onSearch = useCallback(
     debounce((query) => {
       updateQuery("search", query); // Update the URL query
-    }, 500), []
+    }, 500), [queryString]
   );
 
   const searchQueryHandle = useCallback(

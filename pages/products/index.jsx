@@ -255,3 +255,78 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
 };
 
 export default Index;
+
+
+// const columns = useMemo(
+//     () => [
+//         {
+//             name: "#",
+//             selector: (row) => `${row?.index}`,
+//             width: "50px",
+//             sortable: false
+//         },
+//         {
+//             name: t("name_key"),
+//             selector: (row) => row?.name,
+//             width: "150px",
+//             sortable: true
+//         },
+//         {
+//             name: t("price_key"),
+//             selector: (row) => row?.price,
+//             width: "105px",
+//             cell: (row) => formatComma(row?.price),
+//             sortable: true
+//         },
+//         {
+//             name: "عدد القطع بالكرتونه",
+//             selector: (row) => row?.piecesNo,
+//             cell: (row) => row?.piecesNo,
+//             width: "120px",
+//             sortable: true
+//         },
+//         {
+//             name: t("wholesale_price_key"),
+//             selector: (row) => row?.wholesalePrice,
+//             cell: (row) => formatComma(row?.wholesalePrice),
+//             width: "130px",
+//             sortable: true
+//         },
+//         {
+//             name: "1",
+//             selector: (row) => "",
+//             width: 160
+//         },
+//         {
+//             name: "2",
+//             selector: (row) => "",
+//             width: 160
+//         },
+//         {
+//             name: "3",
+//             selector: (row) => "",
+//             width: 160
+//         },
+//         {
+//             name: "4",
+//             selector: (row) => "",
+//             width: 160
+//         },
+//         {
+//             name: "5",
+//             selector: (row) => "",
+//             width: 160
+//         },
+//         {
+//             name: "6",
+//             selector: (row) => "",
+//             width: 160
+//         },
+//         {
+//             name: "7",
+//             selector: (row) => "",
+//             width: 160
+//         }
+//     ],
+//     [date_format, router, t]
+// );
