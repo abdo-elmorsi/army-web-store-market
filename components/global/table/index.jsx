@@ -12,7 +12,7 @@ const Table = ({
   noHeader = false,
   pagination = true,
   paginationPerPage = 10,
-  paginationRowsPerPageOptions,
+  paginationRowsPerPageOptions = [10, 25, 50, 100, 1000],
   actions,
   searchAble = true,
   selectableRowSelected,

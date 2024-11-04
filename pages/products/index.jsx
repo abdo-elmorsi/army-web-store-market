@@ -61,7 +61,8 @@ const Index = () => {
         () => [
             {
                 name: t("name_key"),
-                selector: (row) => row?.name,
+                // selector: (row) => `${row?.name}`,
+                selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
                 sortable: true
             },
             {
@@ -184,6 +185,7 @@ const Index = () => {
                     data={tableData || []}
                     loading={isLoading}
                     searchAble={false}
+                    paginationPerPage={10}
                     actions={
                         <Actions
                             disableSearch={false}
@@ -267,65 +269,52 @@ export default Index;
 //         },
 //         {
 //             name: t("name_key"),
-//             selector: (row) => row?.name,
-//             width: "150px",
-//             sortable: true
-//         },
-//         {
-//             name: t("price_key"),
-//             selector: (row) => row?.price,
-//             width: "105px",
-//             cell: (row) => formatComma(row?.price),
-//             sortable: true
-//         },
-//         {
-//             name: "عدد القطع بالكرتونه",
-//             selector: (row) => row?.piecesNo,
-//             cell: (row) => row?.piecesNo,
-//             width: "120px",
+//             // selector: (row) => `${row?.name}`,
+//             width: "250px",
+//             selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
 //             sortable: true
 //         },
 //         {
 //             name: t("wholesale_price_key"),
+//             width: "160px",
 //             selector: (row) => row?.wholesalePrice,
 //             cell: (row) => formatComma(row?.wholesalePrice),
-//             width: "130px",
 //             sortable: true
 //         },
 //         {
 //             name: "1",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         },
 //         {
 //             name: "2",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         },
 //         {
 //             name: "3",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         },
 //         {
 //             name: "4",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         },
 //         {
 //             name: "5",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         },
 //         {
 //             name: "6",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         },
 //         {
 //             name: "7",
 //             selector: (row) => "",
-//             width: 160
+//             width: "160px"
 //         }
 //     ],
 //     [date_format, router, t]
