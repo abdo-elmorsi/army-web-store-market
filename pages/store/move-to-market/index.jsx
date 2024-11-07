@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getSession } from "next-auth/react";
@@ -53,6 +53,13 @@ const Index = () => {
     const { data = {}, isLoading } = useApi(`/transactions?${queryString}`);
     const { transactions: tableData = [], totalTransactions } = data;
 
+
+    // useEffect(() => {
+    //     const time = setTimeout(() => {
+    //         router.push(`/store/move-to-market/add-update`)
+    //     }, 500);
+    //     return () => clearTimeout(time);
+    // }, [])
 
     // ================== Table Columns ==================
     const columns = useMemo(
