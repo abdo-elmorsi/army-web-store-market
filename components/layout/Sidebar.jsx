@@ -169,11 +169,19 @@ const Sidebar = React.memo(() => {
           current: router.pathname === "/reports/transactions",
         },
         {
-          nameAR: "تقرير الأرباح",
-          nameEN: "Earnings report",
-          href: "/reports/earnings",
+          nameAR: "تقرير الأرباح بالحركات",
+          nameEN: "Earnings transactions report",
+          href: "/reports/earnings-transactions",
           icon: <TruckIcon className="w-5 h-5" />,
-          current: router.pathname === "/reports/earnings",
+          current: router.pathname === "/reports/earnings-transactions",
+          omit: !admin
+        },
+        {
+          nameAR: "تقرير الأرباح بالمنتجات",
+          nameEN: "Earnings products report",
+          href: "/reports/earnings-products",
+          icon: <TruckIcon className="w-5 h-5" />,
+          current: router.pathname === "/reports/earnings-products",
           omit: !admin
         },
         {

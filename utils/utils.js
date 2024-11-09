@@ -54,3 +54,22 @@ export function convertImageToBase64(file) {
 
 
 export const isValidString = (value) => typeof value === 'string' && value.trim() !== '';
+
+
+export function groupBy(arr = [], groupByProperty, sumByProperty) {
+    let helper = {};
+    let result = arr.reduce(function (r, o) {
+        let key = o[groupByProperty]?.value || o[groupByProperty];
+
+        if (!helper[key]) {
+            helper[key] = Object.assign({}, o); // create a copy of o
+            r.push(helper[key]);
+        } else {
+            helper[key][sumByProperty] += o[sumByProperty];
+        }
+
+        return r;
+    }, []);
+
+    return result;
+}

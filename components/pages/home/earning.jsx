@@ -14,23 +14,21 @@ import { useTranslation } from "react-i18next";
 import { useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
 import { useRouter } from "next/router";
+import { formatComma, groupBy } from "utils/utils";
 
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload }) => {
 	if (active && payload && payload.length) {
-		// const { name: countName, value: countValue } = payload[0]; // Accessing the first payload item
-		const { name: quantityName, value: quantityValue } = payload[0]; // Accessing the first payload item
+		const { name: earningName, value: earningValue } = payload[0]; // Accessing the first payload item (earning)
 
 		return (
 			<div className="p-2 rounded-md shadow-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-200">
-				{/* <p className="font-semibold">{`${countName} : ${countValue}`}</p> */}
-				<p className="font-semibold">{`قطعة : ${quantityValue}`}</p>
+				<p className="font-semibold">{`المبلغ : ${formatComma(earningValue)}`}</p> {/* Displaying earning in tooltip */}
 			</div>
 		);
 	}
 	return null;
 };
-
 
 // Skeleton Loader Component
 const SkeletonLoader = () => (
@@ -54,16 +52,14 @@ const Chart = ({ title, data, color, isLoading }) => (
 					<YAxis stroke="currentColor" />
 					<Tooltip content={<CustomTooltip />} />
 					<Legend />
-					{/* <Area type="monotone" dataKey="count" stroke={color} fillOpacity={0.3} fill={color} /> */}
-					<Area type="monotone" dataKey="quantity" stroke={color} fillOpacity={0.3} fill={color} /> {/* Add this line for quantity */}
+					<Area type="monotone" dataKey="earning" stroke={color} fillOpacity={0.3} fill={color} />
 				</AreaChart>
 			</ResponsiveContainer>
 		)}
 	</div>
 );
 
-
-function SalesPurchaseCharts() {
+function Earning() {
 	const router = useRouter();
 	const { t } = useTranslation("common");
 
@@ -72,34 +68,30 @@ function SalesPurchaseCharts() {
 
 	const { queryString } = useQueryString({ startDate, endDate });
 
-	const { data, isLoading } = useApi(`/dashboard/sales-purchase-charts?${queryString}`, {
+	const { data, isLoading } = useApi(`/dashboard/earning?${queryString}`, {
 		dedupingInterval: 10000,
 	});
 
-	const salesChartData = useMemo(() => data?.salesData || [], [data]);
-	const purchaseChartData = useMemo(() => data?.purchaseData || [], [data]);
+	const chartData = useMemo(() => groupBy(data?.map(t => {
+		return {
+			...t,
+			...t.product,
+			earning: t.quantity * t.product.price - (t.quantity / t.product.piecesNo) * t.product.wholesalePrice,
+			date: moment(t.createdAt).format('YYYY-MM-DD')  // Formatting the date
+		};
+	}), "date", "earning") || [], [data]);
 
-	const salesColor = "#8884d8";  // Adjust based on your theme logic
-	const purchaseColor = "#82ca9d"; // Adjust based on your theme logic
+
+	const color = "#336a86";
 
 	return (
 		<div className="mb-8 flex gap-4 flex-col md:flex-row">
-			{/* Sales Chart */}
+			{/* earning Chart */}
 			<div className="flex-1 p-4 bg-white rounded-lg shadow-sm dark:bg-slate-800">
 				<Chart
-					title={t("sales_key")}
-					data={salesChartData}
-					color={salesColor}
-					isLoading={isLoading}
-				/>
-			</div>
-
-			{/* Purchase Chart */}
-			<div className="flex-1 p-4 bg-white rounded-lg shadow-sm dark:bg-slate-800">
-				<Chart
-					title={t("purchase_key")}
-					data={purchaseChartData}
-					color={purchaseColor}
+					title={t("earning_key")}
+					data={chartData}
+					color={color}
 					isLoading={isLoading}
 				/>
 			</div>
@@ -107,4 +99,4 @@ function SalesPurchaseCharts() {
 	);
 }
 
-export default SalesPurchaseCharts;
+export default Earning;

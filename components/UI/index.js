@@ -13,3 +13,4 @@ export { default as MinimizedBox } from './MinimizedBox';
 export { default as ScrollToTopButton } from './ScrollToTopButton';
 export { default as CopyRights } from './CopyRights';
 export { default as Tabs } from './Tabs';
+export { default as Totals } from './totals';

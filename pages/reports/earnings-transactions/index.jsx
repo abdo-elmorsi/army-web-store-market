@@ -119,7 +119,7 @@ const Index = () => {
     // ================== Export Functions ==================
     const handleExportExcel = async () => {
         setExportingExcel(true);
-        await exportExcel(tableData, columns, t("earnings_report_key"), handleMessage);
+        await exportExcel(tableData, columns, t("earnings_transactions_report_key"), handleMessage);
         setTimeout(() => {
             setExportingExcel(false);
         }, 1000);
@@ -135,8 +135,8 @@ const Index = () => {
         <>
             <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
                 <Header
-                    title={t("earnings_report_key")}
-                    path="/reports/earnings"
+                    title={t("earnings_transactions_report_key")}
+                    path="/reports/earnings-transactions"
                     classes="bg-gray-100 dark:bg-gray-700 border-none"
                 />
                 <MinimizedBox>
@@ -165,7 +165,7 @@ const Index = () => {
                 />
             </div>
             {tableData?.length && <PrintView
-                title={t("earnings_report_key")}
+                title={t("earnings_transactions_report_key")}
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}

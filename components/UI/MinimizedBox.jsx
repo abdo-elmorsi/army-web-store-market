@@ -54,7 +54,7 @@ const MinimizedBox = ({
 
   return (
     <div className={boxClasses}>
-      <header className="flex items-center justify-between p-4 rounded-t-xl">
+      <div className="flex items-center justify-between p-4 rounded-t-xl">
         <h3 className="text-lg font-medium">{t(title)}</h3>
         <button
           aria-label="minimize toggler"
@@ -76,7 +76,7 @@ const MinimizedBox = ({
             )}
           />
         </button>
-      </header>
+      </div>
       <div
         className={`duration-300 transition-all ${isMinimized || loading ? "overflow-hidden" : "overflow-visible"}`}
         style={{ height: isMinimized ? "0px" : prevHeight }}

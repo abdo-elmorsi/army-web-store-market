@@ -15,10 +15,11 @@ import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { formatComma } from "utils/utils";
+import { formatComma, getRole } from "utils/utils";
 
-const Index = () => {
+const Index = ({ session }) => {
     const router = useRouter();
+    const admin = getRole(session, "admin")
     const language = router.locale.toLowerCase();
     const date_format = language === "en" ? "DD-MM-YYYY (hh:mm-A)" : "DD-MM-YYYY (hh:mm-A)";
     const handleMessage = useHandleMessage();
@@ -101,6 +102,13 @@ const Index = () => {
                     {formatComma(row?.quantityInStock)} ({row?.unit?.name})
                 </p>,
                 sortable: true
+            },
+            {
+                name: t("earning_key"),
+                selector: (row) => formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice)),
+                cell: (row) => <p className="text-primary">{formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice))}</p>,
+                sortable: true,
+                omit: !admin
             },
             {
                 name: t("created_by_key"),

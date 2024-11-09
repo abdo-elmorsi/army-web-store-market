@@ -5,8 +5,12 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Layout, LayoutWithSidebar } from "components/layout";
 import { MinimizedBox } from "components/UI";
 import { Filter, Counts, SalesPurchaseCharts } from "components/pages/home";
+import Earning from "components/pages/home/earning";
+import { getRole } from "utils/utils";
 
-const Index = () => {
+const Index = ({ session }) => {
+    const admin = getRole(session, "admin")
+
     return (
         <div className="min-h-full bg-gray-100 rounded-md dark:bg-gray-700">
             <MinimizedBox>
@@ -14,6 +18,7 @@ const Index = () => {
             </MinimizedBox>
 
             <Counts />
+            {admin && <Earning />}
             <SalesPurchaseCharts />
         </div>
     );

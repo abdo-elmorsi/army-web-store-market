@@ -91,5 +91,7 @@
     "counts_key": "الكميات",
     "earning_key": "الربح",
     "earnings_report_key": "تقرير الأرباح",
-    "date_key": "التاريخ"
+    "date_key": "التاريخ",
+    "earnings_transactions_report_key": "تقرير الارباح بالحركات",
+    "earnings_products_report_key": "تقرير الارباح بالمنتجات"
 }
