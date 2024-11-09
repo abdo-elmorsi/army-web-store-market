@@ -90,5 +90,6 @@
     "prices_key": "ألاسعار",
     "counts_key": "الكميات",
     "earning_key": "الربح",
-    "earnings_report_key": "تقرير الأرباح"
+    "earnings_report_key": "تقرير الأرباح",
+    "date_key": "التاريخ"
 }

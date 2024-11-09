@@ -90,5 +90,6 @@
     "prices_key": "Prices",
     "counts_key": "Counts",
     "earning_key": "Earning",
-    "earnings_report_key": "Earnings Report"
+    "earnings_report_key": "Earnings Report",
+    "date_key": "Date"
 }

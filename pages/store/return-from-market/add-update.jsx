@@ -7,11 +7,12 @@ import { useRouter } from "next/router";
 
 // Custom
 import { Layout, LayoutWithSidebar } from "components/layout";
-import { Button, Input, Select, Spinner } from "components/UI";
+import { Button, DatePicker, Input, Select, Spinner } from "components/UI";
 import { Header } from "components/global";
 import { useHandleMessage, useInput, useSelect } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { formatComma } from "utils/utils";
+import moment from "moment-timezone";
 
 
 const Index = ({ session }) => {
@@ -25,6 +26,7 @@ const Index = ({ session }) => {
 	const productID = productId.value?.id || null;
 	const quantity = useInput("", "number", true);
 	const description = useInput("", null);
+	const selectedDate = useInput(new Date(), null);
 
 
 	const { data: transaction, isLoading, isValidating, mutate } = useApi(transactionId ? `/transactions?id=${transactionId}` : null);
@@ -34,7 +36,7 @@ const Index = ({ session }) => {
 
 	const { isLoading: isLoadingProductOptions, data: productOptions = [] } = useApi(`/products?forSelect=true`);
 
-	// Fetch available quantity for sales
+	// Fetch available quantity for return to store
 	const { isLoading: loadingAvailableQty, data: productDetails = [] } = useApi(productID ? `/products?product=${productID}` : null);
 	const availableQty = productDetails[0]?.quantityInMarket + (transaction?.quantity || 0) || 0;
 
@@ -49,6 +51,7 @@ const Index = ({ session }) => {
 				productId: productID || null,
 				type: "marketToStore",
 				createdById: session.user?.id,
+				customDate: moment(selectedDate.value).endOf("day").subtract(2, 'hours').toDate(),
 			}),
 			quantity: +quantity.value || 0,
 			description: description.value || null,
@@ -114,6 +117,12 @@ const Index = ({ session }) => {
 								<Input
 									label={t("description_key")}
 									{...description.bind}
+								/>
+								<DatePicker
+									label={t("date_key")}
+									value={selectedDate.value}
+									onChange={(date) => selectedDate.changeValue(date || new Date())}
+									maxDate={new Date()}
 								/>
 							</div>
 							<div className="flex justify-start gap-8 items-center">

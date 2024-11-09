@@ -7,10 +7,12 @@ import { useRouter } from "next/router";
 
 // Custom
 import { Layout, LayoutWithSidebar } from "components/layout";
+import { Button, DatePicker, Input, Select, Spinner } from "components/UI";
 import { Header } from "components/global";
-import { Button, Input, Select, Spinner } from "components/UI";
 import { useHandleMessage, useInput, useSelect } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
+import { formatComma } from "utils/utils";
+import moment from "moment-timezone";
 
 
 const Index = ({ session }) => {
@@ -30,6 +32,7 @@ const Index = ({ session }) => {
 	const productId = useSelect("", "select", null);
 	const quantity = useInput("", "number", true);
 	const description = useInput("", null);
+	const selectedDate = useInput(new Date(), null);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -41,6 +44,7 @@ const Index = ({ session }) => {
 				productId: productId.value?.id || null,
 				type: "storeIn",
 				createdById: session.user?.id,
+				customDate: moment(selectedDate.value).endOf("day").subtract(2, 'hours').toDate(),
 			}),
 			quantity: +quantity.value || 0,
 			description: description.value || null,
@@ -101,6 +105,12 @@ const Index = ({ session }) => {
 								<Input
 									label={t("description_key")}
 									{...description.bind}
+								/>
+								<DatePicker
+									label={t("date_key")}
+									value={selectedDate.value}
+									onChange={(date) => selectedDate.changeValue(date || new Date())}
+									maxDate={new Date()}
 								/>
 							</div>
 							<div className="flex justify-start gap-8 items-center">
