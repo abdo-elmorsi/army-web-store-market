@@ -80,3 +80,9 @@ html {
         }
     }
 }
+
+@media (max-width: 768px) {
+    .react-date-picker__calendar {
+        width: 290px;
+    }
+}

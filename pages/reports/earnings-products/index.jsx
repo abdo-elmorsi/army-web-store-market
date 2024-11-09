@@ -86,11 +86,6 @@ const Index = () => {
                     {formatComma(row?.earning)}
                 </p>, // Access quantity
                 sortable: true
-            },
-            {
-                name: t("description_key"), // Translate key for description
-                selector: (row) => row?.description, // Access description
-                sortable: true
             }
         ],
         [date_format, t]

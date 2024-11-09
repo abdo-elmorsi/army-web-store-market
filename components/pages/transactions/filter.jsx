@@ -79,6 +79,18 @@ const Filter = ({ typeOptions = [], showType = false, showCreatedBy = true, show
 				getOptionLabel={(option) => option?.name}
 				onChange={(selected) => updateQuery("productId", selected?.id)}
 			/>
+			<DatePicker
+				label={t("from_date_key")}
+				value={selectedStartDate}
+				onChange={(date) => handleDateChange('startDate', date)}
+				maxDate={new Date()} // Prevent selecting future dates
+			/>
+			<DatePicker
+				label={t("to_date_key")}
+				value={selectedEndDate}
+				onChange={(date) => handleDateChange('endDate', date)}
+				maxDate={new Date()} // Prevent selecting future dates
+			/>
 			{showCreatedBy && <Select
 				label={t("created_by_key")}
 				options={userOptions}
@@ -95,18 +107,6 @@ const Filter = ({ typeOptions = [], showType = false, showCreatedBy = true, show
 				getOptionLabel={(option) => option?.username}
 				onChange={(selected) => updateQuery("lastUpdatedById", selected?.id)}
 			/>}
-			<DatePicker
-				label={t("from_date_key")}
-				value={selectedStartDate}
-				onChange={(date) => handleDateChange('startDate', date)}
-				maxDate={new Date()} // Prevent selecting future dates
-			/>
-			<DatePicker
-				label={t("to_date_key")}
-				value={selectedEndDate}
-				onChange={(date) => handleDateChange('endDate', date)}
-				maxDate={new Date()} // Prevent selecting future dates
-			/>
 		</div>
 	);
 };
