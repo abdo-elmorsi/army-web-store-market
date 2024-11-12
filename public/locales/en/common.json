@@ -93,5 +93,6 @@
     "earnings_report_key": "Earnings Report",
     "date_key": "Date",
     "earnings_transactions_report_key": "Earning transactions report",
-    "earnings_products_report_key": "Earning products report"
+    "earnings_products_report_key": "Earning products report",
+    "print_paper_key": "Print paper"
 }

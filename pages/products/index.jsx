@@ -28,6 +28,7 @@ const Index = ({ session }) => {
     const printViewRef = useRef(null);
 
 
+    const [paperMode, setPaperMode] = useState(false);
     // ================== Filter Logic ==================
     const { queryString } = useQueryString();
     const { data: tableData, isLoading, mutate } = useApi(`/products?${queryString}`);
@@ -59,106 +60,174 @@ const Index = ({ session }) => {
 
     // ================== Table Columns ==================
     const columns = useMemo(
-        () => [
-            {
-                name: t("name_key"),
-                // selector: (row) => `${row?.name}`,
-                selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
-                sortable: true
-            },
-            {
-                name: t("price_key"),
-                selector: (row) => row?.price,
-                cell: (row) => formatComma(row?.price),
-                sortable: true
-            },
-            {
-                name: t("wholesale_price_key"),
-                selector: (row) => row?.wholesalePrice,
-                cell: (row) => formatComma(row?.wholesalePrice),
-                sortable: true
-            },
-            {
-                name: t("category_key"),
-                selector: (row) => row?.category?.name,
-                sortable: true
-            },
-            {
-                name: t("quantity_in_store_key"),
-                selector: (row) => row?.quantityInStore,
-                cell: (row) => formatComma(row?.quantityInStore),
-                sortable: true
-            },
-            {
-                name: t("quantity_in_market_key"),
-                selector: (row) => row?.quantityInMarket,
-                cell: (row) => formatComma(row?.quantityInMarket),
-                sortable: true
-            },
-            {
-                name: t("balance_key"),
-                selector: (row) => formatComma(row?.quantityInStock),
-                cell: (row) => <p className={`${row?.quantityInStock > 0 ? "text-green-500" : "text-red-500"} text-green-500`}>
-                    {formatComma(row?.quantityInStock)} ({row?.unit?.name})
-                </p>,
-                sortable: true
-            },
-            {
-                name: t("earning_key"),
-                selector: (row) => formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice)),
-                cell: (row) => <p className="text-primary">{formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice))}</p>,
-                sortable: true,
-                omit: !admin
-            },
-            {
-                name: t("created_by_key"),
-                selector: (row) => row?.createdBy?.username,
-                sortable: true
-            },
-            {
-                name: t("updated_by_key"),
-                selector: (row) => row?.lastUpdatedBy?.username,
-                sortable: true
-            },
-            {
-                name: t("created_at_key"),
-                selector: (row) => row?.createdAt,
-                cell: (row) => moment(row?.createdAt).format(date_format),
-                sortable: true,
-                width: "130px"
-            },
-            {
-                name: t("updated_at_key"),
-                selector: (row) => row?.updatedAt,
-                cell: (row) => moment(row?.updatedAt).format(date_format),
-                sortable: true,
-                width: "130px"
-            },
-            {
-                name: t("actions_key"),
-                selector: (row) => row?.id,
-                noExport: true,
-                noPrint: true,
-                cell: (row) => (
-                    <div className="flex gap-2">
-                        <Button
-                            onClick={() => router.push(`/products/add-update?id=${row?.id}`)}
-                            className="px-3 py-2 cursor-pointer btn--primary"
-                        >
-                            <PencilSquareIcon width={22} />
-                        </Button>
-                        <Button
-                            onClick={() => setShowDeleteModal({ isOpen: true, id: row?.id })}
-                            className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
-                        >
-                            <TrashIcon width={22} />
-                        </Button>
-                    </div>
-                ),
-                sortable: false
-            }
-        ],
-        [date_format, router, t]
+        () => {
+            return !paperMode ? [
+                {
+                    name: t("name_key"),
+                    // selector: (row) => `${row?.name}`,
+                    selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
+                    sortable: true
+                },
+                {
+                    name: t("price_key"),
+                    selector: (row) => row?.price,
+                    cell: (row) => formatComma(row?.price),
+                    sortable: true
+                },
+                {
+                    name: t("wholesale_price_key"),
+                    selector: (row) => row?.wholesalePrice,
+                    cell: (row) => formatComma(row?.wholesalePrice),
+                    sortable: true
+                },
+                {
+                    name: t("category_key"),
+                    selector: (row) => row?.category?.name,
+                    sortable: true
+                },
+                {
+                    name: t("quantity_in_store_key"),
+                    selector: (row) => row?.quantityInStore,
+                    cell: (row) => formatComma(row?.quantityInStore),
+                    sortable: true
+                },
+                {
+                    name: t("quantity_in_market_key"),
+                    selector: (row) => row?.quantityInMarket,
+                    cell: (row) => formatComma(row?.quantityInMarket),
+                    sortable: true
+                },
+                {
+                    name: t("balance_key"),
+                    selector: (row) => formatComma(row?.quantityInStock),
+                    cell: (row) => <p className={`${row?.quantityInStock > 0 ? "text-green-500" : "text-red-500"} text-green-500`}>
+                        {formatComma(row?.quantityInStock)} ({row?.unit?.name})
+                    </p>,
+                    sortable: true
+                },
+                {
+                    name: t("earning_key"),
+                    selector: (row) => formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice)),
+                    cell: (row) => <p className="text-primary">{formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice))}</p>,
+                    sortable: true,
+                    omit: !admin
+                },
+                {
+                    name: t("created_by_key"),
+                    selector: (row) => row?.createdBy?.username,
+                    sortable: true
+                },
+                {
+                    name: t("updated_by_key"),
+                    selector: (row) => row?.lastUpdatedBy?.username,
+                    sortable: true
+                },
+                {
+                    name: t("created_at_key"),
+                    selector: (row) => row?.createdAt,
+                    cell: (row) => moment(row?.createdAt).format(date_format),
+                    sortable: true,
+                    width: "130px"
+                },
+                {
+                    name: t("updated_at_key"),
+                    selector: (row) => row?.updatedAt,
+                    cell: (row) => moment(row?.updatedAt).format(date_format),
+                    sortable: true,
+                    width: "130px"
+                },
+                {
+                    name: t("actions_key"),
+                    selector: (row) => row?.id,
+                    noExport: true,
+                    noPrint: true,
+                    cell: (row) => (
+                        <div className="flex gap-2">
+                            <Button
+                                onClick={() => router.push(`/products/add-update?id=${row?.id}`)}
+                                className="px-3 py-2 cursor-pointer btn--primary"
+                            >
+                                <PencilSquareIcon width={22} />
+                            </Button>
+                            <Button
+                                onClick={() => setShowDeleteModal({ isOpen: true, id: row?.id })}
+                                className="px-3 py-2 text-white bg-red-500 cursor-pointer hover:bg-red-600"
+                            >
+                                <TrashIcon width={22} />
+                            </Button>
+                        </div>
+                    ),
+                    sortable: false
+                }
+            ] : [
+                {
+                    name: "#",
+                    selector: (row) => `${row?.index}`,
+                    width: "50px",
+                    sortable: false
+                },
+                {
+                    name: t("name_key"),
+                    // selector: (row) => `${row?.name}`,
+                    width: "330px",
+                    selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
+                    sortable: true
+                },
+                {
+                    name: t("wholesale_price_key"),
+                    width: "90px",
+                    selector: (row) => row?.wholesalePrice,
+                    cell: (row) => formatComma(row?.wholesalePrice),
+                    sortable: true
+                },
+                {
+                    name: "1",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "2",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "3",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "4",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "5",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "6",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "7",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "9",
+                    selector: (row) => "",
+                    width: "80px"
+                },
+                {
+                    name: "10",
+                    selector: (row) => "",
+                    width: "80px"
+                }
+            ]
+        },
+        [date_format, paperMode, admin, router, t]
     );
 
     // ================== Export Functions ==================
@@ -170,11 +239,12 @@ const Index = ({ session }) => {
         }, 1000);
     };
 
-    const exportPDF = useCallback(() => {
+    const exportPDF = useCallback((paperMode) => {
+        setPaperMode(paperMode);
         if (printViewRef.current) {
             printViewRef.current.print();
         }
-    }, [printViewRef.current]);
+    }, [printViewRef.current, paperMode]);
 
 
     return (
@@ -199,7 +269,8 @@ const Index = ({ session }) => {
                             disableSearch={false}
                             addMsg={t("add_key")}
                             onClickAdd={() => router.push("/products/add-update")}
-                            onClickPrint={exportPDF}
+                            onClickPrint={() => exportPDF(false)}
+                            onClickPrintPaper={() => exportPDF(true)}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
                             isDisabledExport={exportingExcel || !tableData?.length}
@@ -212,6 +283,7 @@ const Index = ({ session }) => {
                 ref={printViewRef}
                 data={tableData}
                 columns={columns}
+                paperMode={paperMode}
             />}
             {showDeleteModal?.isOpen && (
                 <Modal
@@ -265,65 +337,3 @@ export const getServerSideProps = async ({ req, locale, resolvedUrl }) => {
 };
 
 export default Index;
-
-
-// const columns = useMemo(
-//     () => [
-//         {
-//             name: "#",
-//             selector: (row) => `${row?.index}`,
-//             width: "50px",
-//             sortable: false
-//         },
-//         {
-//             name: t("name_key"),
-//             // selector: (row) => `${row?.name}`,
-//             width: "250px",
-//             selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
-//             sortable: true
-//         },
-//         {
-//             name: t("wholesale_price_key"),
-//             width: "160px",
-//             selector: (row) => row?.wholesalePrice,
-//             cell: (row) => formatComma(row?.wholesalePrice),
-//             sortable: true
-//         },
-//         {
-//             name: "1",
-//             selector: (row) => "",
-//             width: "160px"
-//         },
-//         {
-//             name: "2",
-//             selector: (row) => "",
-//             width: "160px"
-//         },
-//         {
-//             name: "3",
-//             selector: (row) => "",
-//             width: "160px"
-//         },
-//         {
-//             name: "4",
-//             selector: (row) => "",
-//             width: "160px"
-//         },
-//         {
-//             name: "5",
-//             selector: (row) => "",
-//             width: "160px"
-//         },
-//         {
-//             name: "6",
-//             selector: (row) => "",
-//             width: "160px"
-//         },
-//         {
-//             name: "7",
-//             selector: (row) => "",
-//             width: "160px"
-//         }
-//     ],
-//     [date_format, router, t]
-// );

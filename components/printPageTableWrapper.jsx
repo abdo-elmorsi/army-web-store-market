@@ -2,7 +2,7 @@ import { forwardRef, useState, useCallback, useImperativeHandle, useRef, useEffe
 import PropTypes from 'prop-types';
 import { useReactToPrint } from "react-to-print";
 
-export const getPageStyle = (size = 'A4 landscape', additionsCss = '') => {
+export const getPageStyle = (size = 'A4 portrait', additionsCss = '') => {
     return `
     @page {
         size: ${size};
@@ -77,7 +77,7 @@ export const getPageStyle = (size = 'A4 landscape', additionsCss = '') => {
     `;
 };
 
-const PrintPageTableWrapper = forwardRef(({ filename, additionsCss = '', size = 'A4 landscape', children }, ref) => {
+const PrintPageTableWrapper = forwardRef(({ filename, additionsCss = '', size = 'A4 portrait', paperMode = false, children }, ref) => {
     const componentRef = useRef(null);
     const onBeforeGetContentResolve = useRef(null);
     const [isPrinting, setIsPrinting] = useState(false);
@@ -119,12 +119,14 @@ const PrintPageTableWrapper = forwardRef(({ filename, additionsCss = '', size = 
     return (
         <div className="print-view w-full" ref={componentRef}>
             {isPrinting && (
-                <div className="mt-2 w-full">
+                <div className={`${!paperMode ? "mt-2" : "mt-0"} w-full`}>
                     <table className="page-table">
                         <thead>
                             <tr>
                                 <th>
-                                    <div className="text-center pt-3">
+
+                                    <div className={`${!paperMode ? "pt-3" : "pt-0"} text-center `}>
+
                                         {filename}
                                     </div>
                                 </th>

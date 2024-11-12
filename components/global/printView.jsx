@@ -8,7 +8,7 @@ import PrintPageTableWrapper from "components/printPageTableWrapper";
 import { useTranslation } from "react-i18next";
 
 
-const PrintView = forwardRef(({ title = 'title', columns = [], data = [] }, ref) => {
+const PrintView = forwardRef(({ title = 'title', columns = [], data = [], paperMode = false }, ref) => {
     const router = useRouter();
     const { t } = useTranslation("common");
     const componentRef = useRef(null);
@@ -29,10 +29,12 @@ const PrintView = forwardRef(({ title = 'title', columns = [], data = [] }, ref)
         <PrintPageTableWrapper
             ref={componentRef}
             filename={title}
+            size={!paperMode ? "A4 landscape" : "A4 portrait"}
+            paperMode={paperMode}
         >
             <tr>
                 <td>
-                    <p className="m-0 text-end"><i><small>{t('printed_on_key')} {now}</small></i></p>
+                    {!paperMode && <p className="m-0 text-end"><i><small>{t('printed_on_key')} {now}</small></i></p>}
                     <table className="table table-print table-bordered w-100"
                         dir={language == 'ar' ? 'rtl' : 'ltr'}
                         style={{ direction: language == 'ar' ? 'rtl' : 'ltr' }}
@@ -52,7 +54,7 @@ const PrintView = forwardRef(({ title = 'title', columns = [], data = [] }, ref)
                                         {columns?.filter(c => !c.omit && !c.noPrint)
                                             .map(c =>
                                             (
-                                                <td className="px-2" key={c.name}>
+                                                <td style={{ width: !paperMode ? "auto" : c.width }} className={`${!paperMode ? "px-2" : "px-1 text-sm"}`} key={c.name}>
                                                     {c.cell ? c.cell(row) : c.selector(row)}
                                                 </td>
                                             )

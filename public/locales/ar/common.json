@@ -93,5 +93,6 @@
     "earnings_report_key": "تقرير الأرباح",
     "date_key": "التاريخ",
     "earnings_transactions_report_key": "تقرير الارباح بالحركات",
-    "earnings_products_report_key": "تقرير الارباح بالمنتجات"
+    "earnings_products_report_key": "تقرير الارباح بالمنتجات",
+    "print_paper_key": "طباعة الورقه"
 }

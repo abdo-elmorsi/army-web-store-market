@@ -12,6 +12,8 @@ export default function Actions({
   isDisabledPrint = false,
   onClickExport,
   isDisabledExport = false,
+  onClickPrintPaper,
+  isDisabledPrintPaper = false,
   addMsg,
 
   disableSearch,
@@ -42,6 +44,14 @@ export default function Actions({
           className={`${(isDisabledPrint) ? "cursor-not-allowed" : "cursor-pointer"} dark:bg-gray-gray-900 rounded-full bg-gray-100 dark:bg-gray-500 dark:hover:bg-gray-400 p-3 hover:bg-gray-200`}
         >
           <PrintPdf />
+        </button>}
+        {onClickPrintPaper && <button
+          aria-label={t('print_paper_key')}
+          title={t('print_paper_key')}
+          onClick={() => onClickPrintPaper()}
+          className={`${(isDisabledPrintPaper) ? "cursor-not-allowed" : "cursor-pointer"} dark:bg-gray-gray-900 rounded-full bg-gray-100 dark:bg-gray-500 dark:hover:bg-gray-400 p-3 hover:bg-gray-200`}
+        >
+          {t("print_paper_key")}
         </button>}
 
         {onClickAdd && <Button

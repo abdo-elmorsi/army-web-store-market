@@ -15,10 +15,11 @@ import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
 import { EyeIcon } from "@heroicons/react/24/outline";
-import { formatComma } from "utils/utils";
+import { formatComma, getRole } from "utils/utils";
 
-const Index = () => {
+const Index = ({ session }) => {
     const router = useRouter();
+    const admin = getRole(session, "admin")
     const handleMessage = useHandleMessage();
     const { t } = useTranslation("common");
     const [exportingExcel, setExportingExcel] = useState(false);
@@ -52,6 +53,13 @@ const Index = () => {
                 sortable: true
             },
             {
+                name: t("earning_key"),
+                selector: (row) => formatComma((row?.quantityInMarket) * row?.price - (((row?.quantityInMarket) / row?.piecesNo) * row?.wholesalePrice)),
+                cell: (row) => <p className="text-primary">{formatComma((row?.quantityInMarket) * row?.price - (((row?.quantityInMarket) / row?.piecesNo) * row?.wholesalePrice))}</p>,
+                sortable: true,
+                omit: !admin
+            },
+            {
                 name: t("actions_key"),
                 selector: (row) => row?.id,
                 noExport: true,
@@ -70,7 +78,7 @@ const Index = () => {
                 sortable: false
             }
         ],
-        [router, t]
+        [router, admin, t]
     );
 
     // ================== Export Functions ==================
