@@ -15,7 +15,7 @@ import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
 import { EyeIcon } from "@heroicons/react/24/outline";
-import { formatComma, getRole } from "utils/utils";
+import { formatComma, getRole, sum } from "utils/utils";
 
 const Index = ({ session }) => {
     const router = useRouter();
@@ -53,9 +53,12 @@ const Index = ({ session }) => {
                 sortable: true
             },
             {
-                name: t("earning_key"),
-                selector: (row) => formatComma((row?.quantityInMarket) * row?.price - (((row?.quantityInMarket) / row?.piecesNo) * row?.wholesalePrice)),
-                cell: (row) => <p className="text-primary">{formatComma((row?.quantityInMarket) * row?.price - (((row?.quantityInMarket) / row?.piecesNo) * row?.wholesalePrice))}</p>,
+                name: <div className="flex flex-col justify-center items-center">
+                    <span>{t("earning_key")}</span>
+                    <span className=" text-yellow-500 font-bold">{formatComma(sum(tableData, "earningMarket"))}</span>
+                </div>,
+                selector: (row) => formatComma(row?.earningMarket),
+                cell: (row) => <p className="text-primary">{formatComma(row?.earningMarket)}</p>,
                 sortable: true,
                 omit: !admin
             },

@@ -15,7 +15,7 @@ import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi, useApiMutation } from "hooks/useApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { formatComma, getRole } from "utils/utils";
+import { formatComma, getRole, sum } from "utils/utils";
 
 const Index = ({ session }) => {
     const router = useRouter();
@@ -31,8 +31,8 @@ const Index = ({ session }) => {
     const [paperMode, setPaperMode] = useState(false);
     // ================== Filter Logic ==================
     const { queryString } = useQueryString();
-    const { data: tableData, isLoading, mutate } = useApi(`/products?${queryString}`);
-
+    const { data, isLoading, mutate } = useApi(`/products?${queryString}`);
+    const tableData = data?.map((item, i) => ({ ...item, index: i + 1 }))
     // ================== Delete Logic ==================
     const [showDeleteModal, setShowDeleteModal] = useState({
         loading: false,
@@ -106,9 +106,12 @@ const Index = ({ session }) => {
                     sortable: true
                 },
                 {
-                    name: t("earning_key"),
-                    selector: (row) => formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice)),
-                    cell: (row) => <p className="text-primary">{formatComma((row?.quantityInStock) * row?.price - (((row?.quantityInStock) / row?.piecesNo) * row?.wholesalePrice))}</p>,
+                    name: <div className="flex flex-col justify-center items-center">
+                        <span>{t("earning_key")}</span>
+                        <span className=" text-yellow-500 font-bold">{formatComma(sum(tableData, "earning"))}</span>
+                    </div>,
+                    selector: (row) => formatComma(row?.earning),
+                    cell: (row) => <p className="text-primary">{formatComma(row?.earning)}</p>,
                     sortable: true,
                     omit: !admin
                 },

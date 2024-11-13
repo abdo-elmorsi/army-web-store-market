@@ -7,8 +7,8 @@ export function formatComma(value, minimumFractionDigits = 2) {
 }
 
 
-export function sum(arr, prop) {
-    return arr.reduce((accumulator, object) => {
+export function sum(arr = [], prop = "") {
+    return arr?.reduce((accumulator, object) => {
         return accumulator + (prop ? +object[prop] : object);
     }, 0)
 }
