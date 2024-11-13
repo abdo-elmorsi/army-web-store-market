@@ -31,8 +31,8 @@ const Index = ({ session }) => {
     const [paperMode, setPaperMode] = useState(false);
     // ================== Filter Logic ==================
     const { queryString } = useQueryString();
-    const { data, isLoading, mutate } = useApi(`/products?${queryString}`);
-    const tableData = data?.map((item, i) => ({ ...item, index: i + 1 }))
+    const { data: tableData, isLoading, mutate } = useApi(`/products?${queryString}`);
+    const totalEarning = sum(tableData, "earning")
     // ================== Delete Logic ==================
     const [showDeleteModal, setShowDeleteModal] = useState({
         loading: false,
@@ -108,7 +108,7 @@ const Index = ({ session }) => {
                 {
                     name: <div className="flex flex-col justify-center items-center">
                         <span>{t("earning_key")}</span>
-                        <span className=" text-yellow-500 font-bold">{formatComma(sum(tableData, "earning"))}</span>
+                        <span className=" text-yellow-800 font-bold">{formatComma(totalEarning)}</span>
                     </div>,
                     selector: (row) => formatComma(row?.earning),
                     cell: (row) => <p className="text-primary">{formatComma(row?.earning)}</p>,
@@ -165,72 +165,66 @@ const Index = ({ session }) => {
             ] : [
                 {
                     name: "#",
-                    selector: (row) => `${row?.index}`,
+                    selector: (row) => row?.index,
                     width: "50px",
                     sortable: false
                 },
                 {
                     name: t("name_key"),
                     // selector: (row) => `${row?.name}`,
-                    width: "330px",
-                    selector: (row) => `${row?.name} ${row.price}ج-${row.piecesNo}ق`,
+                    width: "380px",
+                    selector: (row) => row?.name,
+                    cell: (row) => <p className="">{`${row?.name} ${row.price}ج - ${row.piecesNo}ق - ${row?.wholesalePrice} ج`}</p>,
                     sortable: true
                 },
                 {
-                    name: t("wholesale_price_key"),
-                    width: "90px",
-                    selector: (row) => row?.wholesalePrice,
-                    cell: (row) => formatComma(row?.wholesalePrice),
-                    sortable: true
+                    name: moment().format("MM-DD"),
+                    selector: (row) => "",
+                    width: "100px"
                 },
                 {
-                    name: "1",
+                    name: moment().add(1, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "2",
+                    name: moment().add(2, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "3",
+                    name: moment().add(3, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "4",
+                    name: moment().add(4, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "5",
+                    name: moment().add(5, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "6",
+                    name: moment().add(6, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "7",
+                    name: moment().add(7, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 },
                 {
-                    name: "9",
+                    name: moment().add(8, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "80px"
-                },
-                {
-                    name: "10",
-                    selector: (row) => "",
-                    width: "80px"
+                    width: "100px"
                 }
             ]
         },
-        [date_format, paperMode, admin, router, t]
+        [date_format, paperMode, admin, totalEarning, router, t]
     );
 
     // ================== Export Functions ==================
@@ -274,6 +268,7 @@ const Index = ({ session }) => {
                             onClickAdd={() => router.push("/products/add-update")}
                             onClickPrint={() => exportPDF(false)}
                             onClickPrintPaper={() => exportPDF(true)}
+                            isDisabledPrintPaper={!tableData?.length}
                             isDisabledPrint={!tableData?.length}
                             onClickExport={handleExportExcel}
                             isDisabledExport={exportingExcel || !tableData?.length}

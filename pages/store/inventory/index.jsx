@@ -30,6 +30,8 @@ const Index = ({ session }) => {
     // ================== Filter Logic ==================
     const { queryString } = useQueryString();
     const { data: tableData, isLoading } = useApi(`/products?${queryString}`);
+    const totalEarning = sum(tableData, "earningStore")
+
 
 
     // ================== Table Columns ==================
@@ -56,7 +58,7 @@ const Index = ({ session }) => {
             {
                 name: <div className="flex flex-col justify-center items-center">
                     <span>{t("earning_key")}</span>
-                    <span className=" text-yellow-500 font-bold">{formatComma(sum(tableData, "earningStore"))}</span>
+                    <span className=" text-yellow-500 font-bold">{formatComma(totalEarning)}</span>
                 </div>,
                 selector: (row) => formatComma(row?.earningStore),
                 cell: (row) => <p className="text-primary">{formatComma(row?.earningStore)}</p>,
@@ -82,7 +84,7 @@ const Index = ({ session }) => {
                 sortable: false
             }
         ],
-        [router, admin, t]
+        [router, admin, totalEarning, t]
     );
 
     // ================== Export Functions ==================
