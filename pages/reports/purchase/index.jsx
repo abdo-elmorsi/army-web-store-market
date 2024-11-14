@@ -14,10 +14,11 @@ import { Filter } from "components/pages/transactions";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
-import { formatComma } from "utils/utils";
+import { formatComma, getRole } from "utils/utils";
 
-const Index = () => {
+const Index = ({ session }) => {
     const router = useRouter();
+    const admin = getRole(session, "admin")
     const language = router.locale.toLowerCase();
     const date_format = language === "en" ? "DD-MM-YYYY (hh:mm-A)" : "DD-MM-YYYY (hh:mm-A)";
     const handleMessage = useHandleMessage();
@@ -35,7 +36,8 @@ const Index = () => {
         page,
         limit,
         startDate,
-        type: "storeIn"
+        type: "storeIn",
+        getProductDetails: true
     });
 
 
@@ -68,6 +70,13 @@ const Index = () => {
                 sortable: true
             },
             {
+                name: t("earning_key"), // Translate key for quantity
+                selector: (row) => (row?.quantity) * row?.product?.price - (((row?.quantity) / row?.product?.piecesNo) * row?.product?.wholesalePrice), // Access quantity
+                cell: (row) => <p className="text-green-500">{formatComma((row?.quantity) * row?.product?.price - (((row?.quantity) / row?.product?.piecesNo) * row?.product?.wholesalePrice))}</p>, // Access quantity
+                sortable: true,
+                omit: !admin
+            },
+            {
                 name: t("created_by_key"),
                 selector: (row) => row?.createdBy?.username,
                 sortable: true
@@ -97,7 +106,7 @@ const Index = () => {
                 sortable: true
             }
         ],
-        [date_format, t]
+        [date_format, admin, t]
     );
 
 
