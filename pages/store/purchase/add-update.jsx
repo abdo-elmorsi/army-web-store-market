@@ -44,8 +44,8 @@ const Index = ({ session }) => {
 				productId: productId.value?.id || null,
 				type: "storeIn",
 				createdById: session.user?.id,
-				customDate: moment(selectedDate.value).endOf("day").subtract(2, 'hours').toDate(),
 			}),
+			customDate: moment(selectedDate.value).endOf("day").subtract(2, 'hours').toDate(),
 			quantity: +quantity.value || 0,
 			description: description.value || null,
 		}
@@ -65,6 +65,7 @@ const Index = ({ session }) => {
 		if (!isValidating && !!transaction) {
 			quantity.changeValue(transaction.quantity || "");
 			description.changeValue(transaction.description || "");
+			selectedDate.changeValue(new Date(transaction.createdAt) || "");
 			productId.changeValue({ id: transaction.product?.id, name: transaction.product?.name });
 		}
 	}, [isValidating])
