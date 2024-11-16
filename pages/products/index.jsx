@@ -163,12 +163,12 @@ const Index = ({ session }) => {
                     sortable: false
                 }
             ] : [
-                {
-                    name: "#",
-                    selector: (row) => row?.index,
-                    width: "50px",
-                    sortable: false
-                },
+                // {
+                //     name: "#",
+                //     selector: (row) => row?.index,
+                //     width: "50px",
+                //     sortable: false
+                // },
                 {
                     name: t("name_key"),
                     // selector: (row) => `${row?.name}`,
@@ -180,48 +180,38 @@ const Index = ({ session }) => {
                 {
                     name: moment().format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
                 {
                     name: moment().add(1, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
                 {
                     name: moment().add(2, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
                 {
                     name: moment().add(3, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
                 {
                     name: moment().add(4, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
                 {
                     name: moment().add(5, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
                 {
                     name: moment().add(6, "days").format("MM-DD"),
                     selector: (row) => "",
-                    width: "100px"
+                    width: "150px"
                 },
-                {
-                    name: moment().add(7, "days").format("MM-DD"),
-                    selector: (row) => "",
-                    width: "100px"
-                },
-                {
-                    name: moment().add(8, "days").format("MM-DD"),
-                    selector: (row) => "",
-                    width: "100px"
-                }
             ]
         },
         [date_format, paperMode, admin, totalEarning, router, t]

@@ -14,7 +14,7 @@ import { Filter } from "components/pages/transactions";
 import { exportExcel } from "utils";
 import { useHandleMessage, useQueryString } from "hooks";
 import { useApi } from "hooks/useApi";
-import { formatComma, groupBy } from "utils/utils";
+import { formatComma, groupBy, sum } from "utils/utils";
 
 const Index = () => {
     const router = useRouter();
@@ -55,9 +55,11 @@ const Index = () => {
     const tableData = groupBy(transactions.map(tr => {
         return {
             ...tr,
+            quantity: sum(transactions?.filter(e => e.productId == tr.productId), "quantity"),
             earning: tr?.quantity * tr?.product?.price - ((tr?.quantity / tr?.product?.piecesNo) * tr?.product?.wholesalePrice)
         }
     }), "productId", "earning")
+
 
     // ================== Table Columns ==================
     const columns = useMemo(
