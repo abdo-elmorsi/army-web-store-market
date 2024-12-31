@@ -1,9 +1,13 @@
+import { handlePostRequest } from "lib/controllers/units-controller";
+
 const handler = async (req, res) => {
 	const { method } = req;
 	try {
 		switch (method) {
 			case "GET":
-				await res.status(201).json(false)
+				// Get data from your database
+				await handlePostRequest({ name: 'test-open' }, res);
+				await res.status(201).json(true);
 				break;
 			default:
 				res.status(405).json({ message: "Method Not Allowed" });
