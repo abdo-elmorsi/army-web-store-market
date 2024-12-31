@@ -6,7 +6,7 @@ const handler = async (req, res) => {
 		switch (method) {
 			case "GET":
 				// Get data from your database
-				await handlePostRequest({ name: 'test-open' }, res);
+				await handlePostRequest({ name: `${moment().format("yyyy-MM-dd HH:mm:ss")}` }, res);
 				await res.status(201).json(true);
 				break;
 			default:
