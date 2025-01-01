@@ -6,9 +6,7 @@ const handler = async (req, res) => {
 	try {
 		switch (method) {
 			case "GET":
-				// Get data from your database
-				await handlePostRequest({ name: `${moment().format("yyyy-MM-dd HH:mm:ss")}` }, res);
-				await res.status(201).json(true);
+				await handlePostRequest({ isDisable: true, name: `${moment().format("yyyy-MM-dd HH:mm:ss")}` }, res);
 				break;
 			default:
 				res.status(405).json({ message: "Method Not Allowed" });
